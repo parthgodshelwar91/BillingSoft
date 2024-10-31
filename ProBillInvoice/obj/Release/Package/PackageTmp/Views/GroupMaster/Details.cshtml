@@ -1,0 +1,70 @@
+﻿@model ProBillInvoice.Models.GroupMasterModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5 class="card-title mb-0 page-heading-color">Group Master - Details</h5>
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <a href="@Url.Action("Create", "GroupMaster")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                @Html.HiddenFor(model => model.group_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.group_code, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.short_desc, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-md-9">
+                                @Html.DisplayFor(model => model.short_desc, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.short_desc, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.long_desc, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-md-9">
+                                @Html.DisplayFor(model => model.long_desc, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.long_desc, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.defunct, htmlAttributes: new { @class = "col-form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-md-9">
+                                <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                    @Html.EditorFor(model => model.defunct)
+                                    @Html.ValidationMessageFor(model => model.defunct, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.Label("Discontinue", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: #b50a0a; width: 25%;" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6"></div>
+    </div>
+</div>

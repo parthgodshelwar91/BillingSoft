@@ -1,0 +1,78 @@
+﻿@model ProBillInvoice.Models.PartyMasterModel
+
+@{
+    ViewBag.Title = "Index";
+    int SrNo = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0 page-heading-color">List of Customer</h5>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <a href="@Url.Action("Create", "PartyMaster_Customer")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="PartyMaster" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center">Sr No</th>
+                                            <th>@Html.DisplayNameFor(model => model.party_code)</th>
+                                            <th>@Html.DisplayNameFor(model => model.party_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.mobile_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.contact_person)</th>
+                                            <th>@Html.DisplayNameFor(model => model.contact_email)</th>
+                                            <th>@Html.DisplayNameFor(model => model.contact_mobile_no)</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.CustomerList)
+                                    {
+                                        SrNo = SrNo + 1;
+                                        <tr>
+                                            <td style="color: darkgray; text-align:center">@SrNo</td>
+                                            <td>@Html.DisplayFor(modelItem => item.party_code)</td>
+                                            <td><a href="#!">@Html.DisplayFor(modelItem => item.party_name)</a></td>
+                                            <td>@Html.DisplayFor(modelItem => item.mobile_no)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.contact_person)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.contact_email)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.contact_mobile_no)</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#PartyMaster", { scrollX: !0, pageLength: 15, sort: !0, order: [[1, 'asc']]  }) })
+    </script>
+
+    <script>
+        function Refresh() {
+          window.location.href = "@Url.Action("Create", "PartyMaster_Customer")";
+        }
+    </script>
+}

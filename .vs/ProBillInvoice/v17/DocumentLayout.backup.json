@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\parth\\Desktop\\yash_proj\\ProBillInvoice\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F64C7E45-01ED-466F-9AAD-570060C94B33}|ProBillInvoice\\ProBillInvoice.csproj|c:\\users\\parth\\desktop\\yash_proj\\probillinvoice\\probillinvoice\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{F64C7E45-01ED-466F-9AAD-570060C94B33}|ProBillInvoice\\ProBillInvoice.csproj|solutionrelative:probillinvoice\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F64C7E45-01ED-466F-9AAD-570060C94B33}|ProBillInvoice\\ProBillInvoice.csproj|c:\\users\\parth\\desktop\\yash_proj\\probillinvoice\\probillinvoice\\web1.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{F64C7E45-01ED-466F-9AAD-570060C94B33}|ProBillInvoice\\ProBillInvoice.csproj|solutionrelative:probillinvoice\\web1.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\parth\\Desktop\\yash_proj\\ProBillInvoice\\ProBillInvoice\\Web.config",
+              "RelativeDocumentMoniker": "ProBillInvoice\\Web.config",
+              "ToolTip": "C:\\Users\\parth\\Desktop\\yash_proj\\ProBillInvoice\\ProBillInvoice\\Web.config",
+              "RelativeToolTip": "ProBillInvoice\\Web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-10-31T14:49:08.958Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Web1.config",
+              "DocumentMoniker": "C:\\Users\\parth\\Desktop\\yash_proj\\ProBillInvoice\\ProBillInvoice\\Web1.config",
+              "RelativeDocumentMoniker": "ProBillInvoice\\Web1.config",
+              "ToolTip": "C:\\Users\\parth\\Desktop\\yash_proj\\ProBillInvoice\\ProBillInvoice\\Web1.config",
+              "RelativeToolTip": "ProBillInvoice\\Web1.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-10-31T14:49:07.836Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

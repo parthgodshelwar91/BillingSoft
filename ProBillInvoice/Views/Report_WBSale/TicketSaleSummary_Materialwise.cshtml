@@ -1,0 +1,134 @@
+﻿@model ProBillInvoice.Models.Temp_TicketsModel
+
+@{
+    ViewBag.Title = "TicketSaleSummary_Materialwise";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mb-0">@ViewBag.Titlename - Search Criteria</h4>
+                            </div>
+
+                            <div class="col-sm-6" style="float:left;">
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-secondary alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                                        <i class="ri-check-double-line label-icon"></i><strong>Success</strong> @ViewBag.Message
+                                        <button type="button" class="btn-close" aria-label="Close" onclick="Refresh();"></button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.Label("Material", new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(Model => Model.MaterialId, (SelectList)ViewBag.MaterialList, "-- Select--", new { @class = "form-select form-select-sm", @style = "width: 70%;" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style="float: left; width: 50%;">
+                                                @Html.LabelFor(model => Model.FromDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                                @Html.EditorFor(model => Model.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 60%;" } })
+                                                @Html.ValidationMessageFor(model => Model.FromDate, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div style="float: left; width: 50%;">
+                                                @Html.LabelFor(model => Model.ToDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 10px;" })
+                                                @Html.EditorFor(model => Model.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 60%;" } })
+                                                @Html.ValidationMessageFor(model => Model.ToDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="padding-top: 0px; text-align : left;">
+                                    <button type="submit" class="btn btn-primary addMembers-modal" style="padding: 2px 10px 2px 10px;"><div style="float: left; padding: 0 5px 0 0;"><i class="ri-search-2-line"></i></div>Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">@ViewBag.Titlename</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="Tickets" class="table table-bordered table-hover dt-responsive table-nowrap table-striped align-middle mb-0" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.sr_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.material_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.party_name)</th>
+                                            @*<th>@Html.DisplayNameFor(model => model.transporter_name)</th>*@
+                                            <th>@Html.DisplayNameFor(model => model.trips)</th>
+                                            @*<th>@Html.DisplayNameFor(model => model.qty_unit)</th>*@
+                                            <th>@Html.DisplayNameFor(model => model.qty_in_cft)</th>
+                                            <th>@Html.DisplayNameFor(model => model.net_weight)</th>
+                                            @*<th>@Html.DisplayNameFor(model => model.supplier_wt)</th>*@
+                                        </tr>
+                                    </thead>
+
+                                    @if (Model.Temp_TicketsList != null)
+                                    {
+                                        foreach (var item in Model.Temp_TicketsList)
+                                        {
+                                            <tr>
+                                                <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.sr_no)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.material_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.party_name)</td>
+                                                @*<td>@Html.DisplayFor(modelItem => item.transporter_name)</td>*@
+                                                <td style="text-align: center; color: green;">@String.Format("{0:N0}", item.trips)</td>
+                                                @*<td style="text-align: right; color: green;">@String.Format("{0:N2}", item.qty_unit)</td>*@
+                                                <td style="text-align: right; color: maroon;">@String.Format("{0:N2}", item.qty_in_cft)</td>
+                                                <td style="text-align:right; color:maroon">@String.Format("{0:N2}", item.net_weight)</td>
+                                                @*<td style="text-align:right; color:maroon">@Html.DisplayFor(modelItem => item.supplier_wt)</td>*@
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @*<script>
+            document.addEventListener("DOMContentLoaded",
+                function () { new DataTable("#Tickets", { scrollX: !0, sort: false }) })
+        </script>*@
+}

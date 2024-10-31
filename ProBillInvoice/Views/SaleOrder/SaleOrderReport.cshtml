@@ -1,0 +1,283 @@
+﻿@model ProBillInvoice.Models.SaleOrderModel
+@{
+    ViewBag.Title = "SaleOrderReport";
+    int SrNo = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="container-fluid">
+            <div class="container-fluid mt-100 mb-100 ">
+                <div class="content">
+                    @{
+
+                        int MaterialId = 0;
+                        int InvoiceId = 0;
+
+                    }
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-flat">
+                                <div class="hstack gap-2 justify-content-end d-print-none mb-2">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalgrid">
+                                        <i class="ri-user-smile-line label-icon align-middle fs-16 me-2"></i>Open
+                                    </button>
+                                    <a class="btn btn-info" id="btnPrint"><i class="ri-printer-line align-bottom me-1"></i> Print</a>
+                                    <a href="javascript:void(0);" class="btn btn-primary"><i class="ri-download-2-line align-bottom me-1"></i> Download</a>
+                                </div>
+
+                                <div class="container-fluid">
+                                    <div id="ui-view">
+                                        <div>
+                                            <div class="card">
+                                                <div id="printable">
+                                                    <div class="card-body p-4" style="margin:5px;font-size:12px;">
+                                                        <div class="row p-2" style="border-bottom:1px solid black;padding-top:5px;">
+                                                            <div class="col-lg-12">
+                                                                <div class="row g-3">
+                                                                    <div class="col-3"></div>
+                                                                    <div class="col-6 text-center">
+                                                                        <h5 class="fw-medium mb-2" style="color:#3c56a4;font-size:20px;">@Html.DisplayFor(model => Model.Company.company_name)</h5>
+                                                                        <h6 style="text-align:center; margin-bottom: 0px;">@Html.DisplayFor(model => Model.Company.billing_address)</h6>
+                                                                        <h6 style="text-align:center; margin-bottom: 0px;"><strong>Phone No :- </strong>@Html.DisplayFor(model => Model.Company.phone_no_one) &nbsp;&nbsp;&nbsp;<strong>Mobile No :- </strong>@Html.DisplayFor(model => Model.Company.contact_no_one)</h6>
+                                                                        <h6 style="text-align:center; margin-bottom: 0px;"><strong>Email :-</strong> @Html.DisplayFor(model => Model.Company.email)</h6>
+                                                                        <div style="text-align: center;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row p-4">
+                                                            @*<div class="card-header">*@
+                                                            <div class="container text-center">
+                                                                <h6 class=" mx-auto">
+                                                                    <u style="text-decoration:none;">
+                                                                        @*TAX - INVOICE*@
+                                                                        SALE ORDER
+                                                                    </u>
+                                                                </h6>
+                                                            </div>
+                                                            @*</div>*@
+
+                                                            <div class="col-12" style=" border:1px solid black">
+                                                                <div class="row">
+                                                                    @{
+                                                                        if (Model.SaleOrderDetail != null)
+                                                                        {
+                                                                            if (Model.SaleOrderDetail.Count() > 0)
+                                                                            {
+                                                                                var row = Model.SaleOrderDetail.ElementAt(0);
+
+                                                                                <div class="col-12" style="min-height:120px;">
+                                                                                    <div class="row">
+                                                                                        <div class="col-6" style="border-right:1px solid #C4C7C9; padding: 5px 15px 10px 15px;">
+                                                                                            Details of Receiver (Billed to)<br />
+                                                                                            <strong> M/s.  @Html.DisplayFor(modelItem => row.party_name)</strong><br />
+                                                                                            Address :- @Html.DisplayFor(modelItem => row.billing_address)<br />
+                                                                                            Location :- @*@Html.DisplayFor(modelItem => row.location_name)*@<br />
+                                                                                            State Code/Name:- @Html.DisplayFor(modelItem => row.state_code)/@Html.DisplayFor(modelItem => row.state_name)<br />
+                                                                                            GSTIN/Unique ID:-@Html.DisplayFor(modelItem => row.gst_no)<br />
+                                                                                        </div>
+
+                                                                                        <div class="col-6" style="font-size: 14px; padding: 5px 15px 10px 15px;">
+                                                                                            <div class="row">
+                                                                                                <div class="col-12">
+                                                                                                    @Html.Label("Order No :", new { @class = "form-label", @style = "padding: 0px 10px 0px 0px; margin-bottom: 0; width: 100px;" })
+                                                                                                    <strong>@Html.DisplayFor(model => row.order_no)</strong>
+                                                                                                    <br />
+                                                                                                    @Html.Label("Order Date :", new { @class = "form-label", @style = "padding: 0px 10px 0px 0px; width: 100px;" })
+                                                                                                    <strong>@String.Format("{0:dd/MM/yyyy}", row.order_date)</strong>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-12" style="min-height:300px; padding: 0px 1px 0px 0px;">
+                                                                                    <table class="table table-bordered dt-responsive table-nowrap align-middle mb-0" style="width:100%; font-size: 12px;">
+                                                                                        @if (Model.SaleOrderDetail != null)
+                                                                                        {
+                                                                                            foreach (var item in Model.SaleOrderDetail)
+                                                                                            {
+                                                                                                if (MaterialId != row.material_id)
+                                                                                                {
+                                                                                                    SrNo = 0;
+                                                                                                    <tr class="table-active" style="line-height:0px;">
+                                                                                                        <th>Sr.No </th>
+                                                                                                        <th>HSN Code</th>
+                                                                                                        <th>Material</th>
+                                                                                                        <th>Unit</th>
+                                                                                                        <th>Trips</th>
+                                                                                                        <th>Quantity </th>
+                                                                                                        <th>Rate</th>
+                                                                                                        <th>Amount</th>
+                                                                                                    </tr>
+                                                                                                }
+
+                                                                                                SrNo = SrNo + 1;
+
+                                                                                                <tr style="line-height:0px;">
+                                                                                                    <td>@SrNo</td>
+                                                                                                    <td>@Html.DisplayFor(modelItem => item.material_code)</td>
+                                                                                                    <td>@Html.DisplayFor(modelItem => item.material_name)</td>
+                                                                                                    <td>@Html.DisplayFor(modelItem => item.short_desc)</td>
+                                                                                                    <td>@Html.DisplayFor(modelItem => item.order_detail_id)</td>
+                                                                                                    <td>@Html.DisplayFor(modelItem => item.order_qty)</td>
+                                                                                                    <td>@Html.DisplayFor(modelItem => item.item_rate)</td>
+                                                                                                    <td> @String.Format("{0:N2}", item.item_value)</td>
+                                                                                                </tr>
+
+                                                                                                MaterialId = row.material_id;
+                                                                                            }
+                                                                                        }
+                                                                                    </table>
+                                                                                </div>
+
+                                                                                <div class="col-12" style="border-top:1px solid black;">
+                                                                                    <div class="row" style="min-height: 160px;">
+                                                                                        <div class="col-6" style="border-right:1px solid black; padding-top:5px;">
+                                                                                            Remarks:-@*@Html.DisplayFor(model => row.remarks)*@
+                                                                                        </div>
+
+                                                                                        <div class="col-6">
+                                                                                            @*<div class="row" style="height:28px;">
+                                                                                                <div class="col-6" style="border-right:1px solid black; text-align: right; padding-top: 5px;">
+                                                                                                    Basic Total :-
+                                                                                                </div>
+                                                                                                <div class="col-6" style="text-align: right; font-weight: bold; font-size: 14px; padding-top: 5px;">
+                                                                                                    @String.Format("{0:N2}", row.basic_amount)
+                                                                                                </div>
+                                                                                            </div>*@
+
+                                                                                            @*<div class="row" style="border-top:1px solid black;">
+                                                                                                <table class="table table-bordered dt-responsive  table-nowrap align-middle mb-0" style="width:100%;font-size: 12px;">
+                                                                                                    @if (Model.InvoiceTax != null)
+                                                                                                    {
+                                                                                                        foreach (var item in Model.InvoiceTax)
+                                                                                                        {
+                                                                                                            if (InvoiceId != row.sale_invoice_id)
+                                                                                                            {
+                                                                                                                SrNo = 0;
+                                                                                                                <tr class="table-active" style="line-height:0px;">
+                                                                                                                    <th>Act</th>
+                                                                                                                    <th>Per(%)</th>
+                                                                                                                    <th>sgst(%)</th>
+                                                                                                                    <th>cgst(%)</th>
+                                                                                                                    <th>igst(%)</th>
+                                                                                                                    <th>Amt(Rs)</th>
+                                                                                                                </tr>
+                                                                                                            }
+
+                                                                                                            <tr style="line-height:0px;">
+                                                                                                                <td>@Html.DisplayFor(modelItem => item.account_name)</td>
+                                                                                                                <td>@Html.DisplayFor(modelItem => item.percentage)</td>
+                                                                                                                <td>@Html.DisplayFor(modelItem => item.sgst)</td>
+                                                                                                                <td>@Html.DisplayFor(modelItem => item.cgst)</td>
+                                                                                                                <td>@Html.DisplayFor(modelItem => item.igst)</td>
+                                                                                                                <td>@Html.DisplayFor(modelItem => item.amount)</td>
+                                                                                                            </tr>
+                                                                                                            InvoiceId = row.sale_invoice_id;
+                                                                                                        }
+                                                                                                    }
+                                                                                                </table>
+                                                                                            </div>*@
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-12" style="border-top:1px solid black;">
+                                                                                    <div class="row" style="height:28px;">
+                                                                                        <div class="col-6" style="border-right:1px solid black; text-align: right; padding-top: 5px;">
+                                                                                            Total Invoice Value (In Figure)
+                                                                                        </div>
+
+                                                                                        <div class="col-6" style="text-align: right; font-weight: bold; font-size: 14px; padding-top: 5px;">
+                                                                                            @String.Format("{0:N2}", row.total_amount)
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="row" style="height:28px;">
+                                                                                        <div class="col-6" style="border-top:1px solid black; border-right:1px solid black; text-align: right; padding-top: 5px;">
+                                                                                            Total Invoice Value (In Words)
+                                                                                        </div>
+
+                                                                                        <div class="col-6" style="border-top:1px solid black; font-size: 14px; padding-top: 3px;">
+                                                                                            <div style="float:left;">
+                                                                                                @Html.Label("RUPEES :", new { @class = "form-label", @style = "padding: 0px 10px 0px 0px; margin-bottom: 0;" })
+                                                                                                @*@Html.DisplayFor(model => row.AmtInWord, new { @style = "font-weight: bold;" })*@
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="row">
+                                                                                        <div class="col-6" style="border-top:1px solid black; border-right:1px solid black; text-align: right; padding-top: 5px;">
+                                                                                            Amount of Tax subject to reverse Charges
+                                                                                        </div>
+
+                                                                                        <div class="col-6" style="border-top:1px solid black; font-size: 14px; padding-top: 0px;">
+                                                                                            <div class="row" style="height:28px;">
+                                                                                                <div class="col-3" style="border-right:1px solid black;"></div>
+                                                                                                <div class="col-3" style="border-right:1px solid black;"></div>
+                                                                                                <div class="col-3" style="border-right:1px solid black;"></div>
+                                                                                                <div class="col-3" style="border-right:0px solid black;"></div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-12" style=" border-top:1px solid black;">
+                                                                                    <div class="row">
+                                                                                        <div class="col-6" style="border-right:1px solid black; text-align: left; padding-top: 5px;">
+                                                                                            <strong>Terms and Conditions :-</strong> <br />
+                                                                                            <p>
+                                                                                                "I/We hereby certify that my/our registration certificate under the Maharashtra GST Act.
+                                                                                                2017 is in corc on the date on which the sale of the goods specified in this tax invoice is
+                                                                                                made by me/us and that the transaction of sale covered by this tax invoice has been effected
+                                                                                                by me/us and shall be accounted for in the turnover of sales while filling of return and the
+                                                                                                due tax if any, payable on the sale has been paid or shall be paid"
+                                                                                            </p>
+                                                                                        </div>
+
+                                                                                        <div class="col-6" style="text-align: right; font-weight: bold; font-size: 14px; padding-top: 5px;">
+                                                                                            <div class="row" style="height:40px;">
+                                                                                                <div class="col-12" style=" text-align: center;  padding-top: 10px;">
+                                                                                                    For : <strong>@Html.DisplayFor(model => Model.Company.company_name)</strong>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <br /><br />
+
+                                                                                            <div class="row" style="height:40px;">
+                                                                                                <div class="col-12" style="text-align: center; font-size: 14px; padding-top: 10px;">
+                                                                                                    (Authorised Signatory)
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

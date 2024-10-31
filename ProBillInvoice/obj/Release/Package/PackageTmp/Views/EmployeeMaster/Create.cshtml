@@ -1,0 +1,223 @@
+﻿@model ProBillInvoice.Models.EmployeeMasterModel
+
+@{
+    ViewBag.Title = "Create";
+}
+@using (Html.BeginForm("Create", "EmployeeMaster", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mb-0">Employee MASTER -  Create</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div>
+                                @Html.HiddenFor(model => model.emp_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.acct_id, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.emp_code, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.emp_code, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter short name" } })
+                                    @Html.ValidationMessageFor(model => model.emp_code, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.emp_type, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.emp_type, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.emp_type, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.emp_name, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.emp_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.emp_name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.emp_address, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.emp_address, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.emp_address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.education, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.education, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.education, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.emp_contact_no, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.emp_contact_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.emp_contact_no, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.dept_id, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.dept_id, (SelectList)ViewBag.Department, "-- Select--", new { @class = "form-select" })
+                                    @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.gender, new[] {
+                                                  new SelectListItem() {Text = "Male", Value = "Male"},
+                                                  new SelectListItem() {Text = "Female", Value = "Female"}}, "--Select--",  new { @class = "form-control" } )
+                                    @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.date_of_birth, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.date_of_birth, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.emp_address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.date_of_joining, htmlAttributes: new { @class = "col-form-label" })
+
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.date_of_joining, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.date_of_joining, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.date_of_conformation, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.date_of_conformation, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.date_of_conformation, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.date_of_leaving, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.date_of_leaving, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.date_of_leaving, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.image_path, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.image_path, new { htmlAttributes = new { @class = "form-control", @type = "File", @onchange = "show(this)" } })
+                                    @Html.ValidationMessageFor(model => model.image_path, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-5">
+                                    <img id="user_img" height="100" width="100" style="border:none;" />
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" class="btn btn-secondary"><i class="ri-save-2-line label-icon align-middle fs-16 me-2"></i>Save</button>
+                                    <button type="submit" class="btn btn-secondary" formaction="Search" formmethod="post"><i class="ri-save-2-line label-icon align-middle fs-16 me-2"></i>Search</button>
+                                    <button type="button" id="btnCancel" onclick="Refresh();" class="btn btn-danger"><i class="ri-close-circle-line align-middle" style="padding-right: 10px;"></i>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6"></div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        window.onload = function () {
+            debugger;
+            Swal.fire({
+                title: "<span style='color: #3085d6;'>@Html.Raw(ViewBag.Message)</span>",
+                icon: "success",
+                iconColor:"green",
+                confirmButtonClass: "w-xs me-2 mt-2",
+                confirmButtonColor: "#3085d6",
+
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "@Url.Action("Create", "EmployeeMaster")";
+                }
+            });
+        } ;
+    </script>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function show(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#user_img').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+}

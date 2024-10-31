@@ -1,0 +1,277 @@
+﻿@model ProBillInvoice.Models.SaleInvoiceModel
+
+@{
+    ViewBag.Title = "Index";
+    int SrNo = 0;
+    int count = 0;
+    decimal TotalAmount = 0;
+
+    int SrNO = 0;
+}
+
+<style>
+    .dark-border {
+        border-color: #9f8888 !important;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mt-0 mb-0 page-heading-color">Sale Invoice</h5>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <div class="add-create-btn">
+                                    <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;" title="Click here to open search box"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                    <a href="@Url.Action("Create", "SaleInvoice" )" class="btn btn-info btn-label" title="Click here to add new"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><strong>Create</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="SaleSection" style="display:none;">
+                            <div class="search-panel-custom1 mb-0 pt-0 searh-p-c-laptop">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        @*@Html.Label("Party Name", new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.InvoiceHeaderSearch.PartyId, (SelectList)ViewBag.PartyList, "-- Party Name--", new { @class = "form-select", @style = "", @title = "Select Supplier Name" })
+                                        @Html.ValidationMessageFor(model => Model.InvoiceHeaderSearch.PartyId, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(model => Model.InvoiceHeaderSearch.invoice_from, new { @class = "form-label", @style = "" })*@
+                                        @Html.EditorFor(model => Model.InvoiceHeaderSearch.invoice_from, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set From Date" } })
+                                        @Html.ValidationMessageFor(model => Model.InvoiceHeaderSearch.invoice_from, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(model => Model.InvoiceHeaderSearch.invoice_to, new { @class = "form-label", @style = "" })*@
+                                        @Html.EditorFor(model => Model.InvoiceHeaderSearch.invoice_to, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set To Date" } })
+                                        @Html.ValidationMessageFor(model => Model.InvoiceHeaderSearch.invoice_to, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary addMembers-modal" title="Click here to search"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12" style="margin-bottom: 10px;">
+                                <table id="SaleInvoice" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th> </th>
+                                            <th>Inv No</th>
+                                            <th>Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Company Name</th>
+                                            @*<th>Site Name</th>*@
+                                            <th style="text-align:right;"><i class="bx bx-rupee"></i> Amount</th>
+                                            <th style="text-align:center;">Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    @if (Model.SaleInvoiceList != null)
+                                    {
+                                        foreach (var item in Model.SaleInvoiceList)
+                                        {
+                                            SrNo = SrNo + 1;
+                                            <tr>
+                                                <td>
+                                                    <img src='@Url.Content("~/assets/images/Plus.png")' style="width:30px;" />
+                                                    <div style="display:none">
+                                                        <div class="row">
+                                                            <table id="SaleOrder" class="table table-bordered table-responsive nowrap table-striped align-middle app-tbl-one" style="width:50%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Material Name</th>
+                                                                        <th style="text-align:right;">Net Wt</th>
+                                                                        <th style="text-align:right;">In CFT</th>
+                                                                        <th style="text-align:center;">Quantity</th>
+                                                                        <th style="text-align:center;">Rate</th>
+                                                                        <th style="text-align:center;">CGST</th>
+                                                                        <th style="text-align:center;">SGST</th>
+                                                                        <th style="text-align:center;">IGST</th>
+                                                                        <th style="text-align:center;">Amount</th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                @if (Model.InvoiceDetails != null)
+                                                                {
+                                                                    foreach (var row in Model.InvoiceDetails.Where(o => o.sale_invoice_id == item.sale_invoice_id))
+                                                                    {
+                                                                        <tr>
+                                                                            <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => row.material_name)</td>
+                                                                            <td style="text-align:right; color: #0f625a;">@Html.DisplayFor(modelItem => row.net_weight)</td>
+                                                                            <td style="text-align:right; color: #653eaa;">@Html.DisplayFor(modelItem => row.qty_in_cft)</td>
+                                                                            <td style="text-align:right; color: #653eaa;">@Html.DisplayFor(modelItem => row.item_qty)</td>
+                                                                            <td style="text-align:right; color: #0f625a;">@Html.DisplayFor(modelItem => row.item_rate)</td>
+                                                                            <td style="text-align:right; color: #653eaa;">@Html.DisplayFor(modelItem => row.cgst)</td>
+                                                                            <td style="text-align:right; color: #0f625a;">@Html.DisplayFor(modelItem => row.sgst)</td>
+                                                                            <td style="text-align:right; color: #653eaa;">@Html.DisplayFor(modelItem => row.igst)</td>
+                                                                            <td style="text-align:right; color: #0f625a;">@Html.DisplayFor(modelItem => row.item_value)</td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td title="Click Here To Report View"><a href="@Url.Action("SaleInvoice_View","Report_Invoice",new { InvoiceId=item.sale_invoice_id, PartyId=item.party_id })">@Html.DisplayFor(modelItem => item.invoice_no)</a></td>
+                                                <td>@String.Format("{0:dd/MM/yyyy}", item.invoice_date)</td>
+                                                <td style="color: #2c62b9">@Html.DisplayFor(modelItem => item.party_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.company_code)</td>
+                                                @*<td>@Html.DisplayFor(modelItem => item.site_name)</td>*@
+                                                <td style="text-align:right; color:green"><i class="bx bx-rupee"></i>@string.Format("{0:N2}", item.total_amount)</td>
+                                                <td style="text-align: center;">
+                                                    <div class="dropdown d-inline-block">
+                                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-more-fill align-middle"></i></button>
+                                                        <ul class="dropdown-menu dropdown-menu-end mybtn2-form">
+
+                                                            <li><a href="@Url.Action("Email", "SaleInvoice", new { id = item.sale_invoice_id })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom"></i> Email</a></li>
+                                                            <li><a href="@Url.Action("Edit", "SaleInvoice", new { id = item.sale_invoice_id })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom"></i> Edit</a></li>
+                                                            <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill"></i> Delete</a></li>
+                                                            @*<li><a href="@Url.Action("DeliveryReport", "Report_Invoice", new { Id = item.sale_invoice_id,Company_Id=item.company_id})" class="btn btn-primary" title="Print To Sale Delivery Report"><i class="ri-printer-line align-bottom me-1"></i>Delivery Rpt</a></li>
+                                                                <li><a href="@Url.Action("SaleInvoiceReport_Consolidated", "Report_Invoice", new { Id = item.sale_invoice_id,Company_Id=item.company_id})" class="btn btn-success" title="Print To Tax Invoice Report"><i class="ri-printer-line align-bottom me-1"></i>Invoice Rpt</a></li>*@
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            count = count + 1;
+                                            TotalAmount = TotalAmount + item.total_amount;
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                        <fieldset class="total-value-strip mt-2">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <span style="padding: 0px 10px 0px 0px;">Count:</span><strong style="color: #fff; background-color: #1a5b71; padding: 0px 7px;border-radius: 2px;">@count</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <span style="padding: 0px 10px 0px 10px;">Total Amount:</span><strong style="color: green;font-size: 18px;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", TotalAmount)</strong>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("Index", "SaleInvoice" )" class="refresh-btn"><i class="bx bx-rotate-right"></i>Refresh</a>
+                                <a href="@Url.Action("Index", "SaleInvoice")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0 page-heading-color">@ViewBag.Titlename</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive" style="font-size:12px;">
+                                <table id="Tickets" class="table datatable-button-init-basic table-bordered dt-responsive nowrap table-striped align-middle table-rmc" style="width:100%">
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th>Sr No</th>
+                                            <th>Slip No</th>
+                                            <th>DM No</th>
+                                            <th>Date</th>
+                                            <th>Party Name</th>
+                                            <th>Transporter</th>
+                                            <th>Vehicle No</th>
+                                            <th>Material</th>
+                                            <th>Concrete Type</th>
+                                            <th>Site Location</th>
+                                            <th>Qty</th>
+                                            <th>Net Wt</th>
+                                            <th>Driver Name</th>
+                                        </tr>
+                                    </thead>
+
+                                    @if (Model.TicketsList != null)
+                                    {
+                                        foreach (var item in Model.TicketsList)
+                                        {
+                                            SrNO = SrNO + 1;
+                                            <tr>
+                                                <td>@SrNO</td>
+                                                <td>@Html.DisplayFor(modelItem => item.slip_no)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.dm_no)</td>
+                                                <td>@string.Format("{0:dd/MM/yyyy}", item.ticket_date_time)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.party_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.transporter_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.vehicle_number)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.material_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.concrete_type)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.city_name)</td>
+                                                <td style="color:green; text-align:right;">@Html.DisplayFor(modelItem => item.qty_in_cft)</td>
+                                                <td style="color:maroon; text-align:right;">@Html.DisplayFor(modelItem => item.net_weight)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.driver_name)</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#SaleInvoice", { scrollX: !0, pageLength: 15, sort: !0, order: [[4, 'desc']] }) })
+    </script>
+
+    <script type="text/javascript">
+        //Assign Click event to Plus Image.  src='Url.Content("~/images/search_small.gif")
+        $("body").on("click", "img[src*='Plus.png']", function () {
+            $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+            $(this).attr("src", "/assets/images/minus.png");
+        });
+        //Assign Click event to Minus Image.
+        $("body").on("click", "img[src*='minus.png']", function () {
+            $(this).attr("src", "/assets/images/Plus.png");
+            $(this).closest("tr").next().remove();
+        });
+    </script>
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (SaleSection.style.display === "none") {
+                SaleSection.style.display = "block";
+            } else {
+                SaleSection.style.display = "none";
+            }
+        });
+    </script>
+}

@@ -1,0 +1,151 @@
+﻿@model ProBillInvoice.GrinModel
+
+@{
+    ViewBag.Title = "GRN_Datewise";
+    int SrNo = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0 page-heading-color">Grin Datewise Report - Search</h5>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <div class="add-create-btn">
+                                    <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="PurchaseOrderSection" style="display:none;">
+                        <div class="search-panel-custom1 mb-0 searh-p-c-laptop">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.Label("Site Name", new { @class = "form-label", @style = "" })
+                                    @Html.DropDownListFor(Model => Model.GrinHeaderSearch.SiteId, (SelectList)ViewBag.SiteList, "-- Select--", new { @class = "form-select", @style = "" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.Label("Party Name", new { @class = "form-label", @style = "" })
+                                    @Html.DropDownListFor(Model => Model.GrinHeaderSearch.PartyId, (SelectList)ViewBag.PartyList, "-- Select--", new { @class = "form-select", @style = "" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => Model.GrinHeaderSearch.FromDate, new { @class = "form-label", @style = "" })
+                                    @Html.EditorFor(model => Model.GrinHeaderSearch.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "width: 70%; " } })
+                                    @Html.ValidationMessageFor(model => Model.GrinHeaderSearch.FromDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => Model.GrinHeaderSearch.ToDate, new { @class = "form-label", @style = " " })
+                                    @Html.EditorFor(model => Model.GrinHeaderSearch.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "width: 70%; " } })
+                                    @Html.ValidationMessageFor(model => Model.GrinHeaderSearch.ToDate, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="add-create-btn" style="position: initial;">
+                                        <button type="submit" class="btn btn-primary addMembers-modal" style="margin: 25px 0 0 0;"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                        <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="@Url.Action("GRN_Datewise_ExoprtToExcel")" style="margin: 25px 0 0 0;"><div style="float: left;"><i class="ri-file-excel-2-fill fs-16 me-2"></i></div>Excel</button>
+                                        <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="@Url.Action("GRN_Datewise_ExoprtToPdf")" style="margin: 25px 0 0 0;"><div style="float: left; padding: 0px 6px 2px 0;"><i class="ri-file-pdf-line"></i></div> PDF</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0 page-heading-color">Grin Datewise Report</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="IndentHeader" class="table datatable-button-init-basic table-bordered dt-responsive nowrap table-striped align-middle table-rmc" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Sr No</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.grin_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.grin_date)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.grin_type)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.party_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.site_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.material_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.acce_qty)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.item_rate)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.sub_total)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.cgst)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.sgst)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.igst)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.item_value)</th>
+                                        </tr>
+                                    </thead>
+
+                                    @if (Model.GrinHeader != null)
+                                    {
+                                        foreach (var item in Model.GrinHeader)
+                                        {
+                                            SrNo = SrNo + 1;
+                                            <tr>
+                                                <td style="text-align: center;">@SrNo</td>
+                                                <td>@Html.DisplayFor(modelItem => item.grin_no)</td>
+                                                <td>@string.Format("{0:dd/MM/yyyy}", item.grin_date)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.grin_type)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.party_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.site_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.material_name)</td>
+                                                <td style="text-align: right; color: maroon;">@String.Format("{0:N2}", item.acce_qty)</td>
+                                                <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.item_rate)</td>
+                                                <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.sub_total)</td>
+                                                <td style="text-align: right;">@String.Format("{0:N2}", item.cgst)</td>
+                                                <td style="text-align: right;">@String.Format("{0:N2}", item.sgst)</td>
+                                                <td style="text-align: right;">@String.Format("{0:N2}", item.igst)</td>
+                                                <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.item_value)</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/assets/MyFolder/jquery/jquery.min.js"></script>
+    <script src="~/assets/MyFolder/datatables.min.js"></script>
+    <script src="~/assets/MyFolder/buttons.min.js"></script>
+    <script src="~/assets/MyFolder/datatables_extension_buttons_init.js"></script>
+    <link rel="stylesheet" href="~/assets/MyFolder/dataTable.css" />
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (PurchaseOrderSection.style.display === "none") {
+                PurchaseOrderSection.style.display = "block";
+            } else {
+                PurchaseOrderSection.style.display = "none";
+            }
+        });
+    </script>
+}

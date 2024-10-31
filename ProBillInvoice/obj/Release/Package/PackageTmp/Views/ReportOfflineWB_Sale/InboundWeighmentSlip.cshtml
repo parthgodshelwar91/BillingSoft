@@ -1,0 +1,318 @@
+﻿@model ProBillInvoice.Models.Tickets_OfflineModel
+@{
+    ViewBag.Title = "InboundWeighmentSlip";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <div class="form-group">
+                                <div class="hstack gap-2 justify-content-end d-print-none">
+                                    <a class="btn btn-info" id="btnPrint"><i class="ri-printer-line align-bottom me-1"></i> Print</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div id="printable">
+                    <div class="card-body" style="margin:0px;">
+
+                        <div class="row p-2" style="border-bottom:1px solid black;padding-top:5px;">
+                            <div class="col-lg-12">
+                                <div class="row g-3">
+                                    <div class="col-3">
+
+                                        @*<div><img src="~/images/Coallogo.png" /></div>*@
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-6 text-center">
+                                        
+                                                <h5 class="fw-medium mb-2" style="color:#3c56a4;font-size:20px;">@Html.DisplayFor(model => Model.Company.company_name)</h5>
+                                                <h6 style="text-align:center; margin-bottom: 0px;">@Html.DisplayFor(model => Model.Company.billing_address)</h6>
+                                                <h6 style="text-align:center; margin-bottom: 0px;"><strong>Phone No :- </strong>@Html.DisplayFor(model => Model.Company.phone_no_one) &nbsp;&nbsp;&nbsp;<strong>Mobile No :- </strong>@Html.DisplayFor(model => Model.Company.contact_no_one)</h6>
+                                                <h6 style="text-align:center; margin-bottom: 0px;"><strong>Email :-</strong> @Html.DisplayFor(model => Model.Company.email)</h6>
+                                           
+                                        <div style="text-align: center;">
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+                            </div><!--end col-->
+                        </div>
+
+
+
+                        <div class="container text-center" style="padding-top:10px; font-size:20px;">
+                            <div class="mx-auto">
+                                <strong>INBOUND WEIGHMENT SLIP</strong>
+                            </div>
+                        </div>
+                        @{
+                            if (Model.OfflineTicketList != null)
+                            {
+                                var row = Model.OfflineTicketList.ElementAt(0);
+                                <div class="row p-2" style="margin-top:0px;padding-top:0px">
+                                    <div class="col-lg-12">
+                                        <div class="row g-3">
+                                            <div class="col-7">
+                                                <p class="fw-medium mb-1"><span style="padding-right:20px;">SUPPLIER :</span>@Html.DisplayFor(modelItem => row.party_name) </p>
+                                                <p class="text-muted mb-1"><span style="padding-right:25px;">Site Name :</span>@Html.DisplayFor(modelItem => row.city_name)</p>
+                                                <p class="text-muted mb-1"><span style="padding-right:54px;">Mb No :</span>@Html.DisplayFor(modelItem => row.mobile_no)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row p-2">
+                                    <div class="col-lg-12 border" style="padding-top:10px;">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">SLIP NUMBER :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.slip_no)</span> </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">VEHCILE NUMBER :</span>@String.Format("{0:dd/MM/yyyy}", row.vehicle_number)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row p-2">
+                                    <div class="col-lg-12 border" style="padding-top:10px;">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">GROSS WEIGHT :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.gross_weight) <strong>Kgs</strong></span> </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">DATE & TIME :</span>@String.Format("{0:dd/MM/yyyy hh:mm:ss}", row.gross_date_time)</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p style="border-bottom: solid 1px black;"><span style="padding-right:25px;">TARE WEIGHT :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.tare_weight) <strong>Kgs</strong></span> </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">DATE & TIME :</span>@String.Format("{0:dd/MM/yyyy hh:mm:ss}", row.tare_date_time)</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p><span style="padding-right:32px;">NET WEIGHT :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.net_weight) <strong>Kgs</strong></span> </p>
+                                            </div>
+                                            <div class="col-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row p-2">
+                                    <div class="col-12 border" style="padding-top:10px;">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p style="margin-bottom: 0px;"><span style="padding-right:10px;">MATERIAL :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.material_name)</span></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p style="margin-bottom: 0px;"><span style="padding-right:10px;">TRANSPORTER :</span>@Html.DisplayFor(modelItem => row.transporter_name)</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p><span style="padding-right:32px;">DM No :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.dm_no)</span> </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><span style="padding-right:17px;">DRIVER NAME :</span>@Html.DisplayFor(modelItem => row.driver_name)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row p-2">
+                                    <div class="col-6 text-center" style="padding-top: 50px;">
+                                        <p style="margin-bottom: 0px;">Authorised Signatory</p>
+                                    </div>
+                                    <div class="col-6 text-center" style="padding-top: 50px;">
+                                        <p style="margin-bottom: 0px;">Receiver's Sign</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <div class="row p-2">
+                            <div class="col-lg-12 border text-center" style="padding-top:10px;font-weight:bold">
+
+                                NOTE : Our responsibilities will ceases once the vehicle leaves the plant
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body" style="margin:0px;">
+
+                        <div class="row p-2" style="border-bottom:1px solid black;padding-top:5px;">
+                            <div class="col-lg-12">
+                                <div class="row g-3">
+                                    <div class="col-3">
+
+                                        @*<div><img src="~/images/Coallogo.png" /></div>*@
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-6 text-center">
+                                      
+                                                <h5 class="fw-medium mb-2" style="color:#3c56a4;font-size:20px;">@Html.DisplayFor(model => Model.Company.company_name)</h5>
+                                                <h6 style="text-align:center; margin-bottom: 0px;">@Html.DisplayFor(model => Model.Company.billing_address)</h6>
+                                                <h6 style="text-align:center; margin-bottom: 0px;"><strong>Phone No :- </strong>@Html.DisplayFor(model => Model.Company.phone_no_one) &nbsp;&nbsp;&nbsp;<strong>Mobile No :- </strong>@Html.DisplayFor(model => Model.Company.contact_no_one)</h6>
+                                                <h6 style="text-align:center; margin-bottom: 0px;"><strong>Email :-</strong> @Html.DisplayFor(model => Model.Company.email)</h6>
+                                           
+                                        <div style="text-align: center;">
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+                            </div><!--end col-->
+                        </div>
+
+
+
+                        <div class="container text-center" style="padding-top:10px; font-size:20px;">
+                            <div class="mx-auto">
+                                <strong>INBOUND WEIGHMENT SLIP</strong>
+                            </div>
+                        </div>
+                        @{
+                            if (Model.OfflineTicketList != null)
+                            {
+                                var row = Model.OfflineTicketList.ElementAt(0);
+                                <div class="row p-2" style="margin-top:0px;padding-top:0px">
+                                    <div class="col-lg-12">
+                                        <div class="row g-3">
+                                            <div class="col-7">
+                                                <p class="fw-medium mb-1"><span style="padding-right:20px;">SUPPLIER :</span>@Html.DisplayFor(modelItem => row.party_name) </p>
+                                                <p class="text-muted mb-1"><span style="padding-right:25px;">Site Name :</span>@Html.DisplayFor(modelItem => row.city_name)</p>
+                                                <p class="text-muted mb-1"><span style="padding-right:54px;">Mb No :</span>@Html.DisplayFor(modelItem => row.mobile_no)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row p-2">
+                                    <div class="col-lg-12 border" style="padding-top:10px;">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">SLIP NUMBER :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.slip_no)</span> </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">VEHCILE NUMBER :</span>@String.Format("{0:dd/MM/yyyy}", row.vehicle_number)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row p-2">
+                                    <div class="col-lg-12 border" style="padding-top:10px;">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">GROSS WEIGHT :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.gross_weight) <strong>Kgs</strong></span> </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">DATE & TIME :</span>@String.Format("{0:dd/MM/yyyy hh:mm:ss}", row.gross_date_time)</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p style="border-bottom: solid 1px black;"><span style="padding-right:25px;">TARE WEIGHT :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.tare_weight) <strong>Kgs</strong></span> </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><span style="padding-right:10px;">DATE & TIME :</span>@String.Format("{0:dd/MM/yyyy hh:mm:ss}", row.tare_date_time)</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p><span style="padding-right:32px;">NET WEIGHT :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.net_weight) <strong>Kgs</strong></span> </p>
+                                            </div>
+                                            <div class="col-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row p-2">
+                                    <div class="col-12 border" style="padding-top:10px;">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p style="margin-bottom: 0px;"><span style="padding-right:10px;">MATERIAL :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.material_name)</span></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p style="margin-bottom: 0px;"><span style="padding-right:10px;">TRANSPORTER :</span>@Html.DisplayFor(modelItem => row.transporter_name)</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <p><span style="padding-right:32px;">DM No :</span><span class="fw-medium mb-2">@Html.DisplayFor(modelItem => row.dm_no)</span> </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><span style="padding-right:17px;">DRIVER NAME :</span>@Html.DisplayFor(modelItem => row.driver_name)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row p-2">
+                                    <div class="col-6 text-center" style="padding-top: 50px;">
+                                        <p style="margin-bottom: 0px;">Authorised Signatory</p>
+                                    </div>
+                                    <div class="col-6 text-center" style="padding-top: 50px;">
+                                        <p style="margin-bottom: 0px;">Receiver's Sign</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <div class="row p-2">
+                            <div class="col-lg-12 border text-center" style="padding-top:10px;font-weight:bold">
+
+                                NOTE : Our responsibilities will ceases once the vehicle leaves the plant
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+

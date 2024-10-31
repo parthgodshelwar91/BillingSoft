@@ -1,0 +1,55 @@
+﻿@model ProBillInvoice.Models.PaytermModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5 class="card-title mb-0 page-heading-color">PayTerm - Details</h5>
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <a href="@Url.Action("Create", "Payterm")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(model => model.payterm_code, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.payterm_code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>                    
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.payterm_desc, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                        </div>
+                        <div class="col-md-9">
+                            @Html.DisplayFor(model => model.payterm_desc, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.payterm_desc, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.payterm_days, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                        </div>
+                        <div class="col-md-9">
+                            @Html.DisplayFor(model => model.payterm_days, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.payterm_days, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

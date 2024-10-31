@@ -1,0 +1,290 @@
+﻿@model ProBillInvoice.Models.Ad_UserManagementModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">UserManagement - @ViewBag.Titlename</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div>
+                                @Html.HiddenFor(model => model.userId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.userId, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.user_name, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.user_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter User Name" } })
+                                    @Html.ValidationMessageFor(model => model.user_name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.pass_word, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.pass_word, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter Password" } })
+                                    @Html.ValidationMessageFor(model => model.pass_word, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.pass_word_R1, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.pass_word_R1, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter Retype Password " } })
+                                    @Html.ValidationMessageFor(model => model.pass_word_R1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.role_id, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @*@Html.DropDownListFor(model => model.role_id, (SelectList)ViewBag.RoleList, "-- Select--", new { @class = "form-select", @style = "width: 40%;" })
+                                    @Html.ValidationMessageFor(model => model.role_id, "", new { @class = "text-danger" })*@
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.user_fname, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.user_fname, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter First Name" } })
+                                    @Html.ValidationMessageFor(model => model.user_fname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.user_lname, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.user_lname, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Last Name" } })
+                                    @Html.ValidationMessageFor(model => model.user_lname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.job_title, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.job_title, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter Job Title" } })
+                                    @Html.ValidationMessageFor(model => model.job_title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.dept_id, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.dept_id, (SelectList)ViewBag.DeptList, "-- Select--", new { @class = "form-select", @style = "width: 40%;" })
+                                    @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.phone_no, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.phone_no, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter Phone Number" } })
+                                    @Html.ValidationMessageFor(model => model.phone_no, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Email" } })
+                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" class="btn btn-secondary"><i class="ri-save-2-line label-icon align-middle fs-16 me-2"></i>Save</button>
+                                    <button type="button" id="btnSave" onclick="Refresh();" class="btn btn-danger"><i class="ri-close-circle-line align-middle" style="padding-right: 10px;"></i>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">User Management</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="UserManagement" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.sr_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.user_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.user_fname)</th>
+                                            <th>@Html.DisplayNameFor(model => model.user_lname)</th>
+                                            <th>@Html.DisplayNameFor(model => model.job_title)</th>
+                                            <th>@Html.DisplayNameFor(model => model.phone_no)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.UserManagementList)
+                                    {
+                                        <tr>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.sr_no)</td>
+                                            <td><a href="#!">@Html.DisplayFor(modelItem => item.user_name)</a></td>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.user_fname)</td>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.user_lname)</td>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.job_title)</td>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.phone_no)</td>
+
+                                            <td style="text-align: center;">
+                                                <div class="dropdown d-inline-block">
+                                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-fill align-middle"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end mybtn-form">
+                                                        <li><a href="@Url.Action("Details","Ad_UserManagement",new { id = item.userId })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom me-1"></i> View</a></li>
+                                                        <li><a href="@Url.Action("Edit","Ad_UserManagement",new { id = item.userId })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom me-1"></i> Edit</a></li>
+                                                        <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill me-2"></i> Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+                alert("@ViewBag.Message", "success");
+                 window.location.href = "@Url.Action("Create", "Ad_UserManagement")";
+        };
+    </script>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#UserManagement", { scrollX: !0, sort: false }) })
+    </script>
+
+    <script>
+            function Refresh() {
+              window.location.href = "@Url.Action("Create", "Ad_UserManagement")";
+            }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#user_name").change(function () {
+                var textvalue = $(this).val();
+                var SGM = {
+                    tablename: 'UserManagement',
+                    colname: 'user_name',
+                    checkvalue: textvalue
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Utils/CheckExists",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        results = data.CheckExistsData;
+                        if (results !== null) {
+                            Swal.fire('! Record Already Exists For <b style=color:red>' + textvalue + '</b>');
+                            document.getElementById('user_name').value = '';
+                        }
+                    },
+                    error: function () {
+                        swal.fire("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#user_name").change(function () {
+                var textvalue = $(this).val();
+                var SGM = {
+                    tablename: 'UserManagement',
+                    colname: 'user_name',
+                    checkvalue: textvalue
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Utils/CheckExists",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        results = data.CheckExistsData;
+
+                        if (results !== null) {
+                            Swal.fire('! Record Already Exists For <b style=color:red>' + textvalue + '</b>');
+                            document.getElementById('user_name').value = '';
+                        }
+                    },
+                    error: function () {
+                        swal.fire("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+}

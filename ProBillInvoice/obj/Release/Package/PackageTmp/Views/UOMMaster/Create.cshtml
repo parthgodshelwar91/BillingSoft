@@ -1,0 +1,233 @@
+﻿@model ProBillInvoice.Models.UnitMasterModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mb-0">UOM MASTER - @ViewBag.Titlename</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div>
+                                @Html.HiddenFor(model => model.unit_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.unit_code, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.short_desc, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.short_desc, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter short name" } })
+                                    @Html.ValidationMessageFor(model => model.short_desc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.long_desc, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.long_desc, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter long name" } })
+                                    @Html.ValidationMessageFor(model => model.long_desc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.defunct, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                        @Html.EditorFor(model => model.defunct)
+                                        @Html.ValidationMessageFor(model => model.defunct, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.Label("Discontinue", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: red; width: 20%;" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" class="btn btn-secondary"><i class="ri-save-2-line label-icon align-middle fs-16 me-2"></i>Save</button>
+                                    <button type="button" id="btnCancel" onclick="Refresh();" class="btn btn-danger"><i class="ri-close-circle-line align-middle" style="padding-right: 10px;"></i>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">UOM Master</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="UOMMaster" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.sr_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.short_desc)</th>
+                                            <th>@Html.DisplayNameFor(model => model.long_desc)</th>
+                                            <th>@Html.DisplayNameFor(model => model.defunct)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.StoreUOMList)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.sr_no)</td>
+                                            <td><a href="#!">@Html.DisplayFor(modelItem => item.short_desc)</a></td>
+                                            <td>@Html.DisplayFor(modelItem => item.long_desc)</td>
+                                            @if (item.defunct == false)
+                                            {
+                                                <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #008000 !important; border-color: #008000;">Active</span></td>
+                                            }
+                                            @if (item.defunct == true)
+                                            {
+                                                <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #FF5733 !important; border-color: #FF5733;">InActive</span></td>
+                                            }
+                                            <td style="text-align: center;">
+                                                <div class="dropdown d-inline-block">
+                                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-fill align-middle"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end mybtn-form">
+                                                        <li><a href="@Url.Action("Details","UOMMaster",new { id = item.unit_code })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom me-1"></i> View</a></li>
+                                                        <li><a href="@Url.Action("Edit","UOMMaster",new { id = item.unit_code })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom me-1"></i> Edit</a></li>
+                                                        <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill me-2"></i> Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        window.onload = function () {
+            Swal.fire({
+                title: "@ViewBag.Message",
+                icon: "success",
+                confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "@Url.Action("Create", "UOMMaster")";    //
+                }
+            });
+        };
+    </script>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#UOMMaster", { scrollX: !0, sort: false }) })
+    </script>
+
+    <script>
+        function Refresh() {
+          window.location.href = "@Url.Action("Create", "UOMMaster")";
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#short_desc").change(function () {
+                var textvalue = $(this).val();
+                var SGM = {
+                    tablename: 'uom_mst',
+                    colname: 'short_desc',
+                    checkvalue: textvalue
+                };
+                 if ("@ViewBag.Title" == "Create") {
+                     $.ajax({
+                    type: "POST",
+                    url: "/Utils/CheckExists",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+
+                    success: function (data) {
+                        results = data.CheckExistsData;
+                        if (results !== null) {
+                            Swal.fire('Short Name Already Exists For <b style=color:red>' + textvalue + '</b>');
+                            document.getElementById('short_desc').value = '';
+                        }
+                    },
+                    error: function () {
+                        swal.fire("Error occured!!")
+                    }
+                });
+             }
+            })
+        })
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#long_desc").change(function () {
+                var textvalue = $(this).val();
+                var SGM = {
+                    tablename: 'uom_mst',
+                    colname: 'long_desc',
+                    checkvalue: textvalue
+                };
+                if ("@ViewBag.Title" == "Create") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Utils/CheckExists",
+                        data: JSON.stringify(SGM),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            results = data.CheckExistsData;
+                            if (results !== null) {
+                                Swal.fire('Unit Description Already Exists For <b style=color:red>' + textvalue + '</b>');
+                                document.getElementById('long_desc').value = '';
+                            }
+                        },
+                        error: function () {
+                            swal.fire("Error occured!!")
+                        }
+                    });
+                }
+            })
+        })
+    </script>
+}

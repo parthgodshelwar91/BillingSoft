@@ -1,0 +1,258 @@
+﻿@using ProBillInvoice;
+@model StStockHeader_StockPostingModel
+
+@{
+    ViewBag.Title = "Index";
+    int SrNo = 0;
+    int count = 0;
+    decimal TotalAmount = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">                      
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mb-0 page-heading-color">Stock Level </h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="add-create-btn">
+                                    <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;" title="Click here to open search box"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="PurchaseOrderSection" style="display:none;">
+                            <div class="search-panel-custom1 mb-0 searh-p-c-laptop">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.StStockHeaderSearch.SiteId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.StStockHeaderSearch.SiteId, (SelectList)ViewBag.SiteList, "--Site Name--", new { @class = "form-select", @style = "", @title = "Select Site Name" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.StStockHeaderSearch.MaterialId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.StStockHeaderSearch.MaterialId, (SelectList)ViewBag.MaterialList, "--Material Name--", new { @class = "form-select", @style = "", @title = "Select Material Name" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.StStockHeaderSearch.StoreId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.StStockHeaderSearch.StoreId, (SelectList)ViewBag.StoreList, "--Store Name--", new { @class = "form-select", @style = "", @title = "Select Store Name" })
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                @*@Html.LabelFor(Model => Model.StStockHeaderSearch.RackId, new { @class = "form-label", @style = "" })*@
+                                                @Html.DropDownListFor(Model => Model.StStockHeaderSearch.RackId, (SelectList)ViewBag.RackList, "--Rack Name--", new { @class = "form-select", @style = "", @title = "Select Rack Name" })
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="checkbox" style="float: left; padding: 1px 10px 0px 0px;">
+                                                    @Html.CheckBoxFor(model => model.StStockHeaderSearch.Storewise_flag, new { @onclick = "AjFunction(); myFunction(this.value, 1);" })
+                                                    @Html.ValidationMessageFor(model => model.StStockHeaderSearch.Storewise_flag, "", new { @class = "text-danger" })
+                                                </div>
+                                                @Html.Label("Sitewise Level", htmlAttributes: new { @style = "float: left; padding: 1px 0px 0px 0px; margin-bottom: 0px; color: #b50a0a;" })
+
+                                                <div style="width:100%; display: table;"></div>
+                                                <div class="checkbox" style="float: left; padding: 5px 10px 0px 0px;">
+                                                    @Html.CheckBoxFor(model => model.StStockHeaderSearch.BrandWise_flag, new { @onclick = "AJFunction(); myFunction(this.value, 2);" })
+                                                    @Html.ValidationMessageFor(model => model.StStockHeaderSearch.BrandWise_flag, "", new { @class = "text-danger" })
+                                                </div>
+                                                @Html.Label("Storewise Level", htmlAttributes: new { @style = "float: left; padding: 5px 0px 0px 0px; margin-bottom: 0px; color: #b50a0a;" })
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="add-create-btn" style="position: initial;">
+                                                    <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="Search" title="Click here to search"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                                    <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="ExportToExcel" title="Click here to Export To Excel"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Export To Excel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="stsockHeader" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center">Sr No</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.material_name)</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.short_desc)</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.site_name)</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.store_name)</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.rack_name)</th>
+                                            <th style="text-align: right;">@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.re_order)</th>
+                                            <th style="text-align: right;">@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.max_level)</th>
+                                            <th style="text-align: right;">@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.min_level)</th>
+                                            <th style="text-align: right;">@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.item_avg_rate)</th>
+                                            <th style="text-align:right;"><i class="bx bx-rupee"></i>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.total_balance)</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.StStockHeader)
+                                    {
+                                        SrNo = SrNo + 1;
+                                        <tr>
+                                            <td style="text-align:center">@SrNo</td>
+                                            <td><a href="#!">@Html.DisplayFor(modelItem => item.material_name)</a></td>
+                                            <td>@Html.DisplayFor(modelItem => item.short_desc)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.site_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.store_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.rack_name)</td>
+                                            <td style="text-align: right;">@String.Format("{0:N2}", item.re_order)</td>
+                                            <td style="text-align: right; color:maroon">@String.Format("{0:N2}", item.max_level)</td>
+                                            <td style="text-align: right;color: maroon;">@String.Format("{0:N2}", item.min_level)</td>
+                                            <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.item_avg_rate)</td>
+                                            <td style="text-align:right; color:green"><i class="bx bx-rupee"></i>@string.Format("{0:N2}", item.total_balance)</td>
+
+                                        </tr>
+                                        count = count + 1;
+                                        TotalAmount = TotalAmount + item.total_balance;
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                        <fieldset class="total-value-strip mt-2">
+                            <div class="row mb-0">
+                                <div class="col-sm-6">
+                                    <span style="padding: 0px 10px 0px 0px;">No of Counts:</span><strong style="color: #fff; background-color: #1a5b71; padding: 0px 7px;border-radius: 2px;">@count</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <span style="padding: 0px 10px 0px 10px;">Total Qty:</span><strong style="color: green;font-size: 18px;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", TotalAmount)</strong>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a href="@Url.Action("Index", "StockPosting_StockLevel" )" class="refresh-btn" title="Click here to Refresh"><i class="bx bx-rotate-right"></i>Refresh</a>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <a href="@Url.Action("Index", "StockPosting_StockLevel")" class="back-btn" title="Click here to Back"><i class="las la-arrow-circle-left"></i>Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#stsockHeader", { scrollX: !0, pageLength: 15, sort: !0, order: [[0, 'asc']] }) })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#StStockHeaderSearch_store_id").change(function () {
+
+                var selectedText = $(this).find("option:selected").text();
+                var selectedValue = $(this).val();
+
+                if (selectedValue == "") {
+                    alert("Select value condition test   Error occured!!");
+                    var items = '';
+                    items = "<option>---Select---</option>";
+                    $('#StStockHeaderSearch_rack_id').html(items);
+                    return;
+                }
+
+                var lsParameter = {
+                    StoreId: selectedValue,
+                    StoreName: selectedText
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/StockPosting_StockLevel/FillByStoreId",
+                    data: JSON.stringify(lsParameter),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        data.List;
+                        var items = '';
+                        items = "<option value = 0>---Select---</option>";
+                        $.each(data.List, function (i, item) {
+                            items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                        });
+                        $('#StStockHeaderSearch_rack_id').html(items);
+                    },
+                    error: function () {
+                        alert("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+
+    <script>
+        function myFunction(val, no) {
+            if (no == "1") {
+                $("#StStockHeaderSearch_Storewise_flag").prop("checked", true);
+                $("#StStockHeaderSearch_BrandWise_flag").prop("checked", false);
+            }
+            else if (no == "2") {
+                $("#StStockHeaderSearch_Storewise_flag").prop("checked", false);
+                $("#StStockHeaderSearch_BrandWise_flag").prop("checked", true);
+            }
+        }
+    </script>
+
+    <script>
+        function AjFunction() {
+            var isChecked = $('#StStockHeaderSearch_Storewise_flag').is(':checked');
+            if (isChecked) {
+                $('#stsockHeader  th:nth-child(5)').hide();  //for hiding data in th
+                $('#stsockHeader  td:nth-child(5)').hide();  //for hiding data in td
+                $('#stsockHeader  th:nth-child(6)').hide(); //for hiding data in th
+                $('#stsockHeader  td:nth-child(6)').hide(); //for hiding data in td
+            } else {
+                $('#stsockHeader  th:nth-child(5)').show(); //for th
+                $('#stsockHeader  td:nth-child(5)').show(); //for td   Not Usable === stStockHeader is  Our Table ID
+                $('#stsockHeader  th:nth-child(6)').show(); //for th
+                $('#stsockHeader  td:nth-child(6)').show(); //for td
+            }
+        }
+
+        function AJFunction() {
+
+            var isChecked = $('#StStockHeaderSearch_BrandWise_flag').is(':checked');
+            if (isChecked) {
+                $('#stsockHeader  th:nth-child(5)').show();  //for show data in th
+                $('#stsockHeader  td:nth-child(5)').show();  //for show data in td
+                $('#stsockHeader  th:nth-child(6)').show();  //for show data in th
+                $('#stsockHeader  td:nth-child(6)').show();  //for show data in td
+            } else {
+                $('#stsockHeader  th:nth-child(5)').hide();  //for th
+                $('#stsockHeader  td:nth-child(5)').hide();  //for td     Not Usable === stStockHeader is Our Table ID
+                $('#stsockHeader  th:nth-child(6)').hide();  //for th
+                $('#stsockHeader  td:nth-child(6)').hide();  //for td
+            }
+        }
+        AJFunction();
+        AjFunction();
+    </script>
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (PurchaseOrderSection.style.display === "none") {
+                PurchaseOrderSection.style.display = "block";
+            } else {
+                PurchaseOrderSection.style.display = "none";
+            }
+        });
+    </script>
+}

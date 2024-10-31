@@ -1,0 +1,213 @@
+﻿@model ProBillInvoice.Models.Temp_TicketsDetailModel
+
+@{
+    ViewBag.Title = "TicketDailyTransaction_Sale";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mb-0">@ViewBag.Titlename - Search Criteria</h4>
+                            </div>
+
+                            <div class="col-sm-6" style="float:left;">
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-secondary alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                                        <i class="ri-check-double-line label-icon"></i><strong>Success</strong> @ViewBag.Message
+                                        <button type="button" class="btn-close" aria-label="Close" onclick="Refresh();"></button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style="float: left; width: 50%;">
+                                                @Html.LabelFor(model => Model.FromDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                                @Html.EditorFor(model => Model.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 60%;" } })
+                                                @Html.ValidationMessageFor(model => Model.FromDate, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div style="float: left; width: 50%;">
+                                                @Html.LabelFor(model => Model.ToDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 10px;" })
+                                                @Html.EditorFor(model => Model.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 60%;" } })
+                                                @Html.ValidationMessageFor(model => Model.ToDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="padding-top: 0px; text-align : left;">
+                                    <button type="submit" class="btn btn-primary addMembers-modal" style="padding: 2px 10px 2px 10px;"><div style="float: left; padding: 0 5px 0 0;"><i class="ri-search-2-line"></i></div>Search</button>
+                                </div>
+                                <div class="col-md-4">
+                                    @*<div class="row">
+                <div class="col-md-4">
+                    @Html.Label("Party Name", new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                </div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(Model => Model.PartyId, (SelectList)ViewBag.PartyList, "-- Select--", new { @class = "form-select form-select-sm", @style = "width: 70%;" })
+                </div>
+            </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">@ViewBag.Titlename</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table id="Tickets" class="table table-bordered table-hover dt-responsive table-nowrap table-striped align-middle mb-0" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            @*<th>@Html.DisplayNameFor(model => model.sr_no)</th>*@
+                                            <th>@Html.DisplayNameFor(model => model.slip_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.slip_type)</th>
+                                            <th>@Html.DisplayNameFor(model => model.trans_type)</th>
+                                            <th>@Html.DisplayNameFor(model => model.acct_type)</th>
+                                            <th>@Html.DisplayNameFor(model => model.ticket_date_time)</th>
+                                            <td>@Html.DisplayNameFor(model => model.order_no)</td>
+                                            <th>@Html.DisplayNameFor(model => model.dm_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.vehicle_number)</th>
+                                            <th>@Html.DisplayNameFor(model => model.party_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.transporter_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.material_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.gross_weight)</th>
+                                            <th>@Html.DisplayNameFor(model => model.gross_date_time)</th>
+                                            <th>@Html.DisplayNameFor(model => model.tare_weight)</th>
+                                            <th>@Html.DisplayNameFor(model => model.tare_date_time)</th>
+                                            <th>@Html.DisplayNameFor(model => model.net_weight)</th>
+                                            <th>@Html.DisplayNameFor(model => model.qty_unit)</th>
+                                            <td>@Html.DisplayNameFor(model => model.location_name)</td>
+                                            <th>@Html.DisplayNameFor(model => model.dist_in_km)</th>
+                                            <th>@Html.DisplayNameFor(model => model.concrete_type)</th>
+                                            <th>@Html.DisplayNameFor(model => model.batch_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.driver_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.slump_at_plant)</th>
+                                            <th>@Html.DisplayNameFor(model => model.site_incharge)</th>
+                                            <th>@Html.DisplayNameFor(model => model.contact_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.contact_no)</th>
+                                            <th>MCUB</th> @*@Html.DisplayNameFor(model => model.qty_in_cft)*@
+                                            <th>@Html.DisplayNameFor(model => model.recipe_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.M_20MM)</th>
+                                            <th>@Html.DisplayNameFor(model => model.RSAND)</th>
+                                            <th>@Html.DisplayNameFor(model => model.M_10MM)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CSAND)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CEMENT)</th>
+                                            <th>@Html.DisplayNameFor(model => model.FLYASH)</th>
+                                            <th>@Html.DisplayNameFor(model => model.WATER)</th>
+                                            <th>@Html.DisplayNameFor(model => model.ADMIX300)</th>
+                                            <th>@Html.DisplayNameFor(model => model.ADMIX350)</th>
+                                            <th>@Html.DisplayNameFor(model => model.ADMIX2202)</th>
+                                            <th>@Html.DisplayNameFor(model => model.ADMIX400)</th>
+                                            <th>MAPEI</th> @*@Html.DisplayNameFor(model => model.MAPEIFLUID_R106)*@
+                                            <th>@Html.DisplayNameFor(model => model.PC350)</th>
+                                            @*<th>Action</th>*@
+                                        </tr>
+                                    </thead>
+
+                                    @if (Model.Temp_TicketsDetailList != null)
+                                    {
+                                        foreach (var item in Model.Temp_TicketsDetailList)
+                                        {
+                                    <tr>
+                                        @*<td style="color: darkgray;">@Html.DisplayFor(modelItem => item.sr_no)</td>*@
+                                        <td>@Html.DisplayFor(modelItem => item.slip_no)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.slip_type)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.trans_type)</td>
+                                        <td style="color:maroon">@Html.DisplayFor(modelItem => item.acct_type)</td>
+                                        <td>@string.Format("{0:dd/MM/yyyy}", item.ticket_date_time)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.order_no)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.dm_no)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.vehicle_number)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.party_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.transporter_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.material_name)</td>
+                                        <td style="text-align:right; color:maroon">@Html.DisplayFor(modelItem => item.gross_weight)</td>
+                                        <td>@String.Format("{0:dd/MM/yyyy hh:mm:ss}", item.gross_date_time)</td>
+                                        <td style="text-align:right; color:maroon">@Html.DisplayFor(modelItem => item.tare_weight)</td>
+                                        <td>@String.Format("{0:dd/MM/yyyy hh:mm:ss}", item.tare_date_time)</td>
+                                        <td style="text-align:right; color:maroon">@Html.DisplayFor(modelItem => item.net_weight)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.qty_unit)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.location_name)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.dist_in_km)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.concrete_type)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.batch_no)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.driver_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.slump_at_plant)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.site_incharge)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.contact_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.contact_no)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.qty_in_cft)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.recipe_name)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.M_20MM)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.RSAND)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.M_10MM)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.CSAND)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.CEMENT)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.FLYASH)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.WATER)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.ADMIX300)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.ADMIX350)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.ADMIX2202)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.ADMIX400)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.MAPEIFLUID_R106)</td>
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.PC350)</td>
+
+
+                                        @*<td style="text-align: center;">
+                                            <div class="dropdown d-inline-block">
+                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-more-fill align-middle"></i></button>
+                                                <ul class="dropdown-menu dropdown-menu-end mybtn-form">
+                                                    <li><a href="@Url.Action("Details","Report_WBSale",new { id = item.ticket_number })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom me-1"></i> View</a></li>
+                                                    <li><a href="@Url.Action("Edit","Report_WBSale",new { id = item.ticket_number })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom me-1"></i> Edit</a></li>
+                                                    <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill me-2"></i> Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>*@
+                                    </tr>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @*<script>
+            document.addEventListener("DOMContentLoaded",
+                function () { new DataTable("#Tickets", { scrollX: !0, sort: false }) })
+        </script>*@
+}

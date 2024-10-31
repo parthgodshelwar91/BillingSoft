@@ -1,0 +1,766 @@
+﻿@model ProBillInvoice.PurchaseOrderModel
+
+@{
+    ViewBag.Title = "IndentPO";
+    int SrNo = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                @Html.HiddenFor(model => model.PurchaseHeaderSearch.po_type, new { Value = "IndentPO" })
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0 page-heading-color">Purchase Order - @ViewBag.Titlename</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        @*@Html.LabelFor(model => model.PurchaseHeaderSearch.party_id, htmlAttributes: new { @class = "col-form-label", @style = "color: #12566c;" })*@
+                                        @Html.Label("Supplier", htmlAttributes: new { @class = "col-form-label", @style = "color: #12566c;" })
+                                        @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                    </div>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.PurchaseHeaderSearch.party_id, (SelectList)ViewBag.PartyList, "-- Select--", new { @class = "form-select", @style = "width: 100%;", onchange = "this.form.submit();" })   @*@onchange = "AjFunction();"*@
+                                        @Html.Label(" ", new { @id = "lblpartyId", @style = "display:none; color: red;" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="text-align: right;">
+                                @Html.LabelFor(model => model.PurchaseHeaderSearch.company_id, new { @class = "col-form-label", @style = "padding: 10px 1px 0px 0px; color: #12566c;" })
+                                @Html.Label("*", htmlAttributes: new { style = "color: red; padding: 10px 10px 0px 0px;" })
+                                @Html.DropDownListFor(model => model.PurchaseHeaderSearch.company_id, (SelectList)ViewBag.CompanyMst, "-- Select--", new { @class = "form-select", @style = "float: right; width: 70%;" })
+                                @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.company_id, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-4" style="text-align: right;">
+                                @Html.LabelFor(model => model.PurchaseHeaderSearch.po_no, new { @class = "col-form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })
+                                @Html.EditorFor(model => Model.PurchaseHeaderSearch.po_no, new { htmlAttributes = new { @class = "form-control", @style = "float: right; font-weight: bold; color: navy; border:none; width: 43%;", @readonly = true, placeholder = "Enter Order No" } })
+                                @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.po_no, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        @Html.Label("Address", htmlAttributes: new { @style = "color: #12566c;" })
+                                    </div>
+                                    <div class="col-md-9">
+                                        @Html.Label("*", htmlAttributes: new { id = "lblPartyAddress", @style = "" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.Label("*", htmlAttributes: new { id = "lblPartyCode", @style = "margin: 0px; color: navy;" })
+                                <br />
+                                @Html.Label("*", htmlAttributes: new { id = "lblGSTStatus", @style = "margin: 0px; color: navy;" })
+                            </div>
+                            <div class="col-md-4" style="text-align: right;">
+                                @Html.LabelFor(model => Model.PurchaseHeaderSearch.po_date, new { @class = "col-form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })
+                                @Html.EditorFor(model => Model.PurchaseHeaderSearch.po_date, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "float: right; width: 40%;" } })
+                                @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.po_date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="table-responsive" style="height:300px;">
+                                    <table id="PurchaseTable" class="table table-bordered table-hover table-responsive table-striped align-middle table-rmc table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Select</th>
+                                                <th>Ind No</th>
+                                                <th>Item name</th>
+                                                <th>Unit</th>
+                                                @*<th>Remarks</th>*@
+                                                <th style="text-align:right;">Quantity</th>
+                                                <th style="text-align: right;">GST Inc Rate</th>
+                                                <th style="text-align:right;">Rate</th>
+                                                <th style="text-align:right;">Discount</th>
+                                                <th style="text-align:right;">Sub Total</th>
+                                                <th style="text-align:right;">CGST(%)</th>
+                                                <th style="text-align:right;">SGST(%)</th>
+                                                <th style="text-align:right;">IGST(%)</th>
+                                                <th style="text-align: right;">GST Amt</th>
+                                                <th style="text-align:right;"><i class="bx bx-rupee"></i> Amount</th>
+                                            </tr>
+                                        </thead>
+
+                                        @if (Model.PurchaseDetail != null)
+                                        {
+                                            for (var i = 0; i < Model.PurchaseDetail.Count(); i++)
+                                            {
+                                                SrNo = SrNo + 1;
+                                        <tr>
+                                            <td style="padding-top: 15px; width: 80px;">@Html.CheckBoxFor(x => Model.PurchaseDetail[i].is_select, new { @onclick = "CheckBoxClick()", @style = "border: none; background-color: transparent; width: 100%;", @onchange = "Calculation();" })</td>
+                                            <td style="padding-top: 15px;">@Html.DisplayFor(x => Model.PurchaseDetail[i].ind_no, new { @style = "border: none; background-color: transparent; width: 100%;", @readonly = "readonly" })</td>
+                                            <td>@Html.DisplayFor(x => Model.PurchaseDetail[i].material_name, new { @style = "border: none; background-color: transparent; width: 100%; text-transform:uppercase;", @readonly = "readonly" })</td>
+                                            <td style="padding-top: 15px;">@Html.DisplayFor(x => Model.PurchaseDetail[i].short_desc, new { @style = "border: none; background-color: transparent; width: 60px;", @readonly = "readonly" })</td>
+                                            @*<td>@Html.DisplayFor(x => Model.PurchaseDetail[i].remarks)</td>*@
+                                            <td style="width: 150px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].item_qty, new { @class = "form-control", @style = "text-align: right; width: 100%; color: maroon;", @onchange = "Calculation();" })</td>
+                                            <td style="width: 100px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].final_item_rate, new { @style = "text-align: right; font-weight:bold;  border: none; background-color: transparent; width: 100px;",  @onchange = "Calculation();" })</td>
+                                            <td style="width: 150px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].item_rate, new { @class = "form-control", @style = "text-align: right; width: 100%; color: green;", @readonly = "readonly", })</td>
+                                            <td style="width: 150px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].discount, new { @class = "form-control", @style = "text-align: right; width: 100%; color: maroon;", @onchange = "Calculation();" })</td>
+                                            <td style="width: 150px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].sub_total, new { @style = "text-align: right; margin-top: 8px; font-weight:bold; color: green; border: none; background-color: transparent; width: 100%;", @readonly = "readonly" })</td>
+                                            <td style="width: 80px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].cgst, new { @class = "form-control", @style = "text-align: right; width: 100%;", @onchange = "Calculation();" })</td>
+                                            <td style="width: 80px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].sgst, new { @class = "form-control", @style = "text-align: right; width: 100%;", @onchange = "Calculation();" })</td>
+                                            <td style="width: 80px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].igst, new { @class = "form-control", @style = "text-align: right; width: 100%;", @onchange = "Calculation();" })</td>
+
+                                            <td style="width: 100px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].totalgst, new { @style = "text-align: right; font-weight:bold; color: green; border: none; background-color: transparent; width: 100px;", @readonly = "readonly", @onchange = "Calculation();" })</td>
+                                            <td style="width: 150px;">@Html.TextBoxFor(x => Model.PurchaseDetail[i].item_value, new { @style = "text-align: right; margin-top: 8px; font-weight:bold; color: green; border: none; background-color: transparent; width: 100%;", @readonly = "readonly" })</td>
+
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].purchase_detail_id)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].ind_header_id)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].po_id)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].material_id)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].brand_id)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].stock_qty)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].discount)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].total_rec_qty)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].is_approved)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].is_pending)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].unit_code)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].ind_no)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].material_name)
+                                            @Html.HiddenFor(x => Model.PurchaseDetail[i].short_desc)
+                                        </tr>
+                                            }
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <fieldset class="total-value-strip mt-2" style="border: 1px solid #e7dddd; border-radius: 10px; margin: 0px 0px 10px 0px; ">
+                            @*mb-2" style="border: 1px solid #e7dddd; border-radius: 10px; padding: 5px 10px 0px 10px; margin-top: 10px;*@
+                            <table style="float:right">
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td colspan="4">
+                                        <div class="flex-container" style="float:right">
+                                            <div style="float:right">
+                                                <span style=" float:left; padding: 0px 10px 0px 10px;">Sub Total :</span><span><i class="bx bx-rupee myrupee-icon-black" style="color:green;"></i></span>
+                                                <span style="float: right; width: 100px;">
+                                                    <strong>@Html.EditorFor(model => model.PurchaseHeaderSearch.SubTotalAmt, "", new { htmlAttributes = new { @class = "form-control", @style = "text-align: right; padding: 0 10px 5px 10px; border: none; background-color: transparent; color: green; font-weight: bold;", @readonly = "readonly", tabindex = -1 } })</strong>
+                                                </span>
+                                            </div>
+
+                                            <div style="float:right">
+                                                <span style=" float:left; padding: 0px 10px 0px 10px;">Total Qty :</span>
+                                                <span style="float: right; width: 100px;">
+                                                    <strong>@Html.Label(" ", new { @class = "col-form-label", @style = "font-weight: bold; padding: 0 10px 5px 10px; color: green;", @id = "lblQty" })</strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td colspan="4">
+                                        <div class="flex-container" style="float:right">
+                                            <div style="float:right">
+                                                <span style=" float:left; padding: 0px 10px 0px 10px;">Basic Value :</span><span><i class="bx bx-rupee myrupee-icon-black" style="color:green;"></i></span>
+                                                <span style="float: right; width: 100px;">
+                                                    <strong>@Html.EditorFor(model => model.PurchaseHeaderSearch.basic_amount, "", new { htmlAttributes = new { @class = "form-control", @style = "text-align: right; padding: 0 10px 5px 10px; border: none; background-color: transparent; color: green; font-weight: bold;", @readonly = "readonly", tabindex = -1 } })</strong>
+                                                </span>
+                                            </div>
+
+                                            <div style="float:right">
+                                                <span style=" float:left; padding: 0px 10px 0px 10px;">GST Amt :</span><span><i class="bx bx-rupee myrupee-icon-black" style="color:green;"></i></span>
+                                                <span style="float: right; width: 100px;">
+                                                    <strong>@Html.EditorFor(model => model.PurchaseHeaderSearch.GstAmt, "", new { htmlAttributes = new { @class = "form-control", @style = "text-align: right; padding: 0 10px 5px 10px; border: none; background-color: transparent; color: green; font-weight: bold;", @readonly = "readonly", tabindex = -1 } })</strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+
+                        <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 0px 10px 0px 10px;">
+                            <div class="row mb-2" style="padding: 10px 0px 0px 0px;">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="row mb-2">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.PurchaseHeaderSearch.payterm_code, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                @Html.DropDownListFor(model => model.PurchaseHeaderSearch.payterm_code, (SelectList)ViewBag.PaytermList, "--Select--", new { @class = "form-select", @style = "float: left; margin-right: 10px; width: 50%;" })
+                                                @Html.TextBoxFor(model => model.PurchaseHeaderSearch.payterm_days, new { @class = "form-control", @style = "width: 9%;", @readonly = true, @Value = "0" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.payterm_code, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-12">
+                                                @Html.Label("Deliver At Site ", htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                @Html.DropDownListFor(model => model.PurchaseHeaderSearch.del_site_id, new SelectList(ViewBag.StoreList, "Value", "Text"), new { @class = "form-select", @style = "float: left; width: 60%;" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.del_site_id, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.PurchaseHeaderSearch.del_completion_date, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                @Html.EditorFor(model => model.PurchaseHeaderSearch.del_completion_date, new { htmlAttributes = new { @class = "form-control", @style = "float: left; width: 30%;" } })
+                                                @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.del_completion_date, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.PurchaseHeaderSearch.transportation, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                @Html.TextBoxFor(model => model.PurchaseHeaderSearch.transportation, new { @class = "form-control", @style = "float: left; width: 60%;", placeholder = "Enter Transportation" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.transportation, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => model.PurchaseHeaderSearch.remarks, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                @Html.TextAreaFor(model => model.PurchaseHeaderSearch.remarks, 2, 20, new { @class = "form-control", @style = "float: left;  width: 60%;", placeholder = "Enter Remark" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.remarks, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-sm-12" style="margin-top: 0px;">
+                                            <div class="table-responsive">
+                                                <fieldset>
+                                                    <table id="PurchaseTax" class="table table-bordered table-hover table-responsive table-striped align-middle table-rmc table-sm">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Taxation</th>
+                                                                <th style="text-align:right;"><i class="bx bx-rupee"></i> Amount</th>
+                                                                <th style="text-align:right;">Cgst(%)</th>
+                                                                <th style="text-align:right;">Sgst(%)</th>
+                                                                <th style="text-align:right;">Igst(%)</th>
+                                                                <th style="text-align:right;"><i class="bx bx-rupee"></i> Tax Amt</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @if (Model.PurchaseTax != null)
+                                                            {
+                                                                for (var i = 0; i < Model.PurchaseTax.Count(); i++)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@Html.DropDownListFor(x => Model.PurchaseTax[i].acct_id, new SelectList(ViewBag.AccountList, "Value", "Text", Model.PurchaseTax[i].acct_id), "--Select--", new { @class = "form-select" })</td>
+                                                                        <td style="width: 150px;">@Html.TextBoxFor(x => Model.PurchaseTax[i].basic_amount, new { @class = "form-control", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation();" })</td>
+                                                                        <td style="width: 80px;">@Html.TextBoxFor(x => Model.PurchaseTax[i].cgst, new { @class = "form-control", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation();" })</td>
+                                                                        <td style="width: 80px;">@Html.TextBoxFor(x => Model.PurchaseTax[i].sgst, new { @class = "form-control", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation();" })</td>
+                                                                        <td style="width: 80px;">@Html.TextBoxFor(x => Model.PurchaseTax[i].igst, new { @class = "form-control", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation();" })</td>
+                                                                        <td>@Html.TextBoxFor(x => Model.PurchaseTax[i].tax_amount, new { @class = "form-control", @style = "text-align: right;  border: none; background-color: transparent; color: green; width: 100%;", @readonly = "readonly" })</td>
+                                                                        @Html.HiddenFor(x => Model.PurchaseTax[i].tax_id)
+                                                                        <td style="text-align: center;">
+                                                                            <button type="submit" id="btndeleteTax" class="btn btn-danger btn-sm custom-toggle" name="btndeleteTax" value="@(i)" formaction='@Url.Action("IndentPO", "PurchaseOrder")'><i class="ri-close-line"></i></button>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <button type="submit" id="btnAdd" class="btn btn-primary addMembers-modal" style="padding: 2px 10px 2px 10px; margin-top: 30px;" name="btnAdd" value="AddTax" formaction="IndentPO" formmethod="post" onclick="return Validation();"><div style="float: left; padding: 0 5px 0 0;"><i class="bx bx-plus"></i></div>Add</button>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="total-value-strip mt-2">
+                            <div class="row">
+                                <div class="col-md-12" style=" text-align: right;">
+                                    <div style="float:right">
+                                        <span style="float:left; padding: 0px 10px 0px 10px;"><strong>Total Amount:</strong></span>
+                                        <span style="padding: 0px 0px 0px 0px; color:green"><i class="bx bx-rupee myrupee-icon-black"></i></span>
+                                        <span>@Html.TextBoxFor(model => model.PurchaseHeaderSearch.total_amount, new { @style = " color: green; font-weight:bold; border: none; width: 80px;", @readonly = true, tabindex = -1 })</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" class="cancel-btn-normal" title="Cancel" id="btnRefresh" onclick="Refresh();"><i class="ri-close-fill"></i>Cancel</button>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <a href="@Url.Action("Index", "PurchaseOrder")" class="back-btn" title="Back"><i class="las la-arrow-circle-left"></i>Back</a>
+                                <button type="submit" id="btnSave" class="save-data-btn" title="Save" name="btnAdd" value="Save" formmethod="post" formaction="IndentPO" onclick="return Validation();"><i class="ri-save-2-line"></i>Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        window.onload = function () {
+
+            Swal.fire({
+                title: "<span style='color: #3085d6;'>@Html.Raw(ViewBag.Message)</span>",
+                icon: "success",
+                iconColor:"#04AA6D",
+                confirmButtonClass: "w-xs me-2 mt-2",
+                confirmButtonColor: "#3085d6",
+
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "@Url.Action("Index", "PurchaseOrder")";
+                }
+            });
+        } ;
+    </script>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        $(function () {
+            $("#PurchaseHeaderSearch_party_id").chosen();
+        });
+    </script>
+
+    <script>
+        function Validation() {
+            var partyId = $("#PurchaseHeaderSearch_party_id").val();
+            if (partyId == 0) {
+                document.getElementById('lblpartyId').innerHTML = "Party Name is required.";
+                document.getElementById('lblpartyId').style.display = "block";
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () {
+                new DataTable("#PurchaseHeader", { scrollX: !0, sort: false })
+            })
+    </script>
+
+    <script>
+            function Refresh() {
+              window.location.href = "@Url.Action("IndentPO", "PurchaseOrder")";
+            }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#PurchaseHeaderSearch_payterm_code").change(function () {
+                var selectedText = $(this).find("option:selected").text();
+                var selectedValue = $(this).val();
+                var SGM = {
+                    PaytermCode: selectedValue,
+                    PaytermName: selectedText
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/PurchaseOrder/PaytermDays",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        data.msg;
+                        $("#PurchaseHeaderSearch_payterm_days").val(data.msg);
+                    },
+
+                });
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#po_type").change(function () {
+                var textvalue = $(this).val();
+                var SGM = {
+                    tablename: 'purchase_header',
+                    colname: 'po_type',
+                    checkvalue: textvalue
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Utils/CheckExists",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        results = data.CheckExistsData;
+                        if (results !== null) {
+                            Swal.fire('! Record Already Exists For <b style=color:red>' + textvalue + '</b>');
+                            document.getElementById('po_type').value = '';
+                        }
+                    },
+                    error: function () {
+                        swal.fire("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+
+
+    @*//-----------------------------------------------------NEW CALCULATION-------------------*@
+    <script>
+        function Calculation() {
+            var i = 0;
+            var amount = 0.00;
+            var gstAmount = 0.00;
+            var TotalQty = 0.00;
+            var GrandSubTotal = 0.00;
+            var TotalGST = 0.00;
+            var GstIncRate = 0.00;
+            $("#PurchaseTable tr").each(function () {
+                var Subtotal = 0.00;
+                var cgstTotal = 0.00;
+                var sgstTotal = 0.00;
+                var igstTotal = 0.00;
+                var discountTotal = 0.00;
+                var ItemValue = 0.00;
+                var gstTotal = 0.00;
+                var Rate = 0.00;
+                var Qty = $("#PurchaseDetail_" + i.toString() + "__item_qty").val();               
+                var cgst = $("#PurchaseDetail_" + i.toString() + "__cgst").val();
+                var sgst = $("#PurchaseDetail_" + i.toString() + "__sgst").val();
+                var igst = $("#PurchaseDetail_" + i.toString() + "__igst").val();
+                var disc = $("#PurchaseDetail_" + i.toString() + "__discount").val();
+                var GstInc = $("#PurchaseDetail_" + i.toString() + "__final_item_rate").val();
+                check = $("#PurchaseDetail_" + i.toString() + "__is_select").prop("checked");
+                if (cgst != 0 && sgst != 0) {
+                    Rate = GstInc - (parseFloat(cgst) + parseFloat(sgst));
+                    //GstIncRate = parseFloat(Rate) + (parseFloat(Rate) * ((parseFloat(cgst) + parseFloat(sgst)) / 100));
+                }
+                else {
+                    Rate = GstInc - (parseFloat(cgst) + parseFloat(sgst) + parseFloat(igst));
+                    //GstIncRate = parseFloat(Rate) + (parseFloat(Rate) * ((parseFloat(igst)) / 100));
+                }
+                if (check) {
+                    Subtotal = Qty * Rate;
+                }
+                if (disc != 0) {
+                    Subtotal = Subtotal - (Subtotal * disc / 100);
+                }
+                if (!isNaN(Subtotal)) {
+                    GrandSubTotal += Subtotal;
+                }
+
+                if (cgst != 0) {
+                    cgstTotal = Subtotal * (cgst / 100);
+                }
+                if (sgst != 0) {
+                    sgstTotal = Subtotal * (sgst / 100);
+                }
+                if (igst != 0) {
+                    igstTotal = Subtotal * (igst / 100);
+                }
+                if (cgst != 0 && sgst != 0) {
+                    TotalGST = (parseFloat(cgst) + parseFloat(sgst)) / 100 * Subtotal;
+                }
+                else {
+                    TotalGST = (parseFloat(cgst) + parseFloat(sgst) + parseFloat(igst)) / 100 * Subtotal;
+                }
+               
+
+                //ItemValue = (Subtotal - discountTotal) + cgstTotal + sgstTotal + igstTotal;
+                gstTotal = cgstTotal + sgstTotal + igstTotal;
+                ItemValue = (Subtotal - discountTotal) + TotalGST;
+
+                if (!isNaN(ItemValue)) {
+                    amount += ItemValue;
+                }
+                if (!isNaN(gstTotal)) {
+                    gstAmount += gstTotal;
+                }
+                if (!isNaN(Qty)) {
+                    TotalQty += parseFloat(Qty);
+                }
+                $("#PurchaseDetail_" + i.toString() + "__item_rate").val(Rate.toFixed(2));
+                $("#PurchaseDetail_" + i.toString() + "__totalgst").val(TotalGST.toFixed(2));
+                $("#PurchaseDetail_" + i.toString() + "__sub_total").val(Subtotal.toFixed(2));
+                $("#PurchaseDetail_" + i.toString() + "__item_value").val(ItemValue.toFixed(2));
+
+                //$("#PurchaseDetail_" + i.toString() + "__final_item_rate").val(GstIncRate.toFixed(2));
+
+                i++;
+            });
+            var j = 0;
+            var Totaltax = 0.00;
+            $("#PurchaseTax tr").each(function () {
+                var taxamt = $("#PurchaseTax_" + j.toString() + "__tax_amount").val();
+                if (!isNaN(taxamt)) {
+                    Totaltax += parseFloat(taxamt);
+                }
+                j++;
+            });
+
+            $("#PurchaseHeaderSearch_basic_amount").val(amount.toFixed(2));
+            var totalamt = parseFloat(amount) + parseFloat(Totaltax);
+            $("#PurchaseHeaderSearch_SubTotalAmt").val(GrandSubTotal.toFixed(2));
+            $("#PurchaseHeaderSearch_GstAmt").val(gstAmount.toFixed(2));
+            $("#PurchaseHeaderSearch_total_amount").val(Math.round(totalamt).toFixed(2));
+            document.getElementById('lblQty').innerHTML = TotalQty.toFixed(2);
+        }
+    </script>
+
+    <script>
+        function TaxCalculation() {
+            var i = 0;
+            var TotalTaxAmt = 0.00;
+            $("#PurchaseTax tr").each(function () {
+                var cgstTotal = 0.00;
+                var sgstTotal = 0.00;
+                var IgstTotal = 0.00;
+                var TaxAmt = 0.00;
+                var BasicTaxAmt = $("#PurchaseTax_" + i.toString() + "__basic_amount").val();
+                var cgst = $("#PurchaseTax_" + i.toString() + "__cgst").val();
+                var sgst = $("#PurchaseTax_" + i.toString() + "__sgst").val();
+                var Igst = $("#PurchaseTax_" + i.toString() + "__igst").val();
+                if (cgst != 0) {
+                    cgstTotal = BasicTaxAmt * (cgst / 100);
+                }
+                if (sgst != 0) {
+                    sgstTotal = BasicTaxAmt * (sgst / 100);
+                }
+                if (Igst != 0) {
+                    IgstTotal = BasicTaxAmt * (Igst / 100);
+                }
+                TaxAmt = parseFloat(BasicTaxAmt) + parseFloat(cgstTotal) + parseFloat(sgstTotal) + parseFloat(IgstTotal);
+                if (!isNaN(TaxAmt)) {
+                    TotalTaxAmt += parseFloat(TaxAmt);
+                }
+                $("#PurchaseTax_" + i.toString() + "__tax_amount").val(TaxAmt.toFixed(2));
+                i++;
+            });
+            var BasicAmount = $("#PurchaseHeaderSearch_basic_amount").val();
+            var TotalAmount = parseFloat(TotalTaxAmt) + parseFloat(BasicAmount);
+            $("#PurchaseHeaderSearch_total_amount").val(Math.round(TotalAmount).toFixed(2));
+        }
+    </script>
+
+    <script>
+        function AjFunction(GSTStatus) {
+            if (GSTStatus === "Within State Supplier") {
+                $('#PurchaseTable th:nth-child(10)').show();
+                $('#PurchaseTable td:nth-child(10)').show();
+                $('#PurchaseTable th:nth-child(11)').show();
+                $('#PurchaseTable td:nth-child(11)').show();
+                $('#PurchaseTable th:nth-child(12)').hide();
+                $('#PurchaseTable td:nth-child(12)').hide();
+            } else {
+                $('#PurchaseTable th:nth-child(10)').hide();
+                $('#PurchaseTable td:nth-child(10)').hide();
+                $('#PurchaseTable th:nth-child(11)').hide();
+                $('#PurchaseTable td:nth-child(11)').hide();
+                $('#PurchaseTable th:nth-child(12)').show();
+                $('#PurchaseTable td:nth-child(12)').show();
+            }
+
+            if (GSTStatus === "Within State Supplier") {
+                $('#PurchaseTax th:nth-child(3)').show();
+                $('#PurchaseTax td:nth-child(3)').show();
+                $('#PurchaseTax th:nth-child(4)').show();
+                $('#PurchaseTax td:nth-child(4)').show();
+                $('#PurchaseTax th:nth-child(5)').hide();
+                $('#PurchaseTax td:nth-child(5)').hide();
+            } else {
+                $('#PurchaseTax th:nth-child(3)').hide();
+                $('#PurchaseTax td:nth-child(3)').hide();
+                $('#PurchaseTax th:nth-child(4)').hide();
+                $('#PurchaseTax td:nth-child(4)').hide();
+                $('#PurchaseTax th:nth-child(5)').show();
+                $('#PurchaseTax td:nth-child(5)').show();
+            }
+        }
+
+        $(document).ready(function () {
+            $("#PurchaseHeaderSearch_party_id").change(function () {
+                var selectedText = $(this).find("option:selected").text();
+                var selectedValue = $(this).val();
+                document.getElementById('lblpartyId').style.display = "none";
+                var lsParameter = {
+                    PartyId: selectedValue,
+                    PartyName: selectedText
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/PurchaseOrder/PartyDetail",
+                    data: JSON.stringify(lsParameter),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        PartyCode = data.msg.split("|")[0];
+                        PartyAddress = data.msg.split("|")[1];
+                        GSTStatus = data.msg.split("|")[2];
+                        $('#lblPartyCode').text(PartyCode);
+                        $('#lblPartyAddress').text(PartyAddress);
+                        $('#lblGSTStatus').text(GSTStatus);
+                        AjFunction(GSTStatus); // Call the AjFunction with GSTStatus
+                    },
+                    error: function () {
+                        $('#lblPartyCode').text('*');
+                        $('#lblPartyAddress').text('*');
+                        $('#lblGSTStatus').text('*');
+                        //alert("Error occured!!")
+                    }
+                });
+            })
+        })
+
+        $(document).ready(function () {
+            var selectedText = $("#PurchaseHeaderSearch_party_id").find("option:selected").text();
+            var selectedValue = $("#PurchaseHeaderSearch_party_id").val();
+            document.getElementById('lblpartyId').style.display = "none";
+            var lsParameter = {
+                PartyId: selectedValue,
+                PartyName: selectedText
+            };
+            $.ajax({
+                type: "POST",
+                url: "/PurchaseOrder/PartyDetail",
+                data: JSON.stringify(lsParameter),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    PartyCode = data.msg.split("|")[0];
+                    PartyAddress = data.msg.split("|")[1];
+                    GSTStatus = data.msg.split("|")[2];
+                    $('#lblPartyCode').text(PartyCode);
+                    $('#lblPartyAddress').text(PartyAddress);
+                    $('#lblGSTStatus').text(GSTStatus);
+                    AjFunction(GSTStatus);
+                },
+                error: function () {
+                    $('#lblPartyCode').text('*');
+                    $('#lblPartyAddress').text('*');
+                    $('#lblGSTStatus').text('*');
+                }
+            });
+
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#PurchaseHeaderSearch_company_id").change(function () {
+                var selectedText = $(this).find("option:selected").text();
+                var selectedValue = $(this).val();
+                var SGM = {
+                    Company_id: selectedValue,
+                    Company_name: selectedText
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/PurchaseOrder/PONO",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        results = data.msg;
+                        $('#PurchaseHeaderSearch_po_no').val(results);
+                    },
+
+                });
+            })
+        })
+    </script>
+
+    @*<script>
+            function Calculation() {
+                var i = 0;
+                var amount = 0.00;
+                var gstAmount = 0.00;
+                var TotalQty = 0.00;
+                var GrandSubTotal = 0.00;
+                $("#PurchaseTable tr").each(function () {
+                    var Subtotal = 0.00;
+                    var cgstTotal = 0.00;
+                    var sgstTotal = 0.00;
+                    var igstTotal = 0.00;
+                    var discountTotal = 0.00;
+                    var ItemValue = 0.00;
+                    var gstTotal = 0.00;
+                    var Qty = $("#PurchaseDetail_" + i.toString() + "__item_qty").val();
+                    var Rate = $("#PurchaseDetail_" + i.toString() + "__item_rate").val();
+                    var cgst = $("#PurchaseDetail_" + i.toString() + "__cgst").val();
+                    var sgst = $("#PurchaseDetail_" + i.toString() + "__sgst").val();
+                    var igst = $("#PurchaseDetail_" + i.toString() + "__igst").val();
+                    var disc = $("#PurchaseDetail_" + i.toString() + "__discount").val();
+                    check = $("#PurchaseDetail_" + i.toString() + "__is_select").prop("checked");
+                    if (check) {
+                        Subtotal = Qty * Rate;
+                    }
+                    if (disc != 0) {
+                        Subtotal = Subtotal - (Subtotal * disc / 100);
+                    }
+                    if (!isNaN(Subtotal)) {
+                        GrandSubTotal += Subtotal;
+                    }
+
+                    if (cgst != 0) {
+                        cgstTotal = Subtotal * (cgst / 100);
+                    }
+                    if (sgst != 0) {
+                        sgstTotal = Subtotal * (sgst / 100);
+                    }
+                    if (igst != 0) {
+                        igstTotal = Subtotal * (igst / 100);
+                    }
+                    ItemValue = (Subtotal - discountTotal) + cgstTotal + sgstTotal + igstTotal;
+                    gstTotal = cgstTotal + sgstTotal + igstTotal;
+
+                    if (!isNaN(ItemValue)) {
+                        amount += ItemValue;
+                    }
+                    if (!isNaN(gstTotal)) {
+                        gstAmount += gstTotal;
+                    }
+                    if (!isNaN(Qty)) {
+                        TotalQty += parseFloat(Qty);
+                    }
+                    $("#PurchaseDetail_" + i.toString() + "__sub_total").val(Subtotal.toFixed(2));
+                    $("#PurchaseDetail_" + i.toString() + "__item_value").val(ItemValue.toFixed(2));
+
+                    i++;
+                });
+                var j = 0;
+                var Totaltax = 0.00;
+                $("#PurchaseTax tr").each(function () {
+                    var taxamt = $("#PurchaseTax_" + j.toString() + "__tax_amount").val();
+                    if (!isNaN(taxamt)) {
+                        Totaltax += parseFloat(taxamt);
+                    }
+                    j++;
+                });
+
+                $("#PurchaseHeaderSearch_basic_amount").val(amount.toFixed(2));
+                var totalamt = parseFloat(amount) + parseFloat(Totaltax);
+                $("#PurchaseHeaderSearch_SubTotalAmt").val(GrandSubTotal.toFixed(2));
+                $("#PurchaseHeaderSearch_GstAmt").val(gstAmount.toFixed(2));
+                $("#PurchaseHeaderSearch_total_amount").val(Math.round(totalamt).toFixed(2));
+                document.getElementById('lblQty').innerHTML = TotalQty.toFixed(2);
+            }
+        </script>*@
+
+
+}
+

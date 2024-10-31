@@ -1,0 +1,71 @@
+﻿@model ProBillInvoice.Models.RecipeMasterModel
+
+@{
+    ViewBag.Title = "Index";
+    int SrNo = 0;
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">Recipe Master</h5>
+                    </div>
+                    <div class="col-sm-6" style="text-align: right;">
+                        <a href="@Url.Action("Create", "RecipeMaster")" class="btn btn-info"><i class="las la-plus-square"></i><span><strong>Create</strong></span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">                      
+                            <table id="RecipeMaster" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Sr No</th>
+                                        <th>@Html.DisplayNameFor(model => model.RecipeHeader.recipe_no)</th>
+                                        <th>@Html.DisplayNameFor(model => model.RecipeHeader.recipe_name)</th>
+                                        <th>@Html.DisplayName("Customer Name")</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>                               
+                                    @foreach (var item in Model.RecipeHeaderList)
+                                    {
+                                        SrNo = SrNo + 1;
+                                        <tr>
+                                            <td style="color: darkgray;">@SrNo</td>
+                                            <td><a href="#!">@Html.DisplayFor(modelItem => item.recipe_no)</a></td>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.recipe_name)</td>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.party_name)</td>
+                                            <td style="text-align: center;">
+                                                <div class="dropdown d-inline-block">
+                                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-fill align-middle"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end mybtn-form">
+                                                        <li><a href="@Url.Action("Details", "RecipeMaster", new { id = item.recipe_id })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom me-1"></i> View</a></li>
+                                                        <li><a href="@Url.Action("Edit", "RecipeMaster", new { id = item.recipe_id })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom me-1"></i> Edit</a></li>
+                                                        <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill me-2"></i> Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                
+                            </table>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    
+}

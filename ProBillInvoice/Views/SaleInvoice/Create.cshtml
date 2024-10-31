@@ -1,0 +1,423 @@
+﻿@model ProBillInvoice.Models.SaleInvoiceModel
+
+@{
+    ViewBag.Title = "Create";
+    int SrNo = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0 page-heading-color">Sale Invoice - Create</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 10px 10px 5px 10px; margin: 0px 0px 10px 0px;">
+                                <div class="row mb-2">
+                                    <div class="col-md-3">
+                                        @*@Html.LabelFor(model => model.InvoiceHeaderSearch.party_id, htmlAttributes: new { @class = "form-label", @style = "float: left; padding: 10px 9px 0px 0px; color: #12566c; width: 28%;" })*@
+                                        @Html.Label("Customer", htmlAttributes: new { @class = "form-label", @style = "float: left; padding: 10px 9px 0px 0px; color: #12566c; width: 28%;" })
+                                        @Html.DropDownListFor(Model => Model.InvoiceHeaderSearch.party_id, (SelectList)ViewBag.PartyList, "-- Select--", new { @class = "form-select", @style = "width: 70%;" })
+                                        @Html.ValidationMessageFor(model => model.InvoiceHeaderSearch.party_id, "", new { @class = "text-danger" })
+                                        <div>
+                                            @Html.HiddenFor(model => model.InvoiceHeaderSearch.sale_invoice_id)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.InvoiceHeaderSearch.SiteId, htmlAttributes: new { @class = "form-label", @style = "float: left; text-align: right; padding: 10px 10px 0px 0px; color: #12566c; width: 30%;" })
+                                        @Html.DropDownListFor(model => model.InvoiceHeaderSearch.SiteId, (SelectList)ViewBag.SiteList, new { @class = "form-select", @style = "width: 70%;" })
+                                        @Html.ValidationMessageFor(model => model.InvoiceHeaderSearch.SiteId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.InvoiceHeaderSearch.company_id, htmlAttributes: new { @class = "form-label", @style = "float: left; text-align: right; padding: 10px 10px 0px 0px; color: #12566c; width: 30%;" })
+                                        @Html.DropDownListFor(model => model.InvoiceHeaderSearch.company_id, (SelectList)ViewBag.CompanyList, new { @class = "form-select", @style = "width: 70%;" })
+                                        @Html.ValidationMessageFor(model => model.InvoiceHeaderSearch.company_id, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right;">
+                                        @Html.LabelFor(model => model.InvoiceHeaderSearch.invoice_no, new { @class = "form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })
+                                        @Html.EditorFor(model => model.InvoiceHeaderSearch.invoice_no, new { htmlAttributes = new { @class = "form-control", @style = "float: right; font-weight: bold; color: navy; border:none; width: 60%;", @readonly = true, placeholder = "Enter Invoice No" } })
+                                        @Html.ValidationMessageFor(model => model.InvoiceHeaderSearch.invoice_no, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.Label("Cust Location", htmlAttributes: new { @class = "form-label", @style = "float: left; padding: 10px 10px 0px 0px; color: #12566c; width: 35%;" })
+                                        @*@Html.LabelFor(model => model.InvoiceHeaderSearch.customer_location_id, htmlAttributes: new { @class = "form-label", @style = "float: left; padding: 10px 10px 0px 0px; color: #12566c; width: 30%;" })*@
+                                        @Html.DropDownListFor(Model => Model.InvoiceHeaderSearch.customer_location_id, (SelectList)ViewBag.CustLocation, "-- Select--", new { @class = "form-select", @style = "width: 63%;" })
+                                        @Html.ValidationMessageFor(model => model.InvoiceHeaderSearch.customer_location_id, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.InvoiceHeaderSearch.order_id, htmlAttributes: new { @class = "form-label", @style = "float: left; padding: 10px 10px 0px 0px; text-align: right; color: #12566c; width: 30%;" })
+                                        @Html.DropDownListFor(Model => Model.InvoiceHeaderSearch.order_id, (SelectList)ViewBag.SaleHeader, "-- Select--", new { @class = "form-select", @style = "width: 70%;", onchange = "this.form.submit();" })
+                                        @Html.ValidationMessageFor(model => model.InvoiceHeaderSearch.order_id, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.Label("*", htmlAttributes: new { id = "lblPartyCode", @style = "margin: 0px; color: navy;" })
+                                        <br />
+                                        @Html.Label("*", htmlAttributes: new { id = "lblGSTStatus", @style = "margin: 0px; color: navy;" })
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right;">
+                                        @Html.LabelFor(model => model.InvoiceHeaderSearch.invoice_date, new { @class = "form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })
+                                        @Html.EditorFor(model => model.InvoiceHeaderSearch.invoice_date, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "float: right; width: 56%;" } })
+                                        @Html.ValidationMessageFor(model => model.InvoiceHeaderSearch.invoice_date, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </fieldset>
+                           
+
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <div class="table-responsive" style="height:250px;">
+                                        <table id="InvoiceHeader" class="table table-sm table-bordered align-middle table-nowrap app-tbl-one" style="width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Select</th>
+                                                    <th>Site Name</th>
+                                                    <th>Slip No</th>
+                                                    <th>Date</th>
+                                                    <th>Vehical No</th>
+                                                    <th>Dm No</th>
+                                                    <th>Concrete Type</th>
+                                                    <th>Material</th>
+                                                    <th>Unit</th>
+                                                    <th style="display:none">Location</th>
+                                                    <th style="display:none;text-align:right">Net Wt</th>
+                                                    <th style="text-align:right">Qty (M3)</th>
+                                                    <th style="text-align: right;">GST Inc Rate</th>
+                                                    <th style="text-align:right">Rate</th>
+                                                    <th style="text-align:right">Sub Total</th>
+                                                    <th style="text-align:right">CGST(%)</th>
+                                                    <th style="text-align:right">SGST(%)</th>
+                                                    <th style="text-align:right">IGST(%)</th>
+                                                    <th style="text-align: right;">GST Amt</th>
+                                                    <th style="text-align: right;"><span style="margin:5px 0 0 0;"></span> <i class="bx bx-rupee"></i>Amount</th>
+                                                </tr>
+                                            </thead>
+
+                                            @if (Model.InvoiceDetails != null)
+                                            {
+                                                for (var i = 0; i < Model.InvoiceDetails.Count(); i++)
+                                                {
+                                                    SrNo = SrNo + 1;
+                                            <tr>
+                                                <td>@Html.CheckBoxFor(x => Model.InvoiceDetails[i].is_select, new { @onclick = "Calculation()", @style = "border: none; background-color: transparent; width: 60px;" })</td>
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].site_name, new { @readonly = "readonly", @style = "border: none; background-color: transparent; width: 100px;" })</td>
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].slip_no, new { @style = "border: none; background-color: transparent; width: 100px;", @readonly = "readonly" })</td>
+                                                <td>@String.Format("{0:dd/MM/yyyy}", Model.InvoiceDetails[i].ticket_date_time, new { htmlAttributes = new { @style = "border: none; background-color: transparent; width: 100px;", @readonly = true } })</td>
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].vehicle_number, new { @readonly = "readonly", @style = "border: none; background-color: transparent; width: 120px; text-transform:uppercase;" })</td>
+
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].dm_no, new { @readonly = "readonly", @style = "border: none; background-color: transparent; width: 100px;" })</td>
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].concrete_type, new { @style = "border: none; background-color: transparent; width: 180px;" })</td>
+                                                <td>@Html.DisplayFor(x => Model.InvoiceDetails[i].material_name)</td>
+                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.InvoiceDetails[i].short_desc, new { @style = "border: none; background-color: transparent; width: 100%;", @readonly = "readonly" })</td>
+                                                <td style="display:none;">@Html.DisplayFor(x => Model.InvoiceDetails[i].location_name)</td>
+
+                                                <td style="display:none;">@Html.TextBoxFor(x => Model.InvoiceDetails[i].net_weight, new { @class = "form-control", @style = "text-align: right; width: 90px; color: maroon;" })</td>
+
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].item_qty, new { @class = "form-control", @style = "text-align: right; width: 80px; color: maroon;", @onchange = "Calculation();" })</td>
+                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.InvoiceDetails[i].final_item_rate, new { @style = "text-align: right; font-weight:bold;  border: none; background-color: transparent; width: 100px;",  @onchange = "Calculation();" })</td>
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].item_rate, new { @class = "form-control", @style = "text-align: right; width: 100px; color: green;", @readonly = "readonly", })</td>
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].sub_total, new { @style = "text-align: right; color: green; border: none; background-color: transparent; font-weight: bold; width: 100px;", @readonly = "readonly" })</td>
+
+                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.InvoiceDetails[i].cgst, new { @class = "form-control", @style = "text-align: right; width: 100px;", @onchange = "Calculation();" })</td>
+                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.InvoiceDetails[i].sgst, new { @class = "form-control", @style = "text-align: right; width: 100px;", @onchange = "Calculation();" })</td>
+                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.InvoiceDetails[i].igst, new { @class = "form-control", @style = "text-align: right; width: 100px;", @onchange = "Calculation();" })</td>
+
+                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.InvoiceDetails[i].totalgst, new { @style = "text-align: right; font-weight:bold; color: green; border: none; background-color: transparent; width: 100px;", @readonly = "readonly", @onchange = "Calculation();" })</td>
+                                                <td>@Html.TextBoxFor(x => Model.InvoiceDetails[i].item_value, new { @style = "text-align: right; color: green; border: none; background-color: transparent; width: 100px;", @readonly = "readonly" })</td>
+
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].ticket_number)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].ticket_date_time)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].vehicle_number)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].dm_no)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].slip_no)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].material_id)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].material_name)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].unit_code)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].location_id)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].location_name)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].is_pending)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].financial_year)
+                                                @Html.HiddenFor(x => Model.InvoiceDetails[i].site_id)
+                                            </tr>
+                                                }
+                                            }
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <fieldset class="total-value-strip mt-2" style="border: 1px solid #e7dddd; border-radius: 10px; padding: 0px 10px 0px 10px;">
+                                @*<fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 0px 10px 0px 10px;"">*@
+                                <div class="row mb-0">
+                                    <div class="col-md-6">
+                                        @Html.Label("No of Vehicle :", new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 10px 10px;" })
+                                        @Html.Label(" ", new { @class = "col-form-label", @id = "lblVehicleNo" })
+                                    </div>
+
+                                    <div class="col-md-6" style="text-align: right;">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                @Html.Label("Total Qty :", new { @class = "col-form-label", @style = "padding: 10px 10px 10px 10px; float: left;" })
+                                                @Html.Label(" ", new { @class = "col-form-label", @id = "lblQty", @style = "color: green;" })
+                                            </div>
+                                            <div class="col-md-3">
+                                            </div>
+                                            <div class="col-md-3">
+                                                @Html.Label("Sub Total :", new { @class = "col-form-label", @style = "padding: 10px 10px 10px 10px;", })
+                                                <span class="input-group-addon" style="color:green">₹</span>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                @Html.EditorFor(model => model.InvoiceHeaderSearch.basic_amount, "", new { htmlAttributes = new { @class = "form-control", @style = "text-align: right; border: none; background-color: transparent; color:green; font-weight: bold;", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 0px 10px 0px 10px;">
+                                <div class="row mb-2" style="padding: 10px 0px 0px 0px;">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @Html.LabelFor(model => model.InvoiceHeaderSearch.remarks, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 15%; color: #12566c;" })
+                                                    @Html.TextAreaFor(model => model.InvoiceHeaderSearch.remarks, 2, 20, new { @class = "form-control", @style = "float: left; width: 60%;", placeholder = "Enter Remark" })
+                                                    @Html.ValidationMessageFor(model => model.InvoiceHeaderSearch.remarks, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-sm-12" style="margin-top: 0px;">
+                                                <div class="table-responsive">
+                                                    <fieldset>
+                                                        <table id="InvoiceTax" class="table table-bordered table-hover table-responsive table-striped align-middle table-rmc table-sm">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Taxation</th>
+                                                                    <th style="text-align:right;"><i class="bx bx-rupee"></i> Amount</th>
+                                                                    <th style="text-align:right">Cgst(%)</th>
+                                                                    <th style="text-align:right">Sgst(%)</th>
+                                                                    <th style="text-align:right">Igst(%)</th>
+                                                                    <th style="text-align:right;"><i class="bx bx-rupee"></i> Tax Amt</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            @if (Model.InvoiceTax != null)
+                                                            {
+                                                                for (var i = 0; i < Model.InvoiceTax.Count(); i++)
+                                                                {
+                                                                    <tr>
+                                                                        <td style="width: 180px;">@Html.DropDownListFor(x => Model.InvoiceTax[i].acct_id, new SelectList(ViewBag.AccountList, "Value", "Text", Model.InvoiceTax[i].acct_id), "--Select--", new { @class = "form-select form-select-sm" })</td>
+                                                                        <td style="text-align:right; width: 150px;">@Html.TextBoxFor(x => Model.InvoiceTax[i].percentage, new { @class = "form-control form-control-sm", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation(" + i.ToString() + ");" })</td>
+                                                                        <td style="text-align:right; width: 100px;">@Html.TextBoxFor(x => Model.InvoiceTax[i].cgst, new { @class = "form-control form-control-sm", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation(" + i.ToString() + ");" })</td>
+                                                                        <td style="text-align:right; width: 100px;">@Html.TextBoxFor(x => Model.InvoiceTax[i].sgst, new { @class = "form-control form-control-sm", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation(" + i.ToString() + ");" })</td>
+                                                                        <td style="text-align:right; width: 100px;">@Html.TextBoxFor(x => Model.InvoiceTax[i].igst, new { @class = "form-control form-control-sm", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation(" + i.ToString() + ");" })</td>
+                                                                        <td style="width: 150px;">@Html.TextBoxFor(x => Model.InvoiceTax[i].amount, new { @readonly = "readonly", @class = "form-control form-control-sm", @style = "text-align: right; border: none; background-color: transparent; color: green; width: 100%;" })</td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </table>
+                                                        <div class="row">
+                                                            <div class="col-sm-12 text-end">
+                                                                <button type="submit" id="btnAdd" class="btn btn-primary addMembers-modal" style="padding: 2px 10px 2px 10px; margin-top: 30px;" name="btnAdd" value="Add" onclick="javascript: return RowValidation();">
+                                                                    <div style="float: left; padding: 0 5px 0 0;">
+                                                                        <i class="bx bx-plus"></i>
+                                                                    </div>Add
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="total-value-strip mt-2">
+                                <div class="row">
+                                    <div class="col-md-10" style=" text-align: right;">
+                                        @Html.Label("Total Amount :", new { @class = "col-form-label", @style = "padding: 0px;" })
+                                        @Html.Label("₹", htmlAttributes: new { @style = "color: green; font-size: 18px; margin-bottom: 0px;" })
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        @Html.EditorFor(model => model.InvoiceHeaderSearch.total_amount, new { htmlAttributes = new { @class = "form-control", @readonly = true, @style = "text-align: right; color: green; padding: 0px; border: none; background-color: transparent; font-weight: bold; font-size:18px;" } })
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="row">
+                                <div class="col-md-12 text-end">
+                                    <a href="@Url.Action("Index", "SaleInvoice")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>
+                                    <button type="submit" id="btnAdd" class="save-data-btn" name="btnAdd" value="Save" onclick="return TicketValidation();"><i class="ri-save-line"></i>Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        window.onload = function () {
+
+            Swal.fire({
+                title: "<span style='color: #3085d6;'>@Html.Raw(ViewBag.Message)</span>",
+                icon: "success",
+                iconColor:"#04AA6D",
+                confirmButtonClass: "w-xs me-2 mt-2",
+                confirmButtonColor: "#3085d6",
+
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "@Url.Action("Index", "SaleInvoice")";
+                }
+            });
+        } ;
+    </script>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script src="~/Scripts/SaleInvoice.js"></script>   
+
+
+    <script>
+        $(function () {
+            $("#InvoiceHeaderSearch_party_id").chosen();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#InvoiceHeaderSearch_party_id").change(function () {            
+                var selectedText = $(this).find("option:selected").text();
+                var selectedValue = $(this).val();
+
+                var lsParameter = {
+                    PartyId: selectedValue,
+                    PartyName: selectedText
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/SaleInvoice/CustomerLocation",
+                    data: JSON.stringify(lsParameter),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        //debugger;
+                        var items = "<option value=0>--Select--</option>";
+                        $.each(data.lsCustomerList, function (i, location) {
+                            items += "<option value='" + location.Value + "'>" + location.Text + "</option>";
+                        });
+                        $('#InvoiceHeaderSearch_customer_location_id').html(items);
+                    },
+                    error: function () {
+                        //alert("Error occured!!")
+                    }
+                });
+            })
+        })
+
+        $(document).ready(function () {
+            $("#InvoiceHeaderSearch_party_id").change(function () {              
+                var selectedText = $(this).find("option:selected").text();
+                var selectedValue = $(this).val();
+
+                var lsParameter = {
+                    PartyId: selectedValue,
+                    PartyName: selectedText
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/SaleInvoice/CustomerSaleOrder",
+                    data: JSON.stringify(lsParameter),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {                  
+                        var items = "<option value=0>--Select--</option>";
+                        $.each(data.lsOrderList, function (i, SO) {
+                            items += "<option value='" + SO.Value + "'>" + SO.Text + "</option>";
+                        });
+                        $('#InvoiceHeaderSearch_order_id').html(items);
+                    },
+                    error: function () {
+                        //alert("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+
+    @if (TempData["ErrorMsg"] != null)
+    {
+        <script>
+        window.onload = function () {
+            Swal.fire({
+                text: "@TempData["ErrorMsg"]",
+                icon: "warning",
+                confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+            })
+        };
+        </script>
+    }
+    <script>
+        $(document).ready(function () {
+            var count =@SrNo;
+            document.getElementById('lblVehicleNo').innerHTML = count.toString();
+            document.getElementById('lblQty').innerHTML = "0.00";
+        })
+    </script>
+
+    <script type="text/javascript">
+        function RowValidation() {
+            var rowCount = $("#InvoiceTax tr").length;
+            var i = 0;
+            var foundDuplicate = false;
+
+            if (rowCount > 2) {
+                $("#InvoiceTax tr").each(function () {
+                    var currentValue = $("#InvoiceTax_" + i + "__acct_id").val();
+
+                    var j = 0;
+                    $("#InvoiceTax tr").each(function () {
+                        if (i != j && foundDuplicate == false) {
+                            var NewValue = $("#InvoiceTax_" + j + "__acct_id").val();
+                            if (NewValue == currentValue) {
+                                alert("Duplicate Record found!");
+                                foundDuplicate = true;
+                                return false;
+                            }
+                        }
+                        j++;
+                    })
+                    i++;
+                });
+            }
+            else {
+                foundDuplicate = false;
+            }
+            return !foundDuplicate;
+        }
+    </script>
+
+
+}

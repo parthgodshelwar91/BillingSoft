@@ -1,0 +1,180 @@
+﻿@model StoreWeb.Models.Ad_UserManagementModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">User Management - Edit</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div>
+                                @Html.HiddenFor(model => model.userId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.userId, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.user_name, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.user_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter User Name" } })
+                                    @Html.ValidationMessageFor(model => model.user_name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.pass_word, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.pass_word, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter Password" } })
+                                    @Html.ValidationMessageFor(model => model.pass_word, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.pass_word_R1, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.pass_word_R1, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter Retype Password " } })
+                                    @Html.ValidationMessageFor(model => model.pass_word_R1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.role_id, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.role_id, new SelectList(ViewBag.RoleList, "Value", "Text", Model.role_id), "-- Select--", new { @class = "form-select", @style = "width: 40%;" })
+                                    @Html.ValidationMessageFor(model => model.role_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.user_fname, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.user_fname, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter First Name" } })
+                                    @Html.ValidationMessageFor(model => model.user_fname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.user_lname, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.user_lname, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Last Name" } })
+                                    @Html.ValidationMessageFor(model => model.user_lname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.job_title, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.job_title, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter Job Title" } })
+                                    @Html.ValidationMessageFor(model => model.job_title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.dept_id, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.dept_id, new SelectList(ViewBag.DeptList, "Value", "Text", Model.dept_id), "-- Select--", new { @class = "form-select", @style = "width: 40%;" })
+                                    @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.phone_no, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.phone_no, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;", placeholder = "Enter Phone Number" } })
+                                    @Html.ValidationMessageFor(model => model.phone_no, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Email" } })
+                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.LoginIpAddress, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.LoginIpAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Login IPAddress" } })
+                                    @Html.ValidationMessageFor(model => model.LoginIpAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.default_fin_year, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.default_fin_year, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Financial Year" } })
+                                    @Html.ValidationMessageFor(model => model.default_fin_year, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.path, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.path, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter path" } })
+                                    @Html.ValidationMessageFor(model => model.path, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" class="btn btn-secondary"><i class="ri-save-2-line label-icon align-middle fs-16 me-2"></i>Save</button>
+                                    <a href="@Url.Action("Index", "Ad_UserManagement")" class="btn btn-primary">
+                                        <i class="las la-arrow-circle-left"></i>
+                                        <span>
+                                            Back
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

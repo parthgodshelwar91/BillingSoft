@@ -1,0 +1,125 @@
+﻿@model ProBillInvoice.Models.Temp_StockModel
+
+@{
+    ViewBag.Title = "SaleConsumption_PartywiseReport";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4 class="card-title mb-0">@ViewBag.Titlename - Search Criteria</h4>
+                        </div>
+
+                        <div class="col-sm-6" style="float:left;">
+                            @if (ViewBag.Message != null)
+                            {
+                                <div class="alert alert-secondary alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                                    <i class="ri-check-double-line label-icon"></i><strong>Success</strong> @ViewBag.Message
+                                    <button type="button" class="btn-close" aria-label="Close" onclick="Refresh();"></button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        @Html.Label("Party Name", new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(Model => Model.PartyId, (SelectList)ViewBag.PartyList, "-- Select--", new { @class = "form-select form-select-sm", @style = "width: 70%;" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div style="float: left; width: 50%;">
+                                            @Html.LabelFor(model => Model.FromDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                            @Html.EditorFor(model => Model.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 60%;" } })
+                                            @Html.ValidationMessageFor(model => Model.FromDate, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div style="float: left; width: 50%;">
+                                            @Html.LabelFor(model => Model.ToDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 10px;" })
+                                            @Html.EditorFor(model => Model.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 60%;" } })
+                                            @Html.ValidationMessageFor(model => Model.ToDate, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="padding-top: 0px; text-align : left;">
+                                <button type="submit" class="btn btn-primary addMembers-modal" style="padding: 2px 10px 2px 10px;"><div style="float: left; padding: 0 5px 0 0;"><i class="ri-search-2-line"></i></div>Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">@ViewBag.Titlename</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <table id="Stock" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.sr_no)</th>
+                                        <th>@Html.DisplayNameFor(model => model.material_name)</th>
+                                        @*<td>@Html.DisplayNameFor(model => model.qty_unit)</td>*@
+                                        @*<th>@Html.DisplayNameFor(model => model.trips)</th>*@
+                                        <th>@Html.DisplayNameFor(model => model.quantity)</th>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var item in Model.Temp_StockList)
+                                {
+                                    <tr>
+                                        <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.sr_no)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.material_name)</td>
+                                        @*<td>@Html.DisplayFor(modelItem => item.qty_unit)</td>*@
+                                        @*<td style="text-align: center; color: green;">@String.Format("{0:N0}", item.trips)</td>*@
+                                        <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.quantity)</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#Stock", { scrollX: !0, sort: false }) })
+    </script>
+}

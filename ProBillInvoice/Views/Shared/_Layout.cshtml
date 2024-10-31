@@ -1,0 +1,1057 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Pro Bill Book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <meta content="Pro Bill Book" name="description" />
+    <meta name="application-name" content="Pro Bill Book" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Pro Bill Book" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="~/Chushmanifest.json">
+    <meta name="theme-color" content="#5f5757" />
+
+    <link rel="shortcut icon" href="~/assets/images/favicon1.ico">
+    <link rel="stylesheet" href="~/assets/Datatable/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="~/assets/Datatable/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/Datatable/buttons.dataTables.min.css">
+    <link href="~/assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="~/assets/js/layout.js"></script>
+
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+    @*<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- LOGO -->
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href=@Url.Action("Index","Home") class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="~/assets/images/logo-sm.png" alt="Pro Bill Book" title="Pro Bill Book" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="~/assets/images/logo-dark.png" alt="Pro Bill Book" title="Pro Bill Book">
+                                </span>
+                                <span class="logo-horizon">
+                                    <img src="~/assets/images/pro_strip.jpg" alt="Pro Bill Book" title="Pro Bill Book"> @*logo-dark1.png*@
+                                </span>
+                            </a>
+
+                            <a href=@Url.Action("Index","Home") class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="~/assets/images/logo-sm.png" alt="Pro Bill Book" title="Pro Bill Book" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="~/assets/images/logo-light.png" alt="Pro Bill Book" title="Pro Bill Book" height="21">
+                                </span>
+                            </a>
+                        </div>
+
+                        <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+
+                        <div class="menu-change-panel">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-check card-radio">
+                                        <input id="customizer-layout02" name="data-layout" type="radio" value="horizontal" class="form-check-input">
+                                        <label class="form-check-label p-0 avatar-md" for="customizer-layout02">
+                                            <span class="d-flex h-100 flex-column gap-1">
+                                                <span class="bg-light d-flex p-1 gap-1 align-items-center">
+                                                    <span class="d-block p-1 bg-primary-subtle text-primary  rounded me-1"></span>
+                                                    <span class="d-block p-1 pb-0 px-2 bg-primary-subtle text-primary  ms-auto"></span>
+                                                    <span class="d-block p-1 pb-0 px-2 bg-primary-subtle text-primary "></span>
+                                                </span>
+                                                <span class="bg-light d-block p-1"></span>
+                                                <span class="bg-light d-block p-1 mt-auto"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <h5>Horizontal</h5>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check card-radio">
+                                        <input id="customizer-layout01" name="data-layout" type="radio" value="vertical" class="form-check-input">
+                                        <label class="form-check-label p-0 avatar-md" for="customizer-layout01">
+                                            <span class="d-flex gap-1 h-100">
+                                                <span class="flex-shrink-0">
+                                                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                                                        <span class="d-block p-1 px-2 bg-primary-subtle text-primary  rounded mb-2"></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-primary-subtle text-primary "></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-primary-subtle text-primary "></span>
+                                                        <span class="d-block p-1 px-2 pb-0 bg-primary-subtle text-primary "></span>
+                                                    </span>
+                                                </span>
+                                                <span class="flex-grow-1">
+                                                    <span class="d-flex h-100 flex-column">
+                                                        <span class="bg-light d-block p-1"></span>
+                                                        <span class="bg-light d-block p-1 mt-auto"></span>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <h5>Vertical</h5>
+                                </div>
+                            </div>
+                            <div class="layout-choose">Layout: Choose your layout</div>
+                        </div>
+
+                        <!-- App Search-->
+                        @*<form class="app-search d-none d-md-block me-2">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control" placeholder="Search..." autocomplete="off" id="search-options" value="">
+                                    <span class="las la-search search-widget-icon"></span>
+                                    <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none" id="search-close-options"></span>
+                                </div>
+                                <div class="dropdown-menu dropdown-menu-lg" id="search-dropdown">
+                                    <div data-simplebar style="max-height: 320px;">
+                                        <!-- item-->
+                                        <div class="dropdown-header">
+                                            <h6 class="text-overflow text-muted mb-0 text-uppercase">Recent Searches</h6>
+                                        </div>
+
+                                        <div class="dropdown-item bg-transparent text-wrap">
+                                            <a href=@Url.Action("Index","Home") class="btn btn-soft-secondary btn-sm btn-rounded">how to setup <i class="mdi mdi-magnify ms-1"></i></a>
+                                            <a href=@Url.Action("Index","Home") class="btn btn-soft-secondary btn-sm btn-rounded">buttons <i class="mdi mdi-magnify ms-1"></i></a>
+                                        </div>
+                                        <!-- item-->
+                                        <div class="dropdown-header mt-2">
+                                            <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
+                                        </div>
+
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                            <i class="ri-bubble-chart-line align-middle fs-18 text-muted me-2"></i>
+                                            <span>Analytics Dashboard</span>
+                                        </a>
+
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                            <i class="ri-lifebuoy-line align-middle fs-18 text-muted me-2"></i>
+                                            <span>Help Center</span>
+                                        </a>
+
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                            <i class="ri-user-settings-line align-middle fs-18 text-muted me-2"></i>
+                                            <span>My account settings</span>
+                                        </a>
+
+                                        <!-- item-->
+                                        <div class="dropdown-header mt-2">
+                                            <h6 class="text-overflow text-muted mb-2 text-uppercase">Members</h6>
+                                        </div>
+
+                                        <div class="notification-list">
+                                            <!-- item -->
+                                            <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
+                                                <div class="d-flex">
+                                                    <img src="~/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                    <div class="flex-1">
+                                                        <h6 class="m-0">Angela Bernier</h6>
+                                                        <span class="fs-11 mb-0 text-muted">Manager</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <!-- item -->
+                                            <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
+                                                <div class="d-flex">
+                                                    <img src="~/assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                    <div class="flex-1">
+                                                        <h6 class="m-0">David Grasso</h6>
+                                                        <span class="fs-11 mb-0 text-muted">Web Designer</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <!-- item -->
+                                            <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
+                                                <div class="d-flex">
+                                                    <img src="~/assets/images/users/avatar-5.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                    <div class="flex-1">
+                                                        <h6 class="m-0">Mike Bunch</h6>
+                                                        <span class="fs-11 mb-0 text-muted">React Developer</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center pt-3 pb-1">
+                                        <a href="pages-search-results.html" class="btn btn-primary btn-sm">View All Results <i class="ri-arrow-right-line ms-1"></i></a>
+                                    </div>
+                                </div>
+                            </form>*@
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <h2 style="margin: 4px 9px 0px 0;color:orangered">Victory Sports</h2>
+                        <div class="dropdown d-md-none topbar-head-dropdown header-item">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-primary rounded-circle" id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bx bx-search fs-22"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-search-dropdown">
+                                <form class="p-3">
+                                    <div class="form-group m-0">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                                            <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="dropdown ms-1 topbar-head-dropdown header-item">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-primary rounded-circle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img id="header-lang-img1" src="~/assets/images/flags/Flag_of_India.svg" alt="Header Language" height="20" class="rounded">
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item language py-2" data-lang="en" title="English">
+                                    <img src="~/assets/images/flags/us.svg" alt="user-image" class="me-2 rounded" height="18">
+                                    <span class="align-middle">English</span>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="sp" title="Spanish">
+                                    <img src="~/assets/images/flags/spain.svg" alt="user-image" class="me-2 rounded" height="18">
+                                    <span class="align-middle">Española</span>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="gr" title="German">
+                                    <img src="~/assets/images/flags/germany.svg" alt="user-image" class="me-2 rounded" height="18"> <span class="align-middle">Deutsche</span>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="it" title="Italian">
+                                    <img src="~/assets/images/flags/italy.svg" alt="user-image" class="me-2 rounded" height="18">
+                                    <span class="align-middle">Italiana</span>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ru" title="Russian">
+                                    <img src="~/assets/images/flags/russia.svg" alt="user-image" class="me-2 rounded" height="18">
+                                    <span class="align-middle">русский</span>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ch" title="Chinese">
+                                    <img src="~/assets/images/flags/china.svg" alt="user-image" class="me-2 rounded" height="18">
+                                    <span class="align-middle">中国人</span>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="fr" title="French">
+                                    <img src="~/assets/images/flags/french.svg" alt="user-image" class="me-2 rounded" height="18">
+                                    <span class="align-middle">français</span>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ar" title="Arabic">
+                                    <img src="~/assets/images/flags/ae.svg" alt="user-image" class="me-2 rounded" height="18">
+                                    <span class="align-middle">Arabic</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-primary rounded-circle" data-toggle="fullscreen">
+                                <i class='las la-expand fs-24'></i>
+                            </button>
+                        </div>
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-primary rounded-circle light-dark-mode">
+                                <i class='las la-moon fs-24'></i>
+                            </button>
+                        </div>
+
+                        @*<div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
+                                <button type="button" class="btn btn-icon btn-topbar btn-ghost-primary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                                    <i class='las la-bell fs-24'></i>
+                                    <span class="position-absolute topbar-badge fs-9 translate-middle badge rounded-pill bg-danger">3<span class="visually-hidden">unread messages</span></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
+
+                                    <div class="dropdown-head rounded-top">
+                                        <div class="p-3 bg-primary bg-pattern">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
+                                                </div>
+                                                <div class="col-auto dropdown-tabs">
+                                                    <span class="badge bg-light-subtle text-light  fs-13"> 4 New</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="pt-2">
+                                            <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <div class="avatar-xs me-3">
+                                                            <span class="avatar-title bg-info-subtle text-info   text-info rounded-circle fs-16">
+                                                                <i class="bx bx-badge-check"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 fs-14 mb-2 lh-base">
+                                                                    Your <b>Elite</b> author Graphic
+                                                                    Optimization <span class="text-secondary">reward</span> is
+                                                                    ready!
+                                                                </h6>
+                                                            </a>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i> Just 30 sec ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check01">
+                                                                <label class="form-check-label" for="all-notification-check01"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <img src="~/assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                        <div class="flex-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-1 fs-14 fw-semibold">Angela Bernier</h6>
+                                                            </a>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">
+                                                                    Answered to your comment on the cash flow forecast's
+                                                                    graph 🔔.
+                                                                </p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i> 48 min ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
+                                                                <label class="form-check-label" for="all-notification-check02"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <div class="avatar-xs me-3">
+                                                            <span class="avatar-title bg-danger-subtle text-danger  text-danger rounded-circle fs-16">
+                                                                <i class='bx bx-message-square-dots'></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="flex-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-2 fs-13 lh-base">
+                                                                    You have received <b class="text-success">20</b> new messages in the conversation
+                                                                </h6>
+                                                            </a>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i> 2 hrs ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check03">
+                                                                <label class="form-check-label" for="all-notification-check03"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <img src="~/assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                                        <div class="flex-1">
+                                                            <a href="#!" class="stretched-link">
+                                                                <h6 class="mt-0 mb-1 fs-14 fw-semibold">Maureen Gibson</h6>
+                                                            </a>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">We talked about a project on linkedin.</p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i> 4 hrs ago</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="px-2 fs-15">
+                                                            <div class="form-check notification-check">
+                                                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check04">
+                                                                <label class="form-check-label" for="all-notification-check04"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="my-3 text-center view-all">
+                                                    <button type="button" class="btn btn-soft-success btn-sm waves-effect waves-light">
+                                                        View
+                                                        All Notifications <i class="ri-arrow-right-line align-middle"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="dropdown header-item">
+                            <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    <img class="rounded-circle header-profile-user" src="~/assets/images/users/user-dummy-img.jpg" alt="Header Avatar">
+                                    <span class="text-start ms-xl-2">
+                                        <span class="d-none d-xl-inline-block fw-medium user-name-text fs-16">@User.Identity.Name <i class="las la-angle-down fs-12 ms-1"></i></span>
+                                    </span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <a class="dropdown-item" href="#"><i class="bx bx-user fs-15 align-middle me-1"></i> <span key="t-profile">Profile</span></a>
+                                @*<a class="dropdown-item" href="#"><i class="bx bx-wallet fs-15 align-middle me-1"></i> <span key="t-my-wallet">My Wallet</span></a>
+                                    <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end">11</span><i class="bx bx-wrench fs-15 align-middle me-1"></i> <span key="t-settings">Settings</span></a>
+                                    <a class="dropdown-item" href="auth-lockscreen.html"><i class="bx bx-lock-open fs-15 align-middle me-1"></i> <span key="t-lock-screen">Lock screen</span></a>*@
+                                <div class="dropdown-divider"></div>
+                                @*<a class="dropdown-item text-danger" href=@Url.Action("LogOff","Account")><i class="bx bx-power-off fs-15 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>*@
+
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+                                {
+                                    @*<a href="@Url.Action("LogOff", "Account")" onclick="document.forms[0].submit();">Logout</a>*@
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="dropdown-item text-danger"><i class="bx bx-power-off fs-15 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></button>
+                                    @*<a class="dropdown-item text-danger" href="@Url.Action("LogOff","Account")"><i class="bx bx-power-off fs-15 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>*@
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- removeNotificationModal -->
+        <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mt-2 text-center">
+                            <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                            <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                                <h4>Are you sure ?</h4>
+                                <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- ========== App Menu ========== -->
+        <div class="app-menu navbar-menu">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <!-- Dark Logo-->
+                <a href="index.html" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="~/assets/images/logo-sm.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="~/assets/images/pro_strip.jpg" alt="" title="">  @*logo-dark.png*@
+                    </span>
+                </a>
+                <!-- Light Logo-->
+                <a href="index.html" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="~/assets/images/logo-sm.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="~/assets/images/pro_strip.jpg" alt="" title="">
+                    </span>
+                </a>
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+                    <div id="two-column-menu"></div>
+
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                        <li class="nav-item"><a class="nav-link menu-link" href=@Url.Action("Index","Home")><i class="las la-home"></i> <span data-key="t-dashboard">Dashboard</span></a></li>
+                        <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Pages</span></li>
+
+                        <!--<li class="nav-item">
+                            <a href="#sidebarCRM" class="nav-link menu-link" data-bs-toggle="collapse" aria-expanded="false" role="button" aria-controls="sidebarCRM"><i class="las la-icons"></i><span data-key="t-bootstrap-ui">CRM</span></a>
+                            <div class="collapse menu-dropdown" id="sidebarCRM">
+                                <ul class="nav nav-sm flex-column">
+                                    <li><a href="@Url.Action("Create","ExecutiveMaster")" class="nav-link"><span>Executive Master</span></a></li>
+                                    <li><a href="@Url.Action("Index","CRMEnquiry")" class="nav-link"><span>CRM Enquiry</span></a></li>-->
+                                    @*<li><a href="@Url.Action("IndexFollowUp","CRMEnquiry")" class="nav-link"><span>CRM Enquiry Followup</span></a></li>*@
+                                    <!--<li><a href="@Url.Action("Index","CRM_SaleQuotation")" class="nav-link"><span>Sales Quotation</span></a></li>
+                                    <li><a href="@Url.Action("Index","CRMProformaInv")" class="nav-link"><span>Proforma Invoice</span></a></li>
+                                    <li><a href="@Url.Action("ConvertToCustomer","CRMEnquiry")" class="nav-link"><span>Convert To Customer</span></a></li>
+                                </ul>
+                            </div>
+                        </li>-->
+
+                        @*<li class="nav-item">
+                            <a href="#forms-wizard6" class="nav-link menu-link" data-bs-toggle="collapse" aria-expanded="false" role="button" aria-controls="forms-wizard6"><i class="las la-edit"></i><span>Production</span></a>
+                            <div class="collapse menu-dropdown" id="forms-wizard6">
+                                <ul class="nav nav-sm flex-column">
+                                    <li><a href="@Url.Action("Index","Production_Schedule")" class="nav-link"><span>Production Schedule</span></a></li>
+                                </ul>
+                            </div>
+                        </li>*@
+
+                        <li class="nav-item">
+                            @*<a href="#sidebarDispatch" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDispatch"><i class="las la-chart-bar"></i> <span data-key="t-authentication">Dispatch</span></a>*@
+                            <a href="#sidebarDispatch" class="nav-link menu-link" data-bs-toggle="collapse" aria-expanded="false" role="button" aria-controls="sidebarDispatch"><i class="las la-chart-bar"></i><span data-key="t-authentication">Sale</span></a>
+                            <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarDispatch" style="right: -16rem; width: 35rem;">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Create","CityMaster")" class="nav-link" data-key="t-City-Master"><span>City Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","PartyType")" class="nav-link" data-key="t-Party-Type"><span>Party Type</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","PartyMaster_Customer")" class="nav-link" data-key="t-Customer-Master"><span>Customer Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","PartyMstCustLocation")" class="nav-link" data-key="t-Customer-Master"><span>Customer Site Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","RecipeMaster")" class="nav-link" data-key="t-Receipe-Master"><span>Receipe Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","ProductMaster")" class="nav-link" data-key="t-Product-Master"><span>Product Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","TransporterMaster")" class="nav-link" data-key="t-Transporter-Master"><span>Transporter Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","VehicleMaster")" class="nav-link" data-key="t-Vehicle-Master"><span>Vehicle Master</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","SaleOrder")" class="nav-link" data-key="t-Sale-Order"><span>Sale Order</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","OfflineWB_Sale")" class="nav-link" data-key="t-Offline-Sale"><span>Offline Sale</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","SaleInvoice")" class="nav-link" data-key="t-Sale-Invoice"><span>Sale Invoice</span></a></li>
+                                            @*<li class="nav-item"><a href="@Url.Action("Index","OfflineWB_Sale")" class="nav-link" data-key="t-Delivery-Challan-Purchase"><span>Delivery Challan - Sale</span></a></li>*@
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ticket")" class="nav-link" data-key="t-Transaction-View"><span>Transaction View</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","SaleOrderClose")" class="nav-link" data-key="t-SO-Close"><span>SO Close</span></a></li>
+                                            @*<li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Online-Sale"><span>Online Sale</span></a></li>
+                                <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Online-Purchase"><span>Online Purchase</span></a></li>*@
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#sidebarPurchase" class="nav-link menu-link" data-bs-toggle="collapse" aria-expanded="false" role="button" aria-controls="sidebarPurchase"><i class="las la-file-invoice"></i><span data-key="t-invoices">Purchase</span></a>
+                            <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarPurchase" style="right: -15rem; width: 35rem;">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Create","GroupMaster")" class="nav-link" data-key="t-Group-Master"><span>Category Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","SubGroupMaster")" class="nav-link" data-key="t-Sub-Group-Master"><span>Sub Category Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","SubSubGroupMaster")" class="nav-link" data-key="t-Sub-Sub-Group-Master"><span>Sub Sub Category Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","MaterialMaster")" class="nav-link" data-key="t-Material-Master"><span>Material Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","UOMMaster")" class="nav-link" data-key="t-Unit-Master"><span>Unit Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","BrandMaster")" class="nav-link" data-key="t-Brand-Master"><span>Brand Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","RackMaster")" class="nav-link" data-key="t-Rack-Master"><span>Rack Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","StoreMaster")" class="nav-link" data-key="t-Rack-Master"><span>Store Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","Payterm")" class="nav-link" data-key="t-Payterm-Master"><span>Payterm Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","PartyMaster_Supplier")" class="nav-link" data-key="t-Supplier-Master"><span>Supplier Master</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","Indent")" class="nav-link" data-key="t-Indent"><span>Indent</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","IndentApproval")" class="nav-link" data-key="t-Indent-Approval"><span>Indent Approval</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","PurchaseOrder")" class="nav-link" data-key="t-Pruchase-Order"><span>Purchase Order</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","PurchaseOrderApproval")" class="nav-link" data-key="t-PO-Approval"><span>PO Approval</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Grin")" class="nav-link" data-key="t-Goods-Receipt-Note"><span>Goods Receipt Note</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","RejectionChallan")" class="nav-link" data-key="t-Rejection-Challan"><span>Rejection Challan</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","OfflineWB_Purchase")" class="nav-link" data-key="t-Offline-Purchase"><span>Offline Purchase</span></a></li>
+                                            @*<li class="nav-item"><a href="@Url.Action("Index","OfflineWB_Purchase")" class="nav-link" data-key="t-Delivery-Challan-Purchase"><span>Delivery Challan - Purchase</span></a></li>*@
+                                            <li class="nav-item"><a href="@Url.Action("Create","IndentClose")" class="nav-link" data-key="t-Indent-Close"><span>Indent Close</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","PurchaseOrderClose")" class="nav-link" data-key="t-PO-Close"><span>PO Close</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarStore" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarStore"><i class="las la-store"></i> <span data-key="t-bootstrap-ui">Store</span></a>
+                            <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarStore" style="right: -15rem; width: 35rem;">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","IssueRequisition")" class="nav-link" data-key="t-Requisition-Slip">Requisition Slip</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","ItemIssue")" class="nav-link" data-key="t-Material-Issue">Material Issue</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","ItemReceive")" class="nav-link" data-key="t-Material-Receipt">Material Receipt</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","IssueRequisitionClose")" class="nav-link" data-key="t-Requisition-Close"><span>Requisition Close</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","ScrapNote")" class="nav-link" data-key="t-Item-Search"><span>Scrap Note</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","ScrapInvoice")" class="nav-link" data-key="t-Item-Search"><span>Scrap Invoice</span></a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link" data-key="t-Jobwork-Challan">Jobwork Challan</a> </li>
+                                            <li class="nav-item"><a href="#" class="nav-link" data-key="t-Jobwork-Receipt">Jobwork Receipt</a> </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","StockPosting")" class="nav-link" data-key="t-Stock-Posting">Stock Opening</a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link" data-key="t-Stock-Transfer">Stock Transfer</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","StockPosting_ItemSearch")" class="nav-link" data-key="t-Item-Search"><span>Item Search</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","StockPosting_StockLevel")" class="nav-link" data-key="t-Stock-Level"><span>Stock Level</span></a></li>
+                                            <li class="nav-item"><a href="#" class="nav-link" data-key="t-Record-Search">Record Search</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!--<li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarLab" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLab"><i class="lab la-gg-circle"></i> <span data-key="t-bootstrap-ui">QC/Lab</span></a>
+                            <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarLab" style="right: -25rem;">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_CubeAlertsSetting")" class="nav-link" data-key="t-Stock-Posting">Cube Alerts Setting</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_CalibrationReport")" class="nav-link" data-key="t-Sales-target">Calibration Report</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_ExternalReport")" class="nav-link" data-key="t-Leads-parties">External Report</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_MixDesign")" class="nav-link" data-key="t-Mix-Design"><span>Mix Design</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_InspectionTestPlan")" class="nav-link" data-key="t-Sales-target">Inspection Test Plan</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_QCTestReport")" class="nav-link" data-key="t-daily-reporting">QC Test Report</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_MaterialTestAlerts")" class="nav-link" data-key="t-daily-reporting">Material Test Alerts</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_CubeAlerts")" class="nav-link" data-key="t-Leads-parties">Cube Alerts**</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_CubeReport")" class="nav-link" data-key="t-Stock-Posting">Cube Reports **</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_BulkDensity")" class="nav-link" data-key="t-Stock-Posting">Bulk Density *</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_FlakinessElongation")" class="nav-link" data-key="t-Stock-Posting">Flakiness and Elongation**</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_SpecificGravityReport")" class="nav-link" data-key="t-Stock-Posting">SG & Water Abs**</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_ImpactValue")" class="nav-link" data-key="t-Stock-Posting">Impact Value**</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_Flyash")" class="nav-link" data-key="t-Stock-Posting">Fineness of Flyash *</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_CementFinenessTest")" class="nav-link" data-key="t-Stock-Posting">Fineness of Cement *</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_StandardConsistency")" class="nav-link" data-key="t-sales-quotation">Standard Consistency**</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","QCLAB_YieldReport")" class="nav-link" data-key="t-proforma-invoice">Yield of Concrete**</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_CrushingValue")" class="nav-link" data-key="t-product-pricing">Crushing Value *</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_SieveAnalysis")" class="nav-link" data-key="t-Sieve-Analysis"><span>Sieve Analysis</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_CombinedAggregate")" class="nav-link" data-key="t-sales-quotation">Combined Aggregate</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_TotalCorrection")" class="nav-link" data-key="t-proforma-invoice">Total Correction**</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_TrialMix")" class="nav-link" data-key="t-Trial-Mix"><span>Trial Mix**</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","QCLAB_SieveAnalysisSetting")" class="nav-link" data-key="t-Sieve-Analysis-Setting">Sieve Analysis Setting</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#sidebarAccounting" class="nav-link menu-link" data-bs-toggle="collapse" aria-expanded="false" role="button" aria-controls="sidebarAccounting"><i class="las la-landmark"></i><span data-key="t-bootstrap-ui">Accounts</span></a>
+                            <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarAccounting" style="left: -20rem;">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <h3 class="megamenu-title">Vouchers</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Create","Ac_AccountGroup")" class="nav-link" data-key="t-Account-Groups"><span>Account Groups</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","Ac_AccountMaster")" class="nav-link" data-key="t-Account-Master"><span>Account Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_CashVoucher")" class="nav-link" data-key="t-Cash-Voucher"><span>Cash Voucher</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_BankVoucher")" class="nav-link" data-key="t-Bank-Voucher"><span>Bank Voucher</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","Ac_ContraVoucher")" class="nav-link" data-key="t-Contra-Voucher"><span>Contra Voucher</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","Ac_JournalVoucher")" class="nav-link" data-key="t-Journal-Voucher"><span>Journal Voucher</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_DebitCreditNote")" class="nav-link" data-key="t-Debit-Credit-Note"><span>Debit Credit Note</span></a></li>-->
+                                            @*<li class="nav-item"><a href="@Url.Action("Create","Home")" class="nav-link" data-key="t-Voucher-List"><span>Voucher List</span></a></li>*@
+                                        <!--</ul>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h3 class="megamenu-title">Registers</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegRegister",new { id ="DayBook"})" class="nav-link" data-key="t-Day-Book"><span>Day Book</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegLedger",new { id ="CashBook"})" class="nav-link" data-key="t-Cash-Book"><span>Cash Book</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegLedger",new { id ="BankBook"})" class="nav-link" data-key="t-Bank-Book"><span>Bank Book</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegLedger",new { id ="GeneralLedger"})" class="nav-link" data-key="t-General-Ledger"><span>General Ledger</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegRegister",new { id ="JournalRegister"})" class="nav-link" data-key="t-Journal-Register"><span>Journal Register</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Purchase-Register"><span>Purchase Register</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Sale-Register"><span>Sale Register</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h3 class="megamenu-title">Finance</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegSundryDebitAndCreditor",new { id ="SundryCreditors"})" class="nav-link" data-key="t-S-Creditors-List"><span>S. Creditors List</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegSundryDebitAndCreditor",new { id ="SundryDebitors"})" class="nav-link" data-key="t-S-Debitors-List"><span>S. Debitors List</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegSundryDebitAndCreditorDatewise",new { id ="SundryCreditorsDatewise"})" class="nav-link" data-key="t-S-Creditors-Datewise"><span>S. Creditors Datewise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegSundryDebitAndCreditorDatewise",new { id ="SundryDebitorsDatewise"})" class="nav-link" data-key="t-S-Debitors-Datewise"><span>S. Debitors Datewise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegTrialBalance")" class="nav-link" data-key="t-Trial-Balance"><span>Trial Balance</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegTradingAccount")" class="nav-link" data-key="t-Trading-Account"><span>Trading Account</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegProfitLoss")" class="nav-link" data-key="t-Profit-Loss-Statement"><span>Profit Loss Statement</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ac_RegBalanceSheet")" class="nav-link" data-key="t-Balance-Sheet"><span>Balance Sheet</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Cash-Flow"><span>Cash Flow</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Fund-Flow"><span>Fund Flow</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>-->
+
+                        @*<li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarMaintenance" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMaintenance"><i class="las la-tools"></i> <span data-key="t-bootstrap-ui">Maintenance</span></a>
+                            <div class="collapse menu-dropdown" id="sidebarMaintenance">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item"><a href="@Url.Action("Create","MachineType")" class="nav-link" data-key="t-Machine-Type"><span>Machine Type</span></a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Create","MachineMaster")" class="nav-link" data-key="t-Machine-Master"><span>Machine Master</span></a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Create","EmployeeMaster")" class="nav-link" data-key="t-Employee-Master"><span>Employee Master</span></a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Create","Mnt_WorkCenter")" class="nav-link" data-key="t-Work-Center-Master"><span>Work Center Master</span></a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Create","Mnt_ComplaintRegister")" class="nav-link" data-key="t-Complaint-Register"><span>Complaint Register</span></a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Create","Mnt_ComplaintAssign")" class="nav-link" data-key="t-Complaint-Assign"><span>Complaint Assign</span></a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Create","Mnt_ComplaintServiceLog")" class="nav-link" data-key="t-Complaint-Service-Log">Complaint Service Log</a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Create","Mnt_ComplaintMaintainanceLog")" class="nav-link" data-key="t-Maintenance-Log">Maintenance Log</a></li>
+                                </ul>
+                            </div>
+                        </li>*@
+
+                        <li class="nav-item">
+                            <a href="#sidebarHR" class="nav-link menu-link" data-bs-toggle="collapse" aria-expanded="false" role="button" aria-controls="sidebarHR"><i class="las la-address-card"></i><span data-key="t-bootstrap-ui">HR</span></a>
+                            <div class="collapse menu-dropdown" id="sidebarHR">
+                                <ul class="nav nav-sm flex-column">
+                                    <li><a href="@Url.Action("Create","EmployeeMaster")" class="nav-link"><span>Employee Master</span></a></li>
+                                    <li><a href="@Url.Action("Create","EmployeeDocument")" class="nav-link"><span>Employee Document</span></a></li>
+                                    <li><a href="@Url.Action("Create","EmployeeNominee")" class="nav-link"><span>Employee Nominee</span></a></li>
+                                    <li><a href="@Url.Action("Create","EmployeeRelation")" class="nav-link"><span>Employee Relation</span></a></li>
+                                    <li><a href="@Url.Action("Index","Ad_Employee_Shift")" class="nav-link"><span>Employee Shift</span></a></li>
+                                    <li><a href="@Url.Action("Index","AdvanceToEmployees")" class="nav-link"><span>Advance To Employees</span></a></li>
+
+                                    <li><a href="@Url.Action("Index","Leaves")" class="nav-link"><span>Leave</span></a></li>
+                                    <li><a href="@Url.Action("Create","ShiftMaster")" class="nav-link"><span>Shift Master</span></a></li>
+                                    <li><a href="@Url.Action("Create","DeptMaster")" class="nav-link"><span>Department</span></a></li>
+
+                                    @*Payroll*@
+                                    <li><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Attendance-Entry"><span>Attendance Entry</span></a></li>
+                                    <li><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Emp-Salary-Structure"><span>Emp Salary Structure</span></a></li>
+                                    <li><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Salary-Transaction"><span>Salary Transaction</span></a></li>
+                                    <li><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Salary-Process"><span>Salary Process</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#sidebarReports" class="nav-link menu-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarReports"><i class="las la-file-alt"></i> <span data-key="t-bootstrap-ui">Reports</span></a>
+                            <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarReports" style="right: -12rem;width: 70rem;">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h3 class="megamenu-title">Purchase Reports</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("TicketIncoming","Report_WBPurchase")" class="nav-link" data-key="t-Purchase-Tickets"><span>Purchase Tickets</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketPurchase_PartyWise","Report_WBPurchase")" class="nav-link" data-key="t-Purchase-PartyWise"><span>Purchase PartyWise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketPurchaseSummary_Partywise","Report_WBPurchase")" class="nav-link" data-key="t-Purchase-Summary-Partywise"><span>Purchase Summary Partywise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketPurchaseSummary_Materialwise","Report_WBPurchase")" class="nav-link" data-key="t-Purchase-Summary-Materialwise"><span>Purchase Summary Materialwise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketPurchaseSummary_Transporterwise","Report_WBPurchase")" class="nav-link" data-key="t-Purchase-Summary-Trans_Wise"><span>Purchase Summary Transporterwise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketDailyTransaction_Purchase","Report_WBPurchase")" class="nav-link" data-key="t-Daily-Transe-Purchase"><span>Daily Transaction Purchase</span></a></li>
+
+                                            <li class="nav-item"><a href="@Url.Action("IndentView","Report_Indent")" class="nav-link" data-key="t-Indent-DateWise"><span>Indent</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Indent_Datewise","Report_Indent")" class="nav-link" data-key="t-Indent-DateWise"><span>Indent Datewise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Purchase_Order","Report_PurchaseOrder")" class="nav-link" data-key="t-Indent-DateWise"><span>Purchase Order</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("PO_Datewise","Report_PurchaseOrder")" class="nav-link" data-key="t-Indent-DateWise"><span>Purchase Order Datewise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("GRN","Report_Grin")" class="nav-link" data-key="t-Indent-DateWise"><span>GRN</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("GRN_Datewise","Report_Grin")" class="nav-link" data-key="t-Indent-DateWise"><span>GRN Datewise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("RejectionChallan","Report_RejectionChallan")" class="nav-link" data-key="t-Indent-DateWise"><span>rejection Challan</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Indent_PendingClose","Report_Indent")" class="nav-link" data-key="t-Indent-DateWise"><span>Indent Pending/Close</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("PoClosePendingReport","Report_PurchaseOrder")" class="nav-link" data-key="t-Indent-DateWise"><span>PO Pending/Close</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <h3 class="megamenu-title">Sales Reports</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("TicketDispatch","Report_WBSale")" class="nav-link" data-key="t-Sale-Tickets"><span>Sale Tickets</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketSale_PartyWise","Report_WBSale")" class="nav-link" data-key="t-Sale-PartyWise"><span>Ticket Sale Report</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketSaleSummary_Partywise","Report_WBSale")" class="nav-link" data-key="t-Sale-Summary-Partywise"><span>Sale Summary Partywise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketSaleSummary_Materialwise","Report_WBSale")" class="nav-link" data-key="t-Sale-Summary-Materialwise"><span>Sale Summary Materialwise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketSaleSummary_Transporterwise","Report_WBSale")" class="nav-link" data-key="t-Sale-Summary-Trans_Wise"><span>Sale Summary Transporterwise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("TicketDailyTransaction_Sale","Report_WBSale")" class="nav-link" data-key="t-Daily-Transe-Sale"><span>Daily Transaction Sale</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("DMPending_Invoice","Report_WBSale")" class="nav-link" data-key="t-Sale-DM-Pending"><span>Sale DM Pending</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("DMClosed_Invoice","Report_WBSale")" class="nav-link" data-key="t-Sale-DM-Close"><span>Sale DM Close</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Transporter_Datewise","Report_WBSale")" class="nav-link" data-key="t-Transporter-DateWise"><span>Transporter DateWise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("SaleOrder","Report_WBSale")" class="nav-link" data-key="t-Sale-Tickets"><span>Sale Order</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("SaleInvoice_PartyWise","Report_WBSale")" class="nav-link" data-key="t-Sale-Invoice-PartyWise"><span>Sale Invoice PartyWise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("SaleBySaleperosnReport","Report_WBSale")" class="nav-link" data-key="t-Sale-Tickets"><span>Sale By Sale Perosn</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <h3 class="megamenu-title">Store Reports</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("BinCard","Report_Store")" class="nav-link" data-key="t-Bin-Card"><span>Bin Card</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("BinCard_Datewise","Report_Store")" class="nav-link" data-key="t-Bin-Card"><span>Bin Card Datewise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("StockDatewiseReport","Report_Store")" class="nav-link" data-key="t-Stock-Details"><span>Stock Details</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("SaleConsumption_DatewiseReport","Report_Store")" class="nav-link" data-key="t-Sale-Consumption"><span>Sale Consumption</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("SaleConsumption_PartywiseReport","Report_Store")" class="nav-link" data-key="t-Sale-Cons-PartyWise"><span>Sale Consumption PartyWise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("SaleSummary_DatewiseReport","Report_Store")" class="nav-link" data-key="t-Sale-Summary-DateWise"><span>Sale Summary DateWise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("SaleSummary_PartywiseReport","Report_Store")" class="nav-link" data-key="t-Sale-Summary-PartyWise"><span>Sale Summary PartyWise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Stock-Details-DateWise"><span>Stock Details DateWise</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("SaleDetail_PartywiseReport","Report_Store")" class="nav-link" data-key="t-Sale-PartyWise-Details"><span>Sale PartyWise Details</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <h3 class="megamenu-title">Maintenance Reports</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                          
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarSetting" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarSetting"><i class="las la-user-cog"></i> <span data-key="t-authentication">Setting</span></a>
+                            <div class="collapse menu-dropdown mega-dropdown-menu" id="sidebarAccounting" style="right: 0rem;">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <h3 class="megamenu-title">Setting</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-PassWord-Setting"><span>PassWord Setting</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Email-Setting"><span>Email Setting</span></a></li>
+                                            @*<li class="nav-item"><a href="@Url.Action("Index","TermsConditionMaster")" class="nav-link" data-key="t-Terms-And-Condition">Terms And Condition</a> </li>
+                                            <li class="nav-item"><a href="@Url.Action("Template_PO","Template")" class="nav-link" data-key="t-Backup"><span>Report Template</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Template_Indent","Template")" class="nav-link" data-key="t-Backup"><span>Indent Template</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Template_Sale_Quotation","Template")" class="nav-link" data-key="t-Backup"><span>Sale Quotation Template</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Template_SO","Template")" class="nav-link" data-key="t-Backup"><span>Sale Order Template</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Template_ProformaInvoice","Template")" class="nav-link" data-key="t-Backup"><span>Proforma Invoice Template</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Template_GoodReceiptNote","Template")" class="nav-link" data-key="t-Backup"><span>Good Receipt Note Template</span></a></li>*@
+
+
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h3 class="megamenu-title">Masters</h3>
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item"><a href="@Url.Action("Create","SiteMaster")" class="nav-link" data-key="t-Site-Master"><span>Site Master</span></a></li>
+                                            <li class="nav-item"> <a href="@Url.Action("Create","CountryMaster")" class="nav-link" data-key="t-Country-Master">Country Master</a></li>
+                                            <li class="nav-item"> <a href="@Url.Action("Create","StateMaster")" class="nav-link" data-key="t-State-Master">State Master</a></li>
+                                            <li class="nav-item"> <a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Digital-Signature">Digital Signature</a> </li>
+
+                                            <li class="nav-item"><a href="@Url.Action("Create","Ad_CompanyMaster")" class="nav-link" data-key="t-Company-Master"><span>Company Master</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Create","Ad_UserManagement")" class="nav-link" data-key="t-User-Management"><span>User Management</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Ad_UserTracking")" class="nav-link" data-key="t-User-Tacking"><span>User Tacking</span></a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Email-SMS"><span>Email SMS</span></a></li>
+                                            <li class="nav-item"> <a href="@Url.Action("Index","Home")" class="nav-link" data-key="t-Cost-Valuation">Cost Valuation</a> </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h3 class="megamenu-title">Forms</h3>
+                                        <ul class="nav nav-sm flex-column"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar-background"></div>
+        </div>
+
+        <!-- Left Sidebar End -->
+        <!-- Vertical Overlay-->
+        <div class="vertical-overlay"></div>
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script> © Pro Bill Book.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                @*Powered by:  <a href="#" title="Nspire Technologies" target="_blank">Nspire Technologies</a>*@
+                                © Copyright <a href="#" title="Pro Bill Book">Pro Bill Book</a> @DateTime.Now.Year -  <a href="#" target="_blank" title="Pro Bill Book">Pro Bill Book</a> All Rights Reserved.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top"><i class="ri-arrow-up-line"></i></button>
+
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner-border text-primary avatar-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/libs/feather-icons/feather.min.js"></script>
+    <script src="~/assets/js/plugins.js"></script>
+    <script src="~/Scripts/CustomMDIScript.js"></script>
+
+    <!-- apexcharts -->
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Vector map-->
+    <script src="~/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="~/assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+    <!-- sweetalert2-->
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <!-- Dashboard init -->
+    <script src="~/assets/js/pages/dashboard.init.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="~/assets/js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="~/assets/js/bootstrap-select.min.js"></script>
+
+    @*<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+
+    <script src="~/assets/Datatable/jquery.dataTables.min.js"></script>
+    <script src="~/assets/Datatable/dataTables.bootstrap5.min.js"></script>
+    <script src="~/assets/Datatable/dataTables.responsive.min.js"></script>
+    <script src="~/assets/Datatable/dataTables.buttons.min.js"></script>
+    <script src="~/assets/Datatable/js/buttons.print.min.js"></script>
+    <script src="~/assets/Datatable/buttons.html5.min.js"></script>
+    <script src="~/assets/Datatable/vfs_fonts.js"></script>
+    <script src="~/assets/Datatable/pdfmake.min.js"></script>
+    <script src="~/assets/Datatable/jszip.min.js"></script>
+    <!-- App js -->
+    <script src="~/assets/js/app.js"></script>
+
+    @*<script src="~/js/Barchart.js"></script>*@
+    <script type="text/javascript">
+        $(function () {
+            $("#btnPrint").click(function () {
+                var contents = $("#printable").html();
+                var frame1 = $('<iframe />');
+                frame1[0].name = "frame1";
+                frame1.css({ "position": "absolute", "top": "-1000000px" });
+                $("body").append(frame1);
+                var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+                frameDoc.document.open();
+                //Create a new HTML document.
+                frameDoc.document.write('<html><head>');
+                frameDoc.document.write('<meta name="viewport" content="width=device-width, initial-scale=1.0" />');
+                frameDoc.document.write('<style>.tables > thead > tr > th,.tables > tbody > tr > th,.tables > tfoot > tr > th,.tables > thead > tr > td,.tables > tbody > tr > td,.tables > tfoot > tr > td {  padding: 2px 5px;  }</style>');
+                frameDoc.document.write('</head><body>');
+                //Append the external CSS file.
+                frameDoc.document.write('<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">');
+                frameDoc.document.write('<link href="/assets/css/app.min.css" rel="stylesheet" type="text/css">');
+                frameDoc.document.write('<link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">');
+                //frameDoc.document.write('<link href="../css/core.min.css" rel="stylesheet" type="text/css">');
+
+                //frameDoc.document.write('<link href="../css/components.min.css" rel="stylesheet" type="text/css">');
+                //frameDoc.document.write('<link href="../css/colors.min.css" rel="stylesheet" type="text/css" >');
+
+                frameDoc.document.write('<link href="/assets/css/cur_print.css" rel="stylesheet" type="text/css" >');
+
+
+
+                //Append the DIV contents.
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    frame1.remove();
+                }, 500);
+            });
+        });
+    </script>
+
+
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>*@
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/ServiceCrushsoft.js')
+                .then(function () { console.log('Service Worker Registered'); });
+        }
+    </script>
+</body>
+
+@*@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")*@
+@RenderSection("scripts", required: false)
+</html>

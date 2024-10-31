@@ -1,0 +1,59 @@
+﻿@model ProBillInvoice.Models.DepartmentMasterModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5 class="card-title mb-0" style="padding-top: 12px;">Material Master - Details</h5>
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <a href="@Url.Action("Create", "MaterialMaster")" class="btn btn-primary">
+                                <i class="las la-arrow-circle-left"></i>
+                                <span>
+                                    Back
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group" style="margin-bottom:0px;">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                @Html.HiddenFor(model => model.dept_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.dept_name, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.dept_name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.dept_name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.defunct, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.defunct, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.defunct, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

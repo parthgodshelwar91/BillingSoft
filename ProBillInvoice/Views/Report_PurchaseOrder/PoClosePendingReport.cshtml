@@ -1,0 +1,192 @@
+﻿
+@model ProBillInvoice.PurchaseOrderModel
+
+@{
+    ViewBag.Title = "PoClosePendingReport";
+    int SrNo = 0;
+    int Count = 0;
+    string IndentNo = "";
+    bool closeflag = false;
+    bool isPending = false;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header" style="display:none;">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mb-0 page-heading-color">@ViewBag.Titlename - Search Criteria</h4>
+                            </div>
+
+                            <div class="col-sm-6" style="float:left;">
+                                @if (ViewBag.Message != null)
+                                {
+                                    <div class="alert alert-secondary alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                                        <i class="ri-check-double-line label-icon"></i><strong>Success</strong> @ViewBag.Message
+                                        <button type="button" class="btn-close" aria-label="Close" onclick="Refresh();"></button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0 page-heading-color">@ViewBag.Titlename - Search Criteria</h5>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <div class="add-create-btn">
+                                    <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;" title="Click here to open search box"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="PurchaseOrderSection" style="display:none;">
+                        <div class="search-panel-custom1 mb-0 searh-p-c-laptop">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => Model.PurchaseHeaderSearch.FromDate, new { @class = "form-label", @style = " " })
+                                    @Html.EditorFor(model => Model.PurchaseHeaderSearch.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = " width: 80%" ,@title = "Select From Date" } })
+                                    @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.FromDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => Model.PurchaseHeaderSearch.ToDate, new { @class = "form-label", @style = " " })
+                                    @Html.EditorFor(model => Model.PurchaseHeaderSearch.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = " width: 80%", @title = "Select To Date" } })
+                                    @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.ToDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="add-create-btn" style="position: initial;">
+                                        <button type="submit" class="btn btn-primary addMembers-modal" style="margin: 25px 0 0 0;" title="Click here to search"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                        <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="@Url.Action("ExportToExcel")" style="margin: 25px 0 0 0;"><div style="float: left;"><i class="ri-file-excel-2-fill fs-16 me-2"></i></div>Excel</button>
+                                        <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="@Url.Action("TicketDispatch_ExportToPdf")" style="margin: 25px 0 0 0;"><div style="float: left; padding: 0px 6px 2px 0;"><i class="ri-file-pdf-line"></i></div> PDF</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0 page-heading-color">@ViewBag.Titlename</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row bg-light border-bottom border-top bg-opacity-25">
+                        <div class="col-12">
+                            <div class="zopage-controler">
+                                <ul>
+                                    <li style="padding: 0px 0px 0px 10px;"><a href="#" id="btnPrint" class="breadcrumb-item"><i class="las la-file-pdf"></i> PDF/Print</a></li>
+                                    <li><a href="#" id="exportButton" data-abc="true" class="breadcrumb-item"><i class="las la-box"></i> Excel</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <div id="printable">
+                                    <div class="simple-table">
+                                        @if (Model.PurchaseHeader != null)
+                                        {
+                                            <table class="table table-bordered dt-responsive table-nowrap align-middle" style="margin-bottom:10px">
+                                                @foreach (var item in Model.PurchaseHeader)
+                                                {
+                                                    if (item.po_no != IndentNo && SrNo != 0)
+                                                    {
+                                                        <tr><td colspan="9" style="font-weight:bold; text-align:left"><span style="font-weight:bold;" class="text-primary">Count:</span> @String.Format("{0:N0}", Count) </td></tr>
+                                                    }
+
+                                                    if (item.po_no != IndentNo || SrNo == 0)
+                                                    {
+                                                        SrNo = 0;
+                                                        Count = 0;
+                                                        <thead>
+                                                            <tr style="text-align:center; line-height:10px;">
+                                                                <th>Sr No</th>
+                                                                <th>Po No</th>
+                                                                <th>Po Date</th>
+                                                                <th>Supplier Name</th>
+                                                                <th>Item Name</th>
+                                                                <th>Unit</th>
+                                                                <th>Po Qty</th>
+                                                                <th>Recd Qty</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                    }
+
+                                                    SrNo = SrNo + 1;
+                                                    <tr>
+                                                        <td style="text-align:center">@SrNo</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.po_no)</td>
+                                                        <td>@String.Format("{0:dd/MM/yyyy}", item.po_date)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.party_name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.material_name)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.short_desc)</td>
+                                                        <td style="text-align: right;">@Html.DisplayFor(modelItem => item.item_qty)</td>
+                                                        <td style="text-align: right;">@Html.DisplayFor(modelItem => item.total_rec_qty)</td>
+                                                        @if (item.is_pending == false)
+                                                        {
+                                                            <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #fff !important;padding: 5px 7px; line-height: 7px; border: #20ac9f solid 0px; color: #20ac9f;">Close</span></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #008000 !important; border-color: #008000;">Pending</span></td>
+                                                        }
+                                                    </tr>
+                                                    
+                                                    IndentNo = item.po_no.ToString();
+                                                    closeflag = Convert.ToBoolean(item.po_close_flag);
+                                                    isPending = Convert.ToBoolean(item.is_pending);
+                                                    Count = Count + 1;
+                                                }
+
+                                                <tr>
+                                                    <td colspan="9" style="font-weight:bold; text-align:left"><span style="font-weight:bold;" class="text-primary">Count:</span> @String.Format("{0:N0}", Count) </td>
+                                                </tr>
+                                            </table>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/assets/ExcelFolder/Excel/ExportToExcel.js"></script>
+    <script src="~/assets/ExcelFolder/Excel/xlsx.full.min.js"></script>
+    @*<script>
+            document.addEventListener("DOMContentLoaded",
+                function () { new DataTable("#Tickets", { scrollX: !0, sort: false }) })
+        </script>*@
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (PurchaseOrderSection.style.display === "none") {
+                PurchaseOrderSection.style.display = "block";
+            } else {
+                PurchaseOrderSection.style.display = "none";
+            }
+        });
+    </script>
+}

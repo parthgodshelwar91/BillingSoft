@@ -1,0 +1,280 @@
+﻿@using ProBillInvoice;
+@model PurchaseOrderModel
+
+@{
+    ViewBag.Title = "Index";
+    //int SrNo = 0;
+    int count = 0;
+    decimal TotalAmount = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mt-0 mb-0 page-heading-color">Purchase Order</h4>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <div class="add-create-btn">
+                                    <a href="@Url.Action("IndentPO", "PurchaseOrder")" class="btn btn-info btn-label" title="Click here to add indent PO"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><strong>Indent PO</strong></a>
+                                    <a href="@Url.Action("AddPO", "PurchaseOrder")" class="btn btn-info btn-label" title="Click here to add direct PO"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><strong>Add PO</strong></a>
+                                    <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;" title="Click here to open search box"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="PurchaseOrderSection" style="display:none;">
+                            <div class="search-panel-custom1 mb-0 pt-0 searh-p-c-laptop">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                @*@Html.LabelFor(Model => Model.PurchaseHeaderSearch.SiteId, new { @class = "form-label", @style = "" })*@
+                                                @Html.DropDownListFor(Model => Model.PurchaseHeaderSearch.SiteId, (SelectList)ViewBag.StoreList, new { @class = "form-select", @style = "", @title = "Select Site Name" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                @*@Html.LabelFor(Model => Model.PurchaseHeaderSearch.PartyId, new { @class = "form-label", @style = "" })*@
+                                                @Html.DropDownListFor(Model => Model.PurchaseHeaderSearch.PartyId, (SelectList)ViewBag.PartyList, "-- Select Supplier Name--", new { @class = "form-select", @style = "", @title = "Select Supplier Name" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.PartyId, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                @*@Html.Label("Po Type", new { @class = "form-label", @style = "" })*@
+                                                @Html.DropDownListFor(model => model.PurchaseHeaderSearch.po_type, new[] {
+                                                                  new SelectListItem() {Text = "INDENT PO", Value = "IndentPO"},
+                                                                  new SelectListItem() {Text = "DIRECT PO", Value = "DirectPO"}
+                                                                  }, "--Select PO Type--", new { @class = "form-select", @style = "", @title = "Select PO Type" })
+                                                @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.po_type, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                @*@Html.LabelFor(Model => Model.PurchaseHeaderSearch.company_id, new { @class = "form-label", @style = "" })*@
+                                                @Html.DropDownListFor(Model => Model.PurchaseHeaderSearch.company_id, (SelectList)ViewBag.CompanyMst, "--Select Company Name--", new { @class = "form-select", @style = "", @title = "Select Company Name" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                @*@Html.LabelFor(model => Model.PurchaseHeaderSearch.FromDate, new { @class = "form-label", @style = "" })*@
+                                                @Html.EditorFor(model => Model.PurchaseHeaderSearch.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set From Date" } })
+                                                @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.FromDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                @*@Html.LabelFor(model => Model.PurchaseHeaderSearch.ToDate, new { @class = "form-label", @style = "" })*@
+                                                @Html.EditorFor(model => Model.PurchaseHeaderSearch.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set To Date" } })
+                                                @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.ToDate, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="checkbox" style="float: left; padding: 0px 10px 0px 0px;">
+                                                    @Html.EditorFor(model => model.PurchaseHeaderSearch.approval_flag, new { @onclick = "myFunction(this.value);" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.approval_flag, "", new { @class = "text-danger" })
+                                                </div>
+                                                @Html.Label("Approved", htmlAttributes: new { @style = "float: left; padding: 0px 0px 0px 0px; margin-bottom: 0px; color: #b50a0a;" })
+
+                                                <div style="width:100%; display: table;"></div>
+
+                                                <div class="checkbox" style="float: left; padding: 5px 10px 0px 0px;">
+                                                    @Html.EditorFor(model => model.PurchaseHeaderSearch.po_close_flag, new { @onclick = "myFunction(this.value);" })
+                                                    @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.po_close_flag, "", new { @class = "text-danger" })
+                                                </div>
+                                                @Html.Label("Close Po", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: #b50a0a;" })
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="Search" style="margin: 0px 0 0 0;" title="Click here to search"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="PurchaseHeader" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.po_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.po_date)</th>
+                                            <th>@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.po_type)</th>
+                                            <th>Supplier Name</th>@*@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.party_name)*@
+                                            <th>@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.remarks)</th>
+                                            <th>@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.site_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.company_name)</th>
+                                            <th style="text-align:center;">@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.approval_flag)</th>
+                                            <th style="text-align:right;"><i class="bx bx-rupee"></i>@Html.DisplayNameFor(model => model.PurchaseHeaderSearch.total_amount)</th>
+                                            @*<th style="text-align:center;">Action</th>*@
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.PurchaseHeader)
+                                    {
+                                    <tr>
+                                        <td>
+                                            <img src='@Url.Content("~/assets/images/Plus.png")' style="width:30px;" />
+                                            <div style="display:none">
+                                                <div class="row">
+                                                    <table id="PurchaseDetail" class="table table-bordered table-responsive nowrap table-striped align-middle app-tbl-one" style="width:50%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Material Name</th>
+                                                                <th>Unit</th>
+                                                                <th style="text-align:right;">Po Qty</th>
+                                                                <th style="text-align:right;">Rate</th>
+                                                                <th style="text-align:right;">Rec Qty</th>
+                                                                <th style="text-align:right;">Bal Qty</th>
+                                                                <th style="text-align:right;">Amount</th>
+                                                                <th style="text-align:center;">Status</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        @if (Model.PurchaseDetail != null)
+                                                        {
+                                                            foreach (var row in Model.PurchaseDetail.Where(o => o.po_id == item.po_id))
+                                                            {
+                                                                <tr>
+                                                                    <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => row.material_name)</td>
+                                                                    <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => row.short_desc)</td>
+                                                                    <td style="text-align:right; color: #653eaa;">@string.Format("{0:N0}", row.item_qty)</td>
+                                                                    <td style="text-align:right; color: #653eaa;">@string.Format("{0:N0}", row.item_rate)</td>
+                                                                    <td style="text-align:right; color: #653eaa;">@string.Format("{0:N0}", row.total_rec_qty)</td>
+                                                                    <td style="text-align:right; color: #653eaa;">@string.Format("{0:N2}", row.item_qty - row.total_rec_qty)</td>
+                                                                    <td style="text-align:right; color: #653eaa;">@Html.DisplayFor(modelItem => row.item_value)</td>
+                                                                    @if (row.is_pending == false)
+                                                                    {
+                                                                        <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #b50a0a !important; border-color: #b50a0a;">Close</span></td>
+                                                                    }
+                                                                    @if (row.is_pending == true)
+                                                                    {
+                                                                        <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #008000 !important; border-color: #008000;">Open</span></td>
+                                                                    }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td title="Click Here To Report View"><a href="@Url.Action("Purchase_OrderView","Report_PurchaseOrder",new { PoId = item.po_id, PartyId = item.party_id})">@Html.DisplayFor(modelItem => item.po_no)</a></td>@*data-toggle="tooltip"*@
+                                        <td>@string.Format("{0:dd/MM/yyyy}", item.po_date)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.po_type)</td>
+                                        <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => item.party_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.remarks)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.site_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.company_code)</td>
+                                        @if (item.approval_flag == false)
+                                        {
+                                            <td style="text-align: center;"><i class="ri-close-circle-line" title="Not Approved"></i></td>
+                                        }
+                                        @if (item.approval_flag == true)
+                                        {
+                                            <td style="text-align: center;"><i class="bi bi-check-circle" title="Approved"></i> </td>
+                                        }
+                                        <td style="text-align: right; color: green;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", item.total_amount)</td>
+                                        @*<td style="text-align: center;">
+            <div class="dropdown d-inline-block">
+                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-more-fill align-middle"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end mybtn2-form">
+                    <li><a href="@Url.Action("Details","PurchaseOrder",new { id = item.po_id })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom"></i> View</a></li>
+                    <li><a href="@Url.Action("Edit","PurchaseOrder",new { id = item.po_id })" class="btn btn-secondary custom-toggle" onclick="return ValidatedEdit(@item.approval_flag.ToString().ToLower());"><i class="ri-pencil-fill align-bottom"></i> Edit</a></li>
+                    <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill"></i> Delete</a></li>
+                </ul>
+            </div>
+        </td>*@
+                                    </tr>
+
+                                        count = count + 1;
+                                        TotalAmount = TotalAmount + item.total_amount;
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                        <fieldset class="total-value-strip mt-2">
+                            <div class="row mb-0">
+                                <div class="col-sm-6">
+                                    <span style="padding: 0px 10px 0px 0px;">No of Counts:</span><strong style="color: #fff; background-color: #1a5b71; padding: 0px 7px;border-radius: 2px;">@count</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <span style="padding: 0px 10px 0px 10px;">Total Amount:</span><strong style="color: green;font-size: 18px;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", TotalAmount)</strong>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("Index", "PurchaseOrder" )" class="refresh-btn" title="Click here to refresh"><i class="bx bx-rotate-right"></i>Refresh</a>
+                                <a href="@Url.Action("Index", "PurchaseOrder")" class="back-btn" title="Click here to back"><i class="las la-arrow-circle-left"></i>Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#PurchaseHeader", { scrollX: !0, pageLength: 15, sort: !0, order: [[6, 'desc']] }) })
+    </script>
+
+    <script type="text/javascript">
+        //Assign Click event to Plus Image.  src='Url.Content("~/images/search_small.gif")
+        $("body").on("click", "img[src*='Plus.png']", function () {
+            $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+            $(this).attr("src", "/assets/images/minus.png");
+        });
+        //Assign Click event to Minus Image.
+        $("body").on("click", "img[src*='minus.png']", function () {
+            $(this).attr("src", "/assets/images/Plus.png");
+            $(this).closest("tr").next().remove();
+        });
+    </script>
+
+    <script type="text/javascript">
+        function ValidatedEdit(approvalFlag) {
+            if (approvalFlag == true) {
+                alert("Approved purchase order can not be edit!");
+                return false;
+            }
+            else {
+
+                return true;
+            }
+        }
+    </script>
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (PurchaseOrderSection.style.display === "none") {
+                PurchaseOrderSection.style.display = "block";
+            } else {
+                PurchaseOrderSection.style.display = "none";
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+
+}

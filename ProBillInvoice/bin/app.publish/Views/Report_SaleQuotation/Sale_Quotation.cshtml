@@ -1,0 +1,766 @@
+﻿@model ProBillInvoice.CRM_SaleQuotationModel
+
+@{
+    ViewBag.Title = "Sale_Quotation";
+    int SrNo = 0;
+    decimal cgstamt = 0;
+    decimal sgstamt = 0;
+    decimal igstamt = 0;
+    decimal Subtotal = 0;
+
+    string party = " ";
+}
+
+<style>
+    .body-page-fix {
+        overflow: hidden;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-xl-3">
+                <div class="card">
+                    <div class="card-header" style="padding: 13px 15px;">
+                        <div class="row mb-1">
+                            <div class="col-md-12">
+                                <h5 class="card-title mb-0 float-start">Sale Quotation</h5>
+                                <a href="@Url.Action("Create", "CRM_SaleQuotation" )" class="esti-new" title="New"><i class="las la-plus"></i> New</a>
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => model.SaleQuotationHeaderSearch.PartyName, new { @class = "form-control form-control-sm", placeholder = "Search party name", onchange = "this.form.submit();" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body" style="padding: 0;">
+                        <div class="mx-n3" style="overflow:auto; max-height:72vh;">
+                            <div data-simplebar data-simplebar-auto-hide="false" data-simplebar-track="secondary" @*style="max-height: 100%; height: 100vh;"*@>
+                                <style>
+                                    .selected {
+                                        background-color: #eaf8ff !important;
+                                    }
+                                </style>
+
+                                <div class="list-group list-group-flush zopage-right-panel">
+                                    @foreach (var item in Model.SaleQuotationHeader)
+                                    {
+                                        <a href="@Url.Action("Sale_QuotationView", "Report_SaleQuotation", new { SQId = item.sale_quotation_header_id,  Partyname = item.party_name } )" class="list-group-item">
+                                            <div class="fst-stage">
+                                                <h5 class="partyname">@Html.DisplayFor(modelItem => item.party_name)</h5>
+                                                <span class="partyvalueprice"><i class="las la-rupee-sign"></i> @String.Format("{0:N2}", item.total_amount)/-</span>
+                                            </div>
+                                            <div class="snd-stage">
+                                                <span class="poiddate">@Html.DisplayFor(modelItem => item.quotation_no)</span><span class="podate">@string.Format("{0:dd/MM/yyyy}", item.quotation_date)</span>
+                                            </div>
+                                            <div class="snd-stage">
+                                                <span class="poiddate">@Html.DisplayFor(modelItem => item.employee_name)</span><span class="podate">@Html.DisplayFor(modelItem => item.mail_status)</span>
+                                            </div>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-9">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="zopage-header align-items-center">
+                                    <h4>@Html.DisplayFor(model => model.SaleQuotationHeaderSearch.quotation_no)</h4>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="zopageclose"><a href="@Url.Action("Index","CRM_SaleQuotation")" title="Close"><i class="las la-window-close mt-1" style="color: red;"></i></a></div>
+                                @*<div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Advance UI</a></li>
+                            <li class="breadcrumb-item active">Scrollbar</li>
+                        </ol>
+                    </div>*@
+                            </div>
+                        </div>
+
+                        <div class="row bg-light border-bottom border-top bg-opacity-25">
+                            <div class="col-12">
+                                <div class="zopage-controler">
+                                    <ul>
+                                        <li><a href="@Url.Action("Edit", "CRM_SaleQuotation", new { id = Model.SaleQuotationHeaderSearch.sale_quotation_header_id })" class="breadcrumb-item"><i class="las la-edit" style="color:#4db6ac"></i> Edit</a></li>
+                                        <li><a href="#" id="emailsent" class="breadcrumb-item" title="Click here to sent mail"><i class="las la-envelope" style="color:#9575cd"></i> Sent</a></li>
+                                        <li><a href="#" class="breadcrumb-item"><i class="las la-share-square" style="color:dodgerblue"></i> Share</a></li>
+                                        <li><a href="#" id="btnPrint" class="breadcrumb-item"><i class="las la-file-pdf" style="color:#FF0000"></i> PDF/Print</a></li>
+                                        <li><a href="#" class="breadcrumb-item"><i class="las la-box" style="color:#cea711"></i> Convert</a></li>
+                                        <li><a href="#" id="btndwonload" class="breadcrumb-item" title="Click here to PDF/Print document"><i class="las la-file-pdf" style="color:#FF0000"></i> Download</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" value="ankitavairagade013@gmail.com" id="emailid" />
+                    <input type="hidden" value="" id="hidsaleid" />
+                    <input type="hidden" value="" id="hidPoId" />
+                    <input type="hidden" value=" " id="hidProformaId" />
+                    <input type="hidden" value="@(Model.SaleQuotationHeaderSearch.sale_quotation_header_id)" id="hidQutId" />
+                    <input type="hidden" value="SaleQutation" id="hidfilename" />
+                    <div class="row" data-html2canvas-ignore="true">
+
+                        <div class="col-sm-12" style="padding-bottom:10px;">
+                            <div class="progress displayNone" id="i-progress">
+                                <div id="i-progress-inner" class="progress-bar  progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">(0%)Downloaded</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body pt-0">
+                        <div class="row" style="overflow:auto; max-height:70vh;">
+                            <div class="col-12" style="width:100%; margin: 0 auto; overflow: auto; max-width: 820px;">
+                                <div style="width: 21cm !important; display: flex; justify-content: center; align-items: center; margin: 0 auto; padding-bottom: 50px;">
+                                    <div class="i-pdf-first--page" id="printable" name="printable">
+                                        <div class="pb-0" style="min-height: 700px; padding: 0px; font-size: 14px;" id="i-Header">
+                                            <div class="row p-4" style="margin-left: 2px;">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-12" style=" border-top:1px solid black; border-left:1px solid black; border-right:1px solid black ">
+                                                                <div>
+                                                                    @Html.HiddenFor(model => model.SaleQuotationHeaderSearch.party_name)
+                                                                    @Html.HiddenFor(model => model.SaleQuotationHeaderSearch.EnquiryId)
+                                                                    @Html.HiddenFor(model => model.SaleQuotationHeaderSearch.sale_quotation_header_id)
+                                                                    @Html.HiddenFor(model => model.ReportSetting.report_title_forecolor)
+                                                                </div>
+                                                                <div class="row mb-1">
+                                                                    <div class="col-2" style="text-align:center;padding:10px">
+                                                                        <img src="@Url.Content(Model.ReportSetting.logo)" alt="Logo" id="orgLogo" title="Logo" height="100">
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <div class="col-12" style="display:none">
+                                                                            <div class="row">
+                                                                                <div class="col-6">
+                                                                                    @Html.Label("Color", new { @class = "col-form-label" })
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    @Html.EditorFor(model => model.ReportSetting.company_name_forecolor, new { htmlAttributes = new { @class = "form-control form-control-color w-100", @style = "width: 100%;", @type = "color", id = "colorrPicker" } })
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12" style="display:none;">
+                                                                            <div class="row">
+                                                                                <div class="col-6">
+                                                                                    @Html.Label(" Font Size", new { @class = "col-form-label" })
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    @*<input type="number" class="form-control w-100" id="fontSizePicker" value="28" oninput="updateReportTitleFontSize(this.value)">*@
+                                                                                    @Html.EditorFor(model => model.ReportSetting.report_title_fontSize, new { htmlAttributes = new { @class = "form-control form-control-fontSize w-100", @style = "width: 100%;", @type = "number", @id = "fontSizePicker", @oninput = "updateReportTitleFontSize(this.value)" } })
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <span style="font-size:22px; padding-top: 12px; text-align:left;" id="companyName">@Html.DisplayFor(model => model.Company.company_name)</span>
+                                                                        <br />
+                                                                        <span>@Html.DisplayFor(model => model.Company.work_Address)</span><br />
+                                                                        <span>@Html.DisplayFor(model => model.Company.work_Address2)</span><br />
+                                                                        <div style="text-align: left;">
+                                                                            @Html.Label("AT.POST :- ", new { @class = "col-form-label", @style = "padding: 0px;" })
+                                                                            @Html.DisplayFor(model => Model.Company.city_name) @Html.DisplayFor(model => Model.Company.state_Name) @Html.DisplayFor(model => Model.Company.zip_code)  @Html.DisplayFor(model => Model.Company.country_name)
+                                                                            <br />
+                                                                            @Html.Label("GSTIN :-", htmlAttributes: new { @class = "col-form-label", @style = "padding: 0px;" })
+                                                                            @Html.DisplayFor(model => Model.Company.gst_no, new { @class = "col-form-label", @style = "padding: 0px;" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <h5 class="card-title mb-0" style="font-size:28px; padding-top: 12px; margin-top:70px; text-align:right;">
+                                                                            <span id="ReportSetting_report_title_display" class="overflow-hidden border border-dashed d-flex align-items-center justify-content-center rounded" style="text-align: right; width: 100%; float: right; background-color: transparent;">
+                                                                                @Html.DisplayFor(model => model.ReportSetting.report_title)
+                                                                            </span>
+                                                                        </h5>
+                                                                    </div>
+
+                                                                    <div class="col-12" style="display:none">
+                                                                        <div class="row">
+                                                                            <div class="col-6">
+                                                                                @Html.Label("Font Color", new { @class = "col-form-label" })
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                @Html.EditorFor(model => model.ReportSetting.report_title_forecolor, new { htmlAttributes = new { @class = "form-control form-control-color w-100", @style = "width: 100%;", @type = "color", @id = "colorPicker", @oninput = "updateReportTitleColor(this.value)" } })
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row" style="border-top:1px solid black ;">
+                                                                    <div class="col-6" style="padding-top:5px; padding-bottom:5px; border-right:1px solid black;">
+                                                                        <div class="row">
+                                                                            <div class="col-4">
+                                                                                Qtn No :
+                                                                            </div>
+                                                                            <div class="col-8">
+                                                                                <span style="font-weight:bold;">@Html.DisplayFor(model => model.SaleQuotationHeaderSearch.quotation_no)</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-4">
+                                                                                Qtn Date :
+                                                                            </div>
+                                                                            <div class="col-8">
+                                                                                @if (Model.SaleQuotationHeaderSearch != null)
+                                                                                {
+                                                                                    <span style="font-weight:bold;">
+                                                                                        @String.Format("{0:dd/MM/yyyy}", Model.SaleQuotationHeaderSearch.quotation_date)
+                                                                                    </span>
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6" style="padding-top:5px;">
+                                                                        <div class="row">
+                                                                            <div class="col-12">
+                                                                                Place of Supply :  <span style="font-weight:bold;">@Html.DisplayFor(model => model.StateMst.state_name)</span>
+                                                                            </div>
+                                                                            <div class="col-4">
+                                                                                Q Expiry Date :
+                                                                            </div>
+                                                                            <div class="col-8" style="padding: 0px;">
+                                                                                @if (Model.SaleQuotationHeaderSearch != null)
+                                                                                {
+                                                                                    <span style="font-weight:bold;">
+                                                                                        @String.Format("{0:dd/MM/yyyy}", Model.SaleQuotationHeaderSearch.quotation_expiry_date)
+                                                                                    </span>
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-6" style="border-right:1px solid black; padding-bottom: 10px;">
+                                                                        <div class="row">
+                                                                            <div class="col-12 bgrpt" style="border-top:1px solid black; border-bottom:1px solid black; font-weight: bold;">
+                                                                                Bill To :-
+                                                                            </div>
+                                                                            <div class="col-12" style="padding-top:5px;">
+                                                                                <span style="font-weight:bold;"> @Html.DisplayFor(model => model.EnquiryDetailsSearch.party_name)</span>
+                                                                            </div>
+                                                                            <div class="col-12">
+                                                                                <span>@Html.DisplayFor(model => model.EnquiryDetailsSearch.billing_address)</span>
+                                                                            </div>
+                                                                            <div class="col-12">
+                                                                                <span>@Html.DisplayFor(model => model.EnquiryDetailsSearch.city_name) @Html.DisplayFor(model => model.EnquiryDetailsSearch.pin_no) @Html.DisplayFor(model => model.EnquiryDetailsSearch.state_name)</span><br />
+                                                                                <span>
+                                                                                    India @*Html.DisplayFor(model => model.PartyMasterSearch.country_id) *@
+                                                                                </span><br />
+                                                                            </div>
+                                                                            <div class="col-12">
+                                                                                GSTIN-  <span>@Html.DisplayFor(model => model.EnquiryDetailsSearch.gst_no)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-6" style="padding-bottom: 10px;">
+                                                                        <div class="row">
+                                                                            <div class="col-12" style="border-top:1px solid black; border-bottom:1px solid black; font-weight: bold;">
+                                                                                Ship To :-
+                                                                            </div>
+                                                                            <div class="col-12" style="padding-top:5px;">
+                                                                                <span style="font-weight:bold;">@Html.DisplayFor(model => model.EnquiryDetailsSearch.party_name)</span>
+                                                                            </div>
+                                                                            <div class="col-12">
+                                                                                <span>@Html.DisplayFor(model => model.EnquiryDetailsSearch.billing_address)</span>
+                                                                            </div>
+                                                                            <div class="col-12">
+                                                                                <span>@Html.DisplayFor(model => model.EnquiryDetailsSearch.city_name) @Html.DisplayFor(model => model.EnquiryDetailsSearch.pin_no) @Html.DisplayFor(model => model.EnquiryDetailsSearch.state_name)</span><br />
+                                                                                <span>India @*Html.DisplayFor(model => model.PartyMasterSearch.country_id)*@</span><br />
+                                                                            </div>
+                                                                            <div class="col-12">
+                                                                                GSTIN-  <span>@Html.DisplayFor(model => model.EnquiryDetailsSearch.gst_no)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-12" style="min-height:0px; padding: 0px; font-size: 12px;">
+                                                                <style>
+                                                                    .table_css th {
+                                                                        padding: 5px 5px;
+                                                                    }
+
+                                                                    .table_css td {
+                                                                        padding: 5px 5px;
+                                                                    }
+                                                                </style>
+
+                                                                <table id="SaleQuotation" class="table  table_css" style="border: 1px solid black; margin-bottom: 0px;">
+                                                                    <thead>
+                                                                        <tr style="text-align: center; font-weight: bold; border: 1px solid black;">
+                                                                            <th style="border-right: 1px solid black;" rowspan="2">SN</th>
+                                                                            <th style="border-right: 1px solid black;" rowspan="2">Material Name</th>
+                                                                            <th style="border-right: 1px solid black;" rowspan="2">Item Qty</th>
+                                                                            <th style="border-right: 1px solid black;" rowspan="2">Rate</th>
+                                                                            <th style="border-right: 1px solid black;" rowspan="2">Disc (%)</th>
+                                                                            <th style="border-right: 1px solid black;" style="border-right: 1px solid black;" rowspan="2">Sub Total</th>
+                                                                            <th style="border-right: 1px solid black;" colspan="2">Cgst(%)</th>
+                                                                            <th style="border-right: 1px solid black;" colspan="2">Sgst(%)</th>
+                                                                            <th style="border-right: 1px solid black;" colspan="2">Igst(%)</th>
+                                                                            <th rowspan="2">Amount (₹)</th>
+                                                                        </tr>
+                                                                        <tr style="text-align: center; font-weight: bold; border-bottom: 1px solid black;">
+                                                                            <th id="cgst" style="border-right: 1px solid black; ">%</th>
+                                                                            <th id="cgstamt" style="border-right: 1px solid black; ">Amt</th>
+                                                                            <th id="sgst" style="border-right: 1px solid black; ">%</th>
+                                                                            <th id="sgstamt" style="border-right: 1px solid black; ">Amt</th>
+                                                                            <th id="igst" style="border-right: 1px solid black; ">%</th>
+                                                                            <th id="igstamt" style="border-right: 1px solid black; ">Amt</th>
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    @if (Model.SaleQuotationDetail != null)
+                                                                    {
+                                                                        foreach (var item in Model.SaleQuotationDetail)
+                                                                        {
+                                                                            SrNo = SrNo + 1;
+                                                                            <tr style="font-size: 12px;">
+                                                                                <td style="text-align:center; width: 3%; border-right: 1px solid black; ">@SrNo</td>
+                                                                                <td style="width: 30%; border-right: 1px solid black; ">@Html.DisplayFor(x => item.material_name) <br /> @Html.DisplayFor(x => item.material_desc)</td>
+                                                                                <td style="text-align:right; width: 6%; border-right: 1px solid black; ">@Html.DisplayFor(x => item.item_qty)<br /> @Html.DisplayFor(x => item.short_desc)</td>
+                                                                                <td style="text-align:right; width: 5%; border-right: 1px solid black; ">@Html.DisplayFor(x => item.item_rate)</td>
+                                                                                <td style="text-align:right; width: 5%; border-right: 1px solid black; ">@Html.DisplayFor(x => item.disc)</td>
+                                                                                <td id="cgst_amt_cell" style="text-align:right; width: 5%; border-right: 1px solid black; ">@Html.DisplayFor(x => item.sub_total)</td>
+                                                                                <td style="text-align:right; width: 5%; border-right: 1px solid black; ">@Html.DisplayFor(x => item.cgst)</td>
+                                                                                <td style="text-align:right; width: 5%; word-wrap: break-word; border-right: 1px solid black; ">@string.Format("{0:f2}", item.cgst_amt)</td>
+                                                                                <td style="text-align:right; width: 5%; border-right: 1px solid black; ">@Html.DisplayFor(x => item.sgst)</td>
+                                                                                <td style="text-align:right; width: 5%; word-wrap: break-word; border-right: 1px solid black; ">@string.Format("{0:f2}", item.sgst_amt)</td>
+                                                                                <td style="text-align:right; width: 5%; border-right: 1px solid black; ">@Html.DisplayFor(x => item.igst)</td>
+                                                                                <td style="text-align:right; width: 5%; word-wrap: break-word; border-right: 1px solid black; ">@string.Format("{0:f2}", item.igst_amt)</td>
+                                                                                <td style="text-align:right; width: 10%;">@string.Format("{0:N2}", item.item_value)</td>
+                                                                            </tr>
+                                                                            cgstamt = cgstamt + item.cgst_amt;
+                                                                            sgstamt = sgstamt + item.sgst_amt;
+                                                                            igstamt = igstamt + item.igst_amt;
+                                                                            Subtotal = Subtotal + item.sub_total;
+                                                                        }
+                                                                    }
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-12" style=" border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black ">
+
+                                                                <div class="row mb-1">
+                                                                    <div class="col-7" style="padding-top:10px;">
+                                                                        <div class="row">
+                                                                            <div class="col-12" style="padding-bottom: 10px;">
+                                                                                Total In Words <br />
+                                                                                <span style="font-weight: bold;">@Html.DisplayFor(model => model.SaleQuotationHeaderSearch.AmtInWord)</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-12" style="margin-top:0px; font-size: 12px;">
+                                                                                <span style="font-weight: bold;">Notes :-</span><br />
+                                                                                <span># Time of delivery: 7 week(Time Line starts from the receiving 100% advance Payment)</span><br />
+                                                                                <span># Frieght: To Pay, #Dispatch, By Road, #Packing: included.</span><br />
+                                                                                <span># Destination : Ex- Factory, # Mode/Terms Of Payment-Advance: 100% against PO, #Traveling/FOOD/Expense: at you side</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-12" style="margin-top:10px; font-weight:bold; font-size: 12px;">
+                                                                                Bank Name : <span>@Html.DisplayFor(model => Model.Company.bank_ac_name)</span><br />
+                                                                                Branch : <span>@Html.DisplayFor(model => Model.Company.branch_name)</span><br />
+                                                                                IFSC Code : <span>@Html.DisplayFor(model => Model.Company.IFSC)</span><br />
+                                                                                AC No : <span>@Html.DisplayFor(model => Model.Company.bank_ac_no)</span><br />
+                                                                                Swift Code : <span>@Html.DisplayFor(model => Model.Company.MICR)</span><br />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-5">
+                                                                        <div class="row">
+                                                                            <div class="col-12" style="border-left:1px solid black">
+                                                                                @if (cgstamt != 0)
+                                                                                {
+                                                                                    <div class="row">
+                                                                                        <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                                                            Cgst(%)
+                                                                                        </div>
+
+                                                                                        <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                                                            @String.Format("{0:N2}", cgstamt)
+                                                                                        </div>
+                                                                                    </div>
+                                                                                }
+                                                                                @if (sgstamt != 0)
+                                                                                {
+                                                                                    <div class="row">
+                                                                                        <div class="col-6" style="text-align: right;">
+                                                                                            Sgst(%)
+                                                                                        </div>
+
+                                                                                        <div class="col-6" style="text-align: right;">
+                                                                                            @String.Format("{0:N2}", sgstamt)
+                                                                                        </div>
+                                                                                    </div>
+                                                                                }
+                                                                                @if (igstamt != 0)
+                                                                                {
+                                                                                    <div class="row">
+                                                                                        <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                                                            Igst(%)
+                                                                                        </div>
+
+                                                                                        <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                                                            @String.Format("{0:N2}", igstamt)
+                                                                                        </div>
+                                                                                    </div>
+                                                                                }
+
+                                                                                <div class="row">
+                                                                                    <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                                                        Sub Total
+                                                                                    </div>
+                                                                                    <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                                                        @String.Format("{0:N2}", Subtotal)
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                @*<div class="row">
+                                                                        @if (Model.PurchaseTax != null)
+                                                                        {
+                                                                            foreach (var item in Model.PurchaseTax)
+                                                                            {
+                                                                                <div class="col-6" style="text-align:right;">
+                                                                                    @Html.DisplayFor(x => item.account_name)
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <div style="text-align:right;">@String.Format("{0:N2}", item.tax_amount)</div>
+                                                                                </div>
+                                                                            }
+                                                                        }
+                                                                    </div>*@
+
+                                                                                <div class="row" style="border-top:1px solid black;">
+                                                                                    <div class="col-6" style="text-align: right; font-weight: bold;">
+                                                                                        Total
+                                                                                    </div>
+
+                                                                                    <div class="col-6" style="text-align: right; font-weight: bold;">
+                                                                                        @if (Model.SaleQuotationHeaderSearch != null)
+                                                                                        {
+                                                                                            <span style="font-size: 14px;">₹</span> @String.Format("{0:N2}", Model.SaleQuotationHeaderSearch.total_amount)
+                                                                                        }
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row" style="border-top:1px solid black; border-bottom:1px solid black;">
+                                                                                    <div class="col-12" style="margin-top:20px; text-align: center;">
+                                                                                        <span style="font-weight: bold;">For :- @Html.DisplayFor(model => Model.Company.company_name)</span>
+                                                                                        <br />
+                                                                                        <img src="@Url.Content(Model.ReportSetting.stamp)" alt="Stamp" id="orgStamp" title="Stamp" height="90">
+                                                                                        <br /><br />
+                                                                                        @Html.DisplayFor(model => Model.ReportSetting.authorized_signature, new { @class = "overflow-hidden border border-dashed d-flex align-items-center justify-content-center rounded", @style = "text-align: center; width: 100%; float: right; background-color: transparent;", @id = "ReportSetting_report_authorised_signature", @readonly = "readonly" })
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-12" style="margin-top:10px;">
+                                                                        <span style="font-size: 12px; font-weight: bold;">Terms and Conditions :-</span><br />
+                                                                        <span style="font-size: 12px;">Declaration: @Html.Raw(@Model.TermsCondition.terms_conditions)</span><br />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<style>
+    .c-background--red {
+        background-color: #df4759 !important;
+    }
+
+    h1.heading_header {
+        font-size: 16px;
+        padding: 10px 0 0px 0;
+    }
+
+    h3.subheading_header {
+        font-size: 13px;
+    }
+
+    h6.third_subheading_header {
+        font-size: 14px;
+        margin: 0px;
+        padding: 0px;
+        color: #0026ff;
+    }
+
+    .table-responsive {
+        margin-bottom: -15px;
+    }
+
+    .c-width--30 {
+        width: 80%;
+        height: 40px;
+    }
+
+    .displayNone {
+        display: none;
+    }
+
+    .contentmid {
+        width: 1108px;
+    }
+
+        .contentmid h4 {
+            font-size: 14px;
+            margin: 0px;
+            padding-bottom: 2px;
+        }
+
+    .table td, th {
+        padding: 1px 3px !important;
+    }
+
+    .headerfirst img {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .selfDecl td {
+        padding: 4px 2px !important;
+    }
+
+    .form-group {
+        margin-bottom: 0px;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var selectedId = localStorage.getItem('selectedSQId');
+            if (selectedId) {
+                $('.list-group-item').each(function () { //already Class code
+                    if ($(this).attr('href').includes('SQId=' + selectedId)) {
+                        $(this).addClass('selected');
+                    }
+                });
+            }
+
+            $('.list-group-item').on('click', function (e) {
+                var href = $(this).attr('href');
+                var liId = new URLSearchParams(href.split('?')[1]).get('SQId');
+                localStorage.setItem('selectedSQId', liId);
+                $('.list-group-item').removeClass('selected');
+                $(this).addClass('selected');
+            });
+        });
+    </script>
+
+    @*<script type="text/javascript">
+        $(document).ready(function () {
+            if (@SrNo == 0) {
+            $('#exampleModalgrid').modal('show');
+        }
+            else {
+            $('#exampleModalgrid').modal('hide');
+        }
+        });
+        </script>*@
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                debugger;
+                var PartyName = $("#SaleQuotationHeaderSearch_PartyName").val();
+                alert(PartyName);
+                document.getElementById('lblQty').innerHTML = PartyName;
+            })
+        </script>*@
+
+    <script>
+        function AjFunction(GSTStatus) {
+            if (GSTStatus === "Within State Supplier") {
+
+                $('#SaleQuotation tr th[colspan]:nth-child(7)').show();//Cgst(%)
+                $('#SaleQuotation td:nth-child(7)').show();//cgst
+                $('#SaleQuotation td:nth-child(8)').show();//cgst_amt
+                $('#SaleQuotation tr th[id="cgst"]:nth-child(1)').show();
+                $('#SaleQuotation tr th[ id="cgstamt"]:nth-child(2)').show();
+
+                $('#SaleQuotation tr th[colspan]:nth-child(8)').show(); //Sgst(%)
+                $('#SaleQuotation td:nth-child(9)').show();//sgst
+                $('#SaleQuotation td:nth-child(10)').show(); //sgst_amt
+                $('#SaleQuotation tr th[id="sgst"]:nth-child(3)').show();
+                $('#SaleQuotation tr th[ id="sgstamt"]:nth-child(4)').show();
+
+                $('#SaleQuotation tr th[colspan]:nth-child(9)').hide();//Igst(%)
+                $('#SaleQuotation td:nth-child(11)').hide();//igst
+                $('#SaleQuotation td:nth-child(12)').hide();//igst_amt
+                $('#SaleQuotation tr th[id="igst"]:nth-child(5)').hide();
+                $('#SaleQuotation tr th[ id="igstamt"]:nth-child(6)').hide();
+
+            } else if (GSTStatus === "Out of State Supplier") {
+                $('#SaleQuotation tr th[colspan]:nth-child(7)').hide();//Cgst(%)
+                $('#SaleQuotation td:nth-child(7)').hide();//cgst
+                $('#SaleQuotation td:nth-child(8)').hide();//cgst_amt
+                $('#SaleQuotation tr th[id="cgst"]:nth-child(1)').hide();
+                $('#SaleQuotation tr th[ id="cgstamt"]:nth-child(2)').hide();
+
+                $('#SaleQuotation tr th[colspan]:nth-child(8)').hide(); //Sgst(%)
+                $('#SaleQuotation td:nth-child(9)').hide();//sgst
+                $('#SaleQuotation td:nth-child(10)').hide(); //sgst_amt
+                $('#SaleQuotation tr th[id="sgst"]:nth-child(3)').hide();
+                $('#SaleQuotation tr th[ id="sgstamt"]:nth-child(4)').hide();
+
+                $('#SaleQuotation tr th[colspan]:nth-child(9)').show();//Igst(%)
+                $('#SaleQuotation td:nth-child(11)').show();//igst
+                $('#SaleQuotation td:nth-child(12)').show();//igst_amt
+                $('#SaleQuotation tr th[id="igst"]:nth-child(5)').show();
+                $('#SaleQuotation tr th[ id="igstamt"]:nth-child(6)').show();
+            }
+        }
+
+        $(document).ready(function () {
+            $("#SaleQuotationHeaderSearch_party_name").change(function () {
+                var selectedValue = $(this).val();
+                var lsParameter = {
+                    PartyName: selectedValue
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Report_SaleQuotation/PartyDetail1",
+                    data: JSON.stringify(lsParameter),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        PartyCode = data.msg.split("|")[0];
+                        ContactName = data.msg.split("|")[1];
+                        GSTStatus = data.msg.split("|")[2];
+                        $('#SaleQuotationHeaderSearch_quotation_kindAttn').val(ContactName);
+
+                        var items = '';
+                        $.each(data.List, function (i, Emp) {
+                            items += "<option value='" + Emp.Value + "'>" + Emp.Text + "</option>";
+                        });
+                        $("#SaleQuotationHeaderSearch_sales_person_id").html(items);
+                        AjFunction(GSTStatus);
+                    },
+                    error: function () {
+                        $('#SaleQuotationHeaderSearch_quotation_kindAttn').val(' ');
+                        //alert("Error occured!!")
+                    }
+                });
+            })
+        })
+
+        $(document).ready(function () {
+            var selectedValue = $("#SaleQuotationHeaderSearch_party_name").val();
+            var lsParameter = {
+                PartyName: selectedValue
+            };
+            $.ajax({
+                type: "POST",
+                url: "/Report_SaleQuotation/PartyDetail1",
+                data: JSON.stringify(lsParameter),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    PartyCode = data.msg.split("|")[0];
+                    ContactName = data.msg.split("|")[1];
+                    GSTStatus = data.msg.split("|")[2];
+                    $('#SaleQuotationHeaderSearch_quotation_kindAttn').val(ContactName);
+                    AjFunction(GSTStatus);
+                },
+                error: function () {
+                    $('#SaleQuotationHeaderSearch_quotation_kindAttn').val(' ');
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var initialColor = '@Model.ReportSetting.company_name_forecolor'; // Get saved color value from model
+
+        // This Property Set default color Purpose
+        //if (initialColor) {
+            $('#companyName').css('color', initialColor);
+            $('#colorrPicker').val(initialColor); // Set the color picker value
+        //}
+
+            $('#colorrPicker').prop('disabled', true);
+            $('#Name').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $('#colorrPicker').prop('disabled', false);
+                    $('#companyName').css('color', $('#colorrPicker').val());
+                } else {
+                    $('#colorrPicker').prop('disabled', true);
+                    $('#companyName').css('color', $('#colorrPicker').val());
+                }
+            });
+
+            $('#colorrPicker').on('input', function () {
+                $('#companyName').css('color', $(this).val());
+            });
+        });
+    </script>
+
+    <script>
+        // JS for updating the title color
+        function updateReportTitleColor(color) {
+            document.getElementById("ReportSetting_report_title_display").style.color = color;
+        }
+
+        // On document ready, apply the initial color
+        $(document).ready(function () {
+            var initialColor = $('#colorPicker').val();
+            updateReportTitleColor(initialColor);
+        });
+    </script>
+    <script>
+        //JS For Font Size
+        function updateReportTitleFontSize(fontSize) {
+            document.getElementById("ReportSetting_report_title_display").style.fontSize = fontSize + "px";
+        }
+
+        $(document).ready(function () {
+            var Size = $('#fontSizePicker').val();  // Get the color from the color picker (the initial value from the model)
+            updateReportTitleFontSize(Size);        // Apply the color when the page loads
+        });
+    </script>
+
+    <script src="~/Htmltopdf/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="~/Htmltopdf/JsBarcode.code39.min.js"></script>
+
+    <script src="~/Htmltopdf/sendreceipt.js"></script>
+    <script src="~/Htmltopdf/html2pdf.bundle.min.js"></script>
+}

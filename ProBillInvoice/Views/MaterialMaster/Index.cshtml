@@ -1,0 +1,78 @@
+﻿@model RMCWeb.Models.MaterialMasterModel
+
+@{
+    ViewBag.Title = "Index";
+    int SrNo = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5 class="card-title mb-0 page-heading-color">List of Material</h5>
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <a href="@Url.Action("Create", "MaterialMaster")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="MaterialMaster" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="text-align: center;">Sr No</th>
+                                        <th>@Html.DisplayNameFor(model => model.gr_name)</th>
+                                        <th>@Html.DisplayNameFor(model => model.sub_gr_name)</th>
+                                        <th>@Html.DisplayNameFor(model => model.sub_sub_gr_name)</th>
+                                        <th scope="col">@Html.DisplayNameFor(model => model.material_code)</th>
+                                        <th scope="col">@Html.DisplayNameFor(model => model.material_name)</th>
+                                        <th scope="col">@Html.DisplayNameFor(model => model.material_recipe_name)</th>                                        
+                                    </tr>
+                                </thead>
+
+                                @foreach (var item in Model.MaterialMasterList)
+                                {
+                                SrNo = SrNo + 1;
+                                <tr>
+                                    <td style="text-align: center;">@SrNo</td>
+                                    <td>@Html.DisplayFor(modelItem => item.gr_name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.sub_gr_name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.sub_sub_gr_name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.material_code)</td>
+                                    <td><a href="#!">@Html.DisplayFor(modelItem => item.material_name)</a></td>
+                                    <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.material_recipe_name)</td>                                    
+                                </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    document.addEventListener("DOMContentLoaded",
+        function () { new DataTable("#MaterialMaster", { scrollX: !0, sort: !0  }) })
+</script>
+
+<script>
+    function Refresh() {
+        window.location.href = "@Url.Action("Create", "MaterialMaster")";
+    }
+</script>
+}

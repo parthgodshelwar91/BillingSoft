@@ -1,0 +1,230 @@
+﻿@model ProBillInvoice.Models.SaleOrderModel
+
+@{
+    ViewBag.Title = "Index";
+    int SrNo = 0;
+    int count = 0;
+    decimal TotalAmount = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mt-0 mb-0 page-heading-color">Sale Order</h4>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <div class="add-create-btn">
+                                    <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;" title="Click here to open search box"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                    <a href="@Url.Action("Create", "SaleOrder" )" class="btn btn-info btn-label" title="Click here to add new"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><strong>Create</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="SaleSection" style="display:none;">
+                            <div class="search-panel-custom1 mb-0 pt-0 searh-p-c-laptop">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        @*@Html.Label("Site Name", new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.SaleOrderHeaderSearch.SiteId, (SelectList)ViewBag.SiteList, new { @class = "form-select", @style = "", @title = "Select Site Name" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.Label("Party Name", new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.SaleOrderHeaderSearch.PartyId, (SelectList)ViewBag.PartyList, "-- Party Name--", new { @class = "form-select", @style = "", @title = "Select Supplier Name" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(model => Model.SaleOrderHeaderSearch.FromDate, new { @class = "form-label", @style = "" })*@
+                                        @Html.EditorFor(model => Model.SaleOrderHeaderSearch.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set From Date" } })
+                                        @Html.ValidationMessageFor(model => Model.SaleOrderHeaderSearch.FromDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(model => Model.SaleOrderHeaderSearch.ToDate, new { @class = "form-label", @style = "" })*@
+                                        @Html.EditorFor(model => Model.SaleOrderHeaderSearch.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set To Date" } })
+                                        @Html.ValidationMessageFor(model => Model.SaleOrderHeaderSearch.ToDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox" style="float: left; padding: 5px 10px 0px 0px;">
+                                            @Html.EditorFor(model => model.SaleOrderHeaderSearch.order_close, new { @onclick = "myFunction(this.value);" })
+                                            @Html.ValidationMessageFor(model => model.SaleOrderHeaderSearch.order_close, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.Label("Close SO", htmlAttributes: new { @style = "float: left; padding: 5px 0px 0px 0px; margin-bottom: 0px; color: #b50a0a; width: 60%;" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="Search" title="Click here to search"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12" style="margin-bottom: 10px;">
+                                <table id="SaleOrderHeader" class="table table-bordered table-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>So No</th>
+                                            <th>Buyer Order No</th>
+                                            <th>Date</th>
+                                            <th>Customer Name</th>
+                                            <th>Location</th>
+                                            <th>Site Location</th>
+                                            <th>Company Name</th>
+                                            <th>Site Name</th>
+                                            <th>Delivery Date</th>
+                                            <th style="text-align:center;">Status</th>
+                                            <th style="text-align:right;">Order Qty</th>
+                                            <th style="text-align:right;"><i class="bx bx-rupee"></i> Amount</th>
+                                            @*<th style="text-align:center;">Action</th>*@
+                                        </tr>
+                                    </thead>
+
+                                    @if (Model.SaleOrderHeader != null)
+                                    {
+
+                                        foreach (var item in Model.SaleOrderHeader)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <img src='@Url.Content("~/assets/images/Plus.png")' style="width:30px;" />
+                                                    <div style="display:none">
+                                                        <div class="row">
+                                                            <table id="SaleOrder" class="table table-bordered table-responsive nowrap table-striped align-middle app-tbl-one" style="width:50%">
+                                                                <thead>
+                                                                    <tr style="text-align:center;">
+                                                                        <th>Material Name</th>
+                                                                        <th>Order Qty</th>
+                                                                        <th>Dispatch Qty</th>
+                                                                        <th>Bal Qty</th>
+                                                                        <th>Status</th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                @if (Model.SaleOrderDetail != null)
+                                                                {
+                                                                    foreach (var row in Model.SaleOrderDetail.Where(o => o.order_id == item.order_id))
+                                                                    {
+                                                                        <tr>
+                                                                            <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => row.material_name)</td>
+                                                                            <td style="text-align:right; color: #0f625a;">@string.Format("{0:N2}", row.order_qty)</td>
+                                                                            <td style="text-align:right; color: #653eaa;">@string.Format("{0:N2}", row.total_iss_qty)</td>
+                                                                            <td style="text-align:right; color: #653eaa;">@string.Format("{0:N2}", row.order_qty - row.total_iss_qty)</td>
+                                                                            @if (row.is_pending == false)
+                                                                            {
+                                                                                <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #b50a0a !important; border-color: #b50a0a;">Close</span></td>
+                                                                            }
+                                                                            @if (row.is_pending == true)
+                                                                            {
+                                                                                <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #008000 !important; border-color: #008000;">Open</span></td>
+                                                                            }
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td title="Click Here To Report View"><a href="@Url.Action("Sale_OrderView","Report_WBSale",new { OrderId = item.order_id,PartyId = item.party_id })">@Html.DisplayFor(modelItem => item.order_no)</a></td>
+                                                <td>@Html.DisplayFor(modelItem => item.buyer_order_no)</td>
+                                                <td>@string.Format("{0:dd/MM/yyyy}", item.order_date)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.party_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.city_name)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.location_detail)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.company_code)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.site_name)</td>
+                                                <td>@string.Format("{0:dd/MM/yyyy}", item.delivery_date)</td>
+                                                @if (item.order_close == false)
+                                                {
+                                                    <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #fff !important;padding: 5px 7px; line-height: 7px; border: #20ac9f solid 0px; color: #20ac9f;">Open</span></td>
+                                                }
+                                                @if (item.order_close == true)
+                                                {
+                                                    <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #008000 !important; border-color: #008000;">Close</span></td>
+                                                }
+                                                <td style="text-align:right; color:#653eaa">@string.Format("{0:N2}", item.order_qty)</td>
+                                                <td style="text-align:right; color:green"><i class="bx bx-rupee"></i>@string.Format("{0:N2}", item.total_amount)</td>
+                                                @*<td style="text-align: center;">
+                                                        <div class="dropdown d-inline-block">
+                                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="ri-more-fill align-middle"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-end mybtn4-form">
+                                                                <li><a href="@Url.Action("Details","SaleOrder",new { id = item.order_id })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom"></i> View</a></li>
+                                                                <li><a href="@Url.Action("Edit","SaleOrder",new { id = item.order_id })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom"></i> Edit</a></li>
+                                                                <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill"></i> Delete</a></li>
+                                                                <li><a href="@Url.Action("SaleOrderReport", "SaleOrder", new { Id = item.order_id,Company_Id=item.company_id})" class="btn btn-success" title="Print To Tax Invoice Report"><i class="ri-printer-line align-bottom me-1"></i>SaleOrder Rpt</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            count = count + 1;
+                                            TotalAmount = TotalAmount + item.total_amount;
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                        <fieldset style="border: 1px solid #e8e8e8; border-radius: 0px; padding: 6px 15px; margin: 0px 0px 10px 0px; background-color: #fafffa;">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <span style="padding: 0px 10px 0px 0px;">Total No of Sale Order:</span><strong style="color: #fff; background-color: #1a5b71; padding: 0px 7px;border-radius: 2px;">@count</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <span style="padding: 0px 10px 0px 10px;">Total Amount:</span><strong style="color: green;font-size: 18px;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", TotalAmount)</strong>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("Index", "SaleOrder" )" class="refresh-btn" title="Click here to refresh"><i class="bx bx-rotate-right"></i>Refresh</a>
+                                <a href="@Url.Action("Index", "SaleOrder")" class="back-btn" title="Click here to back"><i class="las la-arrow-circle-left"></i>Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#SaleOrderHeader", { scrollX: !0, pageLength: 15, sort: !0, order: [[8, 'desc']] }) })
+    </script>
+
+    <script type="text/javascript">
+        //Assign Click event to Plus Image.  src='Url.Content("~/images/search_small.gif")
+        $("body").on("click", "img[src*='Plus.png']", function () {
+            $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+            $(this).attr("src", "/assets/images/minus.png");
+        });
+        //Assign Click event to Minus Image.
+        $("body").on("click", "img[src*='minus.png']", function () {
+            $(this).attr("src", "/assets/images/Plus.png");
+            $(this).closest("tr").next().remove();
+        });
+    </script>
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (SaleSection.style.display === "none") {
+                SaleSection.style.display = "block";
+            } else {
+                SaleSection.style.display = "none";
+            }
+        });
+    </script>
+}

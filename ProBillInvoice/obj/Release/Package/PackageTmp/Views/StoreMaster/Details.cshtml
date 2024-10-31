@@ -1,0 +1,76 @@
+﻿
+@model ProBillInvoice.Models.StoreMasterModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5 class="card-title mb-0 page-heading-color">Store Master - Details</h5>
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <a href="@Url.Action("Create", "StoreMaster")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>                           
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(model => model.store_id, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.store_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.site_id, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                        </div>
+                        <div class="col-md-9">
+                            @Html.DisplayFor(model => model.site_id, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.site_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.store_code, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                        </div>
+                        <div class="col-md-9">
+                            @Html.DisplayFor(model => model.store_code, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;" } })
+                            @Html.ValidationMessageFor(model => model.store_code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.store_name, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                        </div>
+                        <div class="col-md-9">
+                            @Html.DisplayFor(model => model.store_name, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;" } })
+                            @Html.ValidationMessageFor(model => model.store_name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.defunct, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                        </div>
+                        <div class="col-md-9">
+                            @Html.DisplayFor(model => model.defunct, new { htmlAttributes = new { @class = "form-control", @style = "width: 40%;" } })
+                            @Html.ValidationMessageFor(model => model.defunct, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

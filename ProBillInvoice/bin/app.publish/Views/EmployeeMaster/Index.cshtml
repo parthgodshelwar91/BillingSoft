@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ProBillInvoice.Models.EmployeeMasterModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Employee List</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-nowrap align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.sr_no)</th>
+                                    <th>@Html.DisplayNameFor(model => model.emp_code)</th>
+                                    <th>@Html.DisplayNameFor(model => model.emp_type)</th>
+                                    <th>@Html.DisplayNameFor(model => model.emp_name)</th>
+                                    <th>@Html.DisplayNameFor(model => model.emp_contact_no)</th>
+                                    <th>@Html.DisplayNameFor(model => model.emp_address)</th>
+                                    <th>@Html.DisplayNameFor(model => model.gender)</th>
+                                    <th>@Html.DisplayNameFor(model => model.education)</th>
+                                    <th>@Html.DisplayNameFor(model => model.date_of_birth)</th>
+                                    <th>@Html.DisplayNameFor(model => model.age)</th>
+                                    <th>@Html.DisplayNameFor(model => model.date_of_joining)</th>
+                                    <th>@Html.DisplayNameFor(model => model.date_of_conformation)</th>
+                                    <th>@Html.DisplayNameFor(model => model.date_of_leaving)</th>
+                                    <th>@Html.DisplayNameFor(model => model.image_path)</th>
+                                    <th>@Html.DisplayNameFor(model => model.dept_id)</th>
+                                    <th>@Html.DisplayNameFor(model => model.site_id)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.sr_no)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.emp_code)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.emp_type)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.emp_name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.emp_contact_no)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.emp_address)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.gender)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.education)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.date_of_birth)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.age)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.date_of_joining)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.date_of_conformation)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.date_of_leaving)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.image_path)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.dept_id)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.site_id)</td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#SiteMaster", { scrollX: !0, sort: false }) })
+    </script>
+}
+

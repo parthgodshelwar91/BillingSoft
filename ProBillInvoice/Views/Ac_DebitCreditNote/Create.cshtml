@@ -1,0 +1,396 @@
+﻿@model RMCWeb.Models.VoucherEntryModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-5">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">
+                            Debit/Credit Note Voucher - <span style="color: @(ViewBag.Titlename == "Create" ? "red" : "green")">@ViewBag.Titlename</span>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div>
+                                @Html.HiddenFor(model => model.voucher_id, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    <div style="float: left; width: 50%;">
+                                        <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                            @Html.CheckBoxFor(model => model.rbPayment, new { @onclick = "AJ(this.value, 1 );" })
+                                            @Html.ValidationMessageFor(model => model.rbPayment, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.Label("DEBIT NOTE", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: red; width: 70%;" })
+                                    </div>
+                                    <div style="float: left; width: 50%;">
+                                        <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                            @Html.CheckBoxFor(model => model.rbReceipt, new { @onclick = "AJ(this.value, 2 );" })
+                                            @Html.ValidationMessageFor(model => model.rbReceipt, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.Label("CREDIT NOTE", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: green; width: 70%;" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.voucher_date, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.voucher_date, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "width: 40%;" } })
+                                    @Html.ValidationMessageFor(model => model.voucher_date, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.Label("Account", htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @*@Html.DropDownListFor(model => model.dacct_id, (SelectList)ViewBag.Account, "-- Select--", new { @class = "form-select", @style = "width: 60%;" })*@
+                                    @Html.DropDownListFor(model => model.dacct_id, (SelectList)ViewBag.Account, "-- Select--", new { @class = "form-select", @style = "float: left; text-align: left; width: 60%;" })
+                                    @Html.Label("*", htmlAttributes: new { id = "closingBalance", @style = "padding: 10px 10px 0px 10px; color: red;" })
+                                    @Html.ValidationMessageFor(model => model.dacct_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.Label("Opp Account", htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @*@Html.DropDownListFor(model => model.cacct_id, (SelectList)ViewBag.OppAccount, "-- Select--", new { @class = "form-select", @style = "width: 60%;" })*@
+                                    @Html.DropDownListFor(model => model.cacct_id, (SelectList)ViewBag.OppAccount, "-- Select--", new { @class = "form-select", @style = "float: left; text-align: left; width: 60%;" })
+                                    @Html.Label("*", htmlAttributes: new { id = "Balance", @style = "padding: 10px 10px 0px 10px; color: green;" })
+                                    @Html.ValidationMessageFor(model => model.cacct_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.amount, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control", @style = "text-align: right; width: 40%;", placeholder = "Enter amount", onkeyup = "AJFunction(this.value)" } })
+                                    @Html.Label("*", htmlAttributes: new { id = "AJ", @style = "padding: 10px 10px 0px 10px; color: Green;" })
+                                    @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 5px 10px 5px 10px; margin: 5px 0px 10px 0px;">
+                                <div class="row mb-2">
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(model => model.payment_type, htmlAttributes: new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                    </div>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.payment_type, new[] {
+                                                     new SelectListItem() {Text = "Cheque", Value = "Cheque"},
+                                                     new SelectListItem() {Text = "DD", Value = "DD"},
+                                                     new SelectListItem() {Text = "RTGS", Value = "RTGS"} }, "--Select--", new { @class = "form-select form-select-sm", @style = "width: 40%;" })
+                                        @Html.ValidationMessageFor(model => model.payment_type, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                @Html.LabelFor(model => model.cheque_no, htmlAttributes: new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @Html.EditorFor(model => model.cheque_no, new { htmlAttributes = new { @class = "form-control form-control-sm", @style = "text-align: right; width: 100%;", placeholder = "Enter cheque no" } })
+                                                @Html.ValidationMessageFor(model => model.cheque_no, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-5" style="text-align: right;">
+                                                @Html.LabelFor(model => model.cheque_date, htmlAttributes: new { @class = "form-label", @style = "padding: 4px 0px 0px 0px;" })
+                                            </div>
+                                            <div class="col-md-7">
+                                                @Html.EditorFor(model => model.cheque_date, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 100%;" } })
+                                                @Html.ValidationMessageFor(model => model.cheque_date, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.remarks, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.remarks, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Remark" } })
+                                    @Html.ValidationMessageFor(model => model.remarks, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" class="btn btn-secondary"><i class="ri-save-2-line label-icon align-middle fs-16 me-2"></i>Save</button>
+                                    <button type="button" id="btnSave" onclick="Refresh();" class="btn btn-danger"><i class="ri-close-circle-line align-middle" style="padding-right: 10px;"></i>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-sm-7">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">Debit/Credit Note Voucher View</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 5px 10px 5px 10px; margin: 0px 0px 10px 0px;">
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @Html.Label("Account Name", new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(Model => Model.CAcctId, (SelectList)ViewBag.OppAccount, "-- Select--", new { @class = "form-select form-select-sm", @style = "width: 100%;" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align : right;">
+                                            @Html.Label("V Type", new { @class = "form-label", @style = "padding: 4px 0px 0px 0px;" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(model => model.VoucherType, new[] {
+                                                     new SelectListItem() {Text = "PAYMENT", Value = "PAYMENT"},
+                                                     new SelectListItem() {Text = "RECEIPT", Value = "RECEIPT"} }, "--Select--", new { @class = "form-select form-select-sm", @style = "width: 100%;" })
+                                            @Html.ValidationMessageFor(model => model.VoucherType, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style="float: left; width: 50%;">
+                                                @Html.LabelFor(model => Model.FromDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                                @Html.EditorFor(model => Model.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 60%;" } })
+                                                @Html.ValidationMessageFor(model => Model.FromDate, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div style="float: left; width: 50%;">
+                                                @Html.LabelFor(model => Model.ToDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 10px;" })
+                                                @Html.EditorFor(model => Model.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 60%;" } })
+                                                @Html.ValidationMessageFor(model => Model.ToDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align : right;">
+                                            @Html.Label("V No", new { @class = "form-label", @style = "padding: 4px 0px 0px 0px;" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.voucher_no, new { htmlAttributes = new { @class = "form-control form-control-sm", placeholder = "Enter voucher no" } })
+                                            @Html.ValidationMessageFor(model => model.voucher_no, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" style="padding-top: 5px; text-align : right;">
+                                    <button type="submit" class="btn btn-primary addMembers-modal" style="padding: 2px 10px 2px 10px;" formmethod="post" formaction="Search"><div style="float: left; padding: 0 5px 0 0;"><i class="ri-search-2-line"></i></div>Search</button>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="VoucherEntry" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.sr_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.voucher_date)</th>
+                                            <th>@Html.DisplayNameFor(model => model.voucher_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.voucher_type)</th>
+                                            <th>@Html.DisplayNameFor(model => model.account_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.debit)</th>
+                                            <th>@Html.DisplayNameFor(model => model.credit)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.VoucherEntryList)
+                                    {
+                                        <tr>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.sr_no)</td>
+                                            <td>@string.Format("{0:dd/MM/yyyy}", item.voucher_date)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.voucher_no)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.voucher_type)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.account_name)</td>
+                                            <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.debit)</td>
+                                            <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.credit)</td>
+                                            <td style="text-align: center;">
+                                                <div class="dropdown d-inline-block">
+                                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-more-fill align-middle"></i></button>
+                                                    <ul class="dropdown-menu dropdown-menu-end mybtn-form">
+                                                        <li><a href="@Url.Action("Details", "Ac_DebitCreditNote", new { id = item.voucher_id })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom me-1"></i> View</a></li>
+                                                        <li><a href="@Url.Action("Edit", "Ac_DebitCreditNote", new { id = item.voucher_id })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom me-1"></i> Edit</a></li>
+                                                        <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill me-2"></i> Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        window.onload = function () {
+            Swal.fire({
+                title: "@ViewBag.Message",
+                icon: "success",
+                confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "@Url.Action("Create", "Ac_DebitCreditNote")";
+                }
+            });
+        };
+    </script>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/Scripts/CustomMDIScript.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#VoucherEntry", { scrollX: !0, sort: false }) })
+    </script>
+
+    <script>
+            function Refresh() {
+              window.location.href = "@Url.Action("Create", "Ac_DebitCreditNote")";
+            }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#account_name").change(function () {
+                var textvalue = $(this).val();
+                var SGM = {
+                    tablename: 'account_mst',
+                    colname: 'account_name',
+                    checkvalue: textvalue
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Utils/CheckExists",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        results = data.CheckExistsData;
+                        if (results !== null) {
+                            Swal.fire('! Record Already Exists For <b style=color:red>' + textvalue + '</b>');
+                            document.getElementById('account_name').value = '';
+                        }
+                    },
+                    error: function () {
+                        swal.fire("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+
+    <script>
+        function AJ(val, no) {
+            if (no == "1") {
+                $("#rbPayment").prop("checked", true);
+                $("#rbReceipt").prop("checked", false);
+            }
+            else if (no == "2") {
+                $("#rbPayment").prop("checked", false);
+                $("#rbReceipt").prop("checked", true);
+            }
+        }
+    </script>
+
+    <script>
+         $(document).ready(function () {
+         $('#dacct_id').change(function () {
+        var selectedValue = $(this).val();
+        $.ajax({
+            url: '@Url.Action("GetClosingBalance", "Ac_DebitCreditNote")',
+            type: 'GET',
+            data: { dacct_id: selectedValue },
+            success: function (result) {
+                $('#closingBalance').text(result);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+    </script>
+
+    <script>
+         $(document).ready(function () {
+             $('#cacct_id').change(function () {
+        var selectedValue = $(this).val();
+        $.ajax({
+            url: '@Url.Action("GetClosingBalance", "Ac_DebitCreditNote")',
+            type: 'GET',
+            data: { dacct_id: selectedValue },
+            success: function (result) {
+                $('#Balance').text(result);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+    </script>
+}

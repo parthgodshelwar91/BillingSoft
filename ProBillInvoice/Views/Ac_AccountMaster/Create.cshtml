@@ -1,0 +1,471 @@
+﻿@model RMCWeb.Models.Ac_AccountMasterModel
+@using System;
+@using System.Data;
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Account Master - @ViewBag.Titlename</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div>
+                                @Html.HiddenFor(model => model.group_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.acct_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @*@Html.HiddenFor(model => model.parent_id, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @Html.HiddenFor(model => model.group_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.acct_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.parent_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.account_type, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.last_edited_by, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.last_edited_date, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.account_name, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.account_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter account name" } })
+                                    @Html.ValidationMessageFor(model => model.account_name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.billing_address, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.billing_address, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter billing address" } })
+                                    @Html.ValidationMessageFor(model => model.billing_address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.delivery_address, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.delivery_address, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter delivery address" } })
+                                    @Html.ValidationMessageFor(model => model.delivery_address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.account_header, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.account_header, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter account header" } })
+                                    @Html.ValidationMessageFor(model => model.account_header, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.parent_id, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.parent_id, (SelectList)ViewBag.UnderGroup, "-- Select--", new { @class = "form-select", @style = "width: 40%;" })
+                                    @Html.ValidationMessageFor(model => model.parent_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.state_id, htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.state_id, (SelectList)ViewBag.StateMaster, "-- Select--", new { @class = "form-select", @style = "width: 40%;" })
+                                    @Html.ValidationMessageFor(model => model.state_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.city_name, htmlAttributes: new { @class = "col-form-label" })
+                                            @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.city_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter city name" } })
+                                            @Html.ValidationMessageFor(model => model.city_name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @Html.LabelFor(model => model.pin_code, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.pin_code, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Pin code" } })
+                                            @Html.ValidationMessageFor(model => model.pin_code, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.gst_no, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.gst_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter GST No" } })
+                                            @Html.ValidationMessageFor(model => model.gst_no, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @Html.LabelFor(model => model.pan_no, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.pan_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter PAN No" } })
+                                            @Html.ValidationMessageFor(model => model.pan_no, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.aadhar_no, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.aadhar_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Aadhar No" } })
+                                            @Html.ValidationMessageFor(model => model.aadhar_no, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @Html.LabelFor(model => model.tin_no, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.tin_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter TIN No" } })
+                                            @Html.ValidationMessageFor(model => model.tin_no, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.emaiL_id, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.emaiL_id, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Email Id" } })
+                                            @Html.ValidationMessageFor(model => model.emaiL_id, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                                @Html.EditorFor(model => model.email_alert)
+                                                @Html.ValidationMessageFor(model => model.email_alert, "", new { @class = "text-danger" })
+                                            </div>
+                                            @Html.Label("Email Alert", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: red; width: 60%;" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.mobile_no, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.mobile_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter mobile number" } })
+                                            @Html.ValidationMessageFor(model => model.mobile_no, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                                @Html.EditorFor(model => model.mobile_alert)
+                                                @Html.ValidationMessageFor(model => model.mobile_alert, "", new { @class = "text-danger" })
+                                            </div>
+                                            @Html.Label("Mobile Alert", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: red; width: 60%;" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.credit_limit, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.credit_limit, new { htmlAttributes = new { @class = "form-control", @style = "text-align: right;", placeholder = "Enter credit limt" } })
+                                            @Html.ValidationMessageFor(model => model.credit_limit, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @Html.LabelFor(model => model.credit_days, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.credit_days, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Credit Days" } })
+                                            @Html.ValidationMessageFor(model => model.credit_days, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.amount, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control", @style = "text-align: right;", placeholder = "Enter op amount" } })
+                                            @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.DropDownListFor(model => model.amount_type, new[] {
+                                                  new SelectListItem() {Text = "Cr", Value = "Cr"},
+                                                  new SelectListItem() {Text = "Dr", Value = "Dr"} }, "--Select--", new { @class = "form-select", @style = "width: 20%;" } )
+                                            @Html.ValidationMessageFor(model => model.amount_type, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.bank_ac_name, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.bank_ac_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter bank ac name" } })
+                                            @Html.ValidationMessageFor(model => model.bank_ac_name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @Html.LabelFor(model => model.bank_ac_no, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.bank_ac_no, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter account No" } })
+                                            @Html.ValidationMessageFor(model => model.bank_ac_no, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.branch_bank_name, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.branch_bank_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter bank name" } })
+                                            @Html.ValidationMessageFor(model => model.branch_bank_name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @Html.LabelFor(model => model.branch_name, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.branch_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter branch" } })
+                                            @Html.ValidationMessageFor(model => model.branch_name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @Html.LabelFor(model => model.IFSC, htmlAttributes: new { @class = "col-form-label" })
+                                        </div>
+                                        <div class="col-md-6">
+                                            @Html.EditorFor(model => model.IFSC, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter IFSC code" } })
+                                            @Html.ValidationMessageFor(model => model.IFSC, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.defunct, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                        @Html.EditorFor(model => model.defunct)
+                                        @Html.ValidationMessageFor(model => model.defunct, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.Label("Discontinue", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: red; width: 30%;" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" class="btn btn-secondary"><i class="ri-save-2-line label-icon align-middle fs-16 me-2"></i>Save</button>
+                                    <button type="button" id="btnSave" onclick="Refresh();" class="btn btn-danger"><i class="ri-close-circle-line align-middle" style="padding-right: 10px;"></i>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">Account Master</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="AccountMaster" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.sr_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.account_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.UnderGr)</th>
+                                            <th>@Html.DisplayNameFor(model => model.mobile_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.defunct)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.AccountMasterList)
+                                    {
+                                    <tr>
+                                        <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.sr_no)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.account_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.UnderGr)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.mobile_no)</td>
+                                        @if (item.defunct == false)
+                                        {
+                                            <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #008000 !important; border-color: #008000;">Active</span></td>
+                                        }
+                                        @if (item.defunct == true)
+                                        {
+                                            <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #FF5733 !important; border-color: #FF5733;">InActive</span></td>
+                                        }
+
+                                        <td style="text-align: center;">
+                                            <div class="dropdown d-inline-block">
+                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="ri-more-fill align-middle"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end mybtn-form">
+                                                    <li><a href="@Url.Action("Details","Ac_AccountMaster",new { id = item.acct_id })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom me-1"></i> View</a></li>
+                                                    <li><a href="@Url.Action("Edit","Ac_AccountMaster",new { id = item.acct_id })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom me-1"></i> Edit</a></li>
+                                                    <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill me-2"></i> Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#AccountMaster", { scrollX: !0, sort: false }) })
+    </script>
+
+    <script>
+            function Refresh() {
+              window.location.href = "@Url.Action("Create", "Ac_AccountMaster")";
+            }
+    </script>
+
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#account_name").change(function () {
+                var textvalue = $(this).val();
+                var SGM = {
+                    tablename: 'account_mst',
+                    colname: 'account_name',
+                    checkvalue: textvalue
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Utils/CheckExists",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        results = data.CheckExistsData;
+                        if (results !== null) {
+                            Swal.fire('! Record Already Exists For <b style=color:red>' + textvalue + '</b>');
+                            document.getElementById('account_name').value = '';
+                        }
+                    },
+                    error: function () {
+                        swal.fire("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>       
+}

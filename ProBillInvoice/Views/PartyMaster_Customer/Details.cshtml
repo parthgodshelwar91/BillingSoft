@@ -1,0 +1,149 @@
+﻿@model ProBillInvoice.Models.PartyMasterModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5 class="card-title mb-0 page-heading-color">Customer - Details</h5>
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;">
+                            <a href="@Url.Action("Create", "PartyMaster_Customer")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group" style="margin-bottom:0px;">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                @Html.HiddenFor(model => model.party_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.acct_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.party_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.party_code, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.party_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.party_code, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.party_name, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.party_name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.party_name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.billing_address, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.billing_address, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.billing_address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.delivery_address, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.delivery_address, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.delivery_address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.contact_email, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.contact_email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.contact_email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.mobile_no, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.mobile_no, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.mobile_no, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @*<div class="row mb-3">
+                            
+                        </div>*@
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.city_name, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.city_name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.city_name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.pin_no, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.pin_no, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.pin_no, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.contact_person, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.contact_person, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.contact_person, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.contact_email, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.contact_email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.contact_email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.contact_mobile_no, htmlAttributes: new { @class = "form-label", @style = "font-weight: bold;" })
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DisplayFor(model => model.contact_mobile_no, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.contact_mobile_no, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

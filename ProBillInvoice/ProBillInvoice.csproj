@@ -1,0 +1,912 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F64C7E45-01ED-466F-9AAD-570060C94B33}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProBillInvoice</RootNamespace>
+    <AssemblyName>ProBillInvoice</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44332</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.4\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.4\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.4.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.4.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Ad_CompanyMasterController.cs" />
+    <Compile Include="Controllers\Ad_UserManagementController.cs" />
+    <Compile Include="Controllers\Ad_UserTrackingController.cs" />
+    <Compile Include="Controllers\CityMasterController.cs" />
+    <Compile Include="Controllers\DeptMasterController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\EmployeeMasterController.cs" />
+    <Compile Include="Controllers\GrinController.cs" />
+    <Compile Include="Controllers\GroupMasterController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MaterialMasterController.cs" />
+    <Compile Include="Controllers\PartyMaster_CustomerController.cs" />
+    <Compile Include="Controllers\PartyMaster_SupplierController.cs" />
+    <Compile Include="Controllers\PartyMstCustLocationController.cs" />
+    <Compile Include="Controllers\PartyTypeController.cs" />
+    <Compile Include="Controllers\PaytermController.cs" />
+    <Compile Include="Controllers\ProductMasterController.cs" />
+    <Compile Include="Controllers\PurchaseOrderApprovalController.cs" />
+    <Compile Include="Controllers\PurchaseOrderCloseController.cs" />
+    <Compile Include="Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Controllers\RackMasterController.cs" />
+    <Compile Include="Controllers\RecipeMasterController.cs" />
+    <Compile Include="Controllers\Report_InvoiceController.cs" />
+    <Compile Include="Controllers\Report_PurchaseOrderController.cs" />
+    <Compile Include="Controllers\Report_StoreController.cs" />
+    <Compile Include="Controllers\Report_WBPurchaseController.cs" />
+    <Compile Include="Controllers\Report_WBSaleController.cs" />
+    <Compile Include="Controllers\SaleInvoiceController.cs" />
+    <Compile Include="Controllers\SaleOrderCloseController.cs" />
+    <Compile Include="Controllers\SaleOrderController.cs" />
+    <Compile Include="Controllers\SiteMasterController.cs" />
+    <Compile Include="Controllers\StockPostingController.cs" />
+    <Compile Include="Controllers\StockPosting_ItemSearchController.cs" />
+    <Compile Include="Controllers\StockPosting_StockLevelController.cs" />
+    <Compile Include="Controllers\StoreMasterController.cs" />
+    <Compile Include="Controllers\SubGroupMasterController.cs" />
+    <Compile Include="Controllers\SubSubGroupMasterController.cs" />
+    <Compile Include="Controllers\UOMMasterController.cs" />
+    <Compile Include="Controllers\UtilsController.cs" />
+    <Compile Include="DAL\ClsAccountMaster.cs" />
+    <Compile Include="DAL\ClsBinCard.cs" />
+    <Compile Include="DAL\ClsBrandMaster.cs" />
+    <Compile Include="DAL\ClsCityMaster.cs" />
+    <Compile Include="DAL\ClsCompanyMaster.cs" />
+    <Compile Include="DAL\ClsCountryMaster.cs" />
+    <Compile Include="DAL\ClsDashboard.cs" />
+    <Compile Include="DAL\ClsDeptMaster.cs" />
+    <Compile Include="DAL\ClsEmployeeDocument.cs" />
+    <Compile Include="DAL\ClsEmployeeMaster.cs" />
+    <Compile Include="DAL\ClsEmployeeNominee.cs" />
+    <Compile Include="DAL\ClsEmployeeRelation.cs" />
+    <Compile Include="DAL\ClsEnqiryDetails.cs" />
+    <Compile Include="DAL\ClsExecutiveMaster.cs" />
+    <Compile Include="DAL\ClsFinancialYear.cs" />
+    <Compile Include="DAL\ClsGrinDetails.cs" />
+    <Compile Include="DAL\ClsGrinHeader.cs" />
+    <Compile Include="DAL\ClsGrinPayment.cs" />
+    <Compile Include="DAL\ClsGrinTax.cs" />
+    <Compile Include="DAL\ClsGroupMaster.cs" />
+    <Compile Include="DAL\ClsIndentDetail.cs" />
+    <Compile Include="DAL\ClsIndentHeader.cs" />
+    <Compile Include="DAL\ClsIndent_Approval.cs" />
+    <Compile Include="DAL\ClsIndent_Close.cs" />
+    <Compile Include="DAL\ClsLogin.cs" />
+    <Compile Include="DAL\ClsMaterialMaster.cs" />
+    <Compile Include="DAL\ClsPartyMaster.cs" />
+    <Compile Include="DAL\ClsPartyMstCustLocation.cs" />
+    <Compile Include="DAL\ClsPartyType.cs" />
+    <Compile Include="DAL\ClsPayterm.cs" />
+    <Compile Include="DAL\ClsPO_Approval.cs" />
+    <Compile Include="DAL\ClsPO_Close.cs" />
+    <Compile Include="DAL\ClsProducationSchedule.cs" />
+    <Compile Include="DAL\ClsProducationSite.cs" />
+    <Compile Include="DAL\ClsPurchaseDetail.cs" />
+    <Compile Include="DAL\ClsPurchaseHeader.cs" />
+    <Compile Include="DAL\ClsPurchaseTax.cs" />
+    <Compile Include="DAL\ClsRackMaster.cs" />
+    <Compile Include="DAL\ClsRCDetail.cs" />
+    <Compile Include="DAL\ClsRCHeader.cs" />
+    <Compile Include="DAL\ClsRecipeDetail.cs" />
+    <Compile Include="DAL\ClsRecipeHeader.cs" />
+    <Compile Include="DAL\ClsRoleMaster.cs" />
+    <Compile Include="DAL\ClsSaleInvoiceDetail.cs" />
+    <Compile Include="DAL\ClsSaleInvoiceHeader.cs" />
+    <Compile Include="DAL\ClsSaleInvoicePayment.cs" />
+    <Compile Include="DAL\ClsSaleInvoiceTaxes.cs" />
+    <Compile Include="DAL\ClsSaleorderClose.cs" />
+    <Compile Include="DAL\ClsSaleOrderDetail.cs" />
+    <Compile Include="DAL\ClsSaleOrderHeader.cs" />
+    <Compile Include="DAL\ClsSaleQuotationDetail.cs" />
+    <Compile Include="DAL\ClsSaleQuotationHeader.cs" />
+    <Compile Include="DAL\ClsSendMail.cs" />
+    <Compile Include="DAL\ClsSitemaster.cs" />
+    <Compile Include="DAL\ClsSoftwareReportSetting.cs" />
+    <Compile Include="DAL\ClsStateMaster.cs" />
+    <Compile Include="DAL\ClsStoreMaster.cs" />
+    <Compile Include="DAL\ClsStStockHeader.cs" />
+    <Compile Include="DAL\ClsSubGroupMaster.cs" />
+    <Compile Include="DAL\ClsSubSubGroupMaster.cs" />
+    <Compile Include="DAL\ClsTempAccountsCrDr.cs" />
+    <Compile Include="DAL\ClsTempBalanceSheet.cs" />
+    <Compile Include="DAL\ClsTempProfitAndLoss.cs" />
+    <Compile Include="DAL\ClsTempTradingAccount.cs" />
+    <Compile Include="DAL\ClsTempTrialBalance.cs" />
+    <Compile Include="DAL\ClsTemp_Stock.cs" />
+    <Compile Include="DAL\ClsTemp_StockPivot.cs" />
+    <Compile Include="DAL\ClsTemp_StStockDetail.cs" />
+    <Compile Include="DAL\ClsTemp_TicketsDetail.cs" />
+    <Compile Include="DAL\ClsTermsConditionMaster.cs" />
+    <Compile Include="DAL\ClsTickets.cs" />
+    <Compile Include="DAL\ClsTicketsRecipeSummary.cs" />
+    <Compile Include="DAL\ClsTickets_Reports.cs" />
+    <Compile Include="DAL\ClsTransporterMaster.cs" />
+    <Compile Include="DAL\ClsUnitMaster.cs" />
+    <Compile Include="DAL\ClsUserLoginTracking.cs" />
+    <Compile Include="DAL\ClsUserManagement.cs" />
+    <Compile Include="DAL\ClsValidateUserSession.cs" />
+    <Compile Include="DAL\ClsVehicleMaster.cs" />
+    <Compile Include="DAL\ClsVoucherEntry.cs" />
+    <Compile Include="DAL\ClsVoucherEntryReg.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Ac_AccountMasterModel.cs" />
+    <Compile Include="Models\Ad_CompanyMasterModel.cs" />
+    <Compile Include="Models\Ad_RolemasterModel.cs" />
+    <Compile Include="Models\Ad_UserLoginTrackingModel.cs" />
+    <Compile Include="Models\Ad_UserManagementModel.cs" />
+    <Compile Include="Models\BinCardModel.cs" />
+    <Compile Include="Models\BrandMasterModel.cs" />
+    <Compile Include="Models\CityMasterModel.cs" />
+    <Compile Include="Models\CountryMasterModel.cs" />
+    <Compile Include="Models\CRM_SaleQuotationModel.cs" />
+    <Compile Include="Models\DepartmentMasterModel.cs" />
+    <Compile Include="Models\EmailDatastr.cs" />
+    <Compile Include="Models\EmployeeDocumentModel.cs" />
+    <Compile Include="Models\EmployeeMasterModel.cs" />
+    <Compile Include="Models\EmployeeNomineeModel.cs" />
+    <Compile Include="Models\EmployeeRelationModel.cs" />
+    <Compile Include="Models\EnquiryDetailsModel.cs" />
+    <Compile Include="Models\EnquiryFollowupModel.cs" />
+    <Compile Include="Models\EnquiryModel.cs" />
+    <Compile Include="Models\ExecutiveMasterModel.cs" />
+    <Compile Include="Models\FinancialYearModel.cs" />
+    <Compile Include="Models\GrinDetailModel.cs" />
+    <Compile Include="Models\GrinHeaderModel.cs" />
+    <Compile Include="Models\GrinModel.cs" />
+    <Compile Include="Models\GrinPaymentModel.cs" />
+    <Compile Include="Models\GrinTaxModel.cs" />
+    <Compile Include="Models\GroupMasterModel.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IndentDetailModel.cs" />
+    <Compile Include="Models\IndentHeaderModel.cs" />
+    <Compile Include="Models\IndentModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MailModel.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MaterialMasterModel.cs" />
+    <Compile Include="Models\MenuModel.cs" />
+    <Compile Include="Models\PartyMasterModel.cs" />
+    <Compile Include="Models\PartyMstCustLocationModel.cs" />
+    <Compile Include="Models\PartyTypeModel.cs" />
+    <Compile Include="Models\PaytermModel.cs" />
+    <Compile Include="Models\ProducationScheduleModel.cs" />
+    <Compile Include="Models\ProductionSiteModel.cs" />
+    <Compile Include="Models\ProformaInvoiceDetailModel.cs" />
+    <Compile Include="Models\ProformaInvoiceHeaderModel.cs" />
+    <Compile Include="Models\ProformaInvoiceModel.cs" />
+    <Compile Include="Models\PurchaseDetailModel.cs" />
+    <Compile Include="Models\PurchaseHeaderModel.cs" />
+    <Compile Include="Models\PurchaseOrderModel.cs" />
+    <Compile Include="Models\PurchaseTaxModel.cs" />
+    <Compile Include="Models\RackMasterModel.cs" />
+    <Compile Include="Models\RCDetailModel.cs" />
+    <Compile Include="Models\RCHeaderModel.cs" />
+    <Compile Include="Models\RCModel.cs" />
+    <Compile Include="Models\RecipeDetailModel.cs" />
+    <Compile Include="Models\RecipeHeaderModel.cs" />
+    <Compile Include="Models\RecipeMasterModel.cs" />
+    <Compile Include="Models\SaleInvoiceDetailModel.cs" />
+    <Compile Include="Models\SaleInvoiceHeaderModel.cs" />
+    <Compile Include="Models\SaleInvoiceModel.cs" />
+    <Compile Include="Models\SaleInvoicePaymentModel.cs" />
+    <Compile Include="Models\SaleInvoiceTaxesModel.cs" />
+    <Compile Include="Models\SaleOrderDetailModel.cs" />
+    <Compile Include="Models\SaleOrderHeaderModel.cs" />
+    <Compile Include="Models\SaleOrderModel.cs" />
+    <Compile Include="Models\SaleQuotationDetailModel.cs" />
+    <Compile Include="Models\SaleQuotationHeaderModel.cs" />
+    <Compile Include="Models\SiteMasterModel.cs" />
+    <Compile Include="Models\softwareReportSettingModel.cs" />
+    <Compile Include="Models\StateMasterModel.cs" />
+    <Compile Include="Models\StoreMasterModel.cs" />
+    <Compile Include="Models\StStockHeaderModel.cs" />
+    <Compile Include="Models\StStockHeader_StockPostingModel.cs" />
+    <Compile Include="Models\SubGroupMasterModel.cs" />
+    <Compile Include="Models\SubSubGroupMasterModel.cs" />
+    <Compile Include="Models\Temp_AccountsCrDrModel.cs" />
+    <Compile Include="Models\Temp_BalanceSheetModel.cs" />
+    <Compile Include="Models\Temp_ProfitAndLossModel.cs" />
+    <Compile Include="Models\Temp_StockModel.cs" />
+    <Compile Include="Models\Temp_StockPivotModel.cs" />
+    <Compile Include="Models\Temp_StStockDetailModel.cs" />
+    <Compile Include="Models\Temp_TicketsDetailModel.cs" />
+    <Compile Include="Models\Temp_TicketsModel.cs" />
+    <Compile Include="Models\Temp_TradingAccountModel.cs" />
+    <Compile Include="Models\Temp_TrialBalanceModel.cs" />
+    <Compile Include="Models\TermsConditionMasterModel.cs" />
+    <Compile Include="Models\TicketRecipeSummeryModel.cs" />
+    <Compile Include="Models\TicketsModel.cs" />
+    <Compile Include="Models\Tickets_OfflineModel.cs" />
+    <Compile Include="Models\TransporterMasterModel.cs" />
+    <Compile Include="Models\UnitMasterModel.cs" />
+    <Compile Include="Models\VehicleMasterModel.cs" />
+    <Compile Include="Models\VoucherEntryModel.cs" />
+    <Compile Include="Models\VoucherEntryRegModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\app.min.css" />
+    <Content Include="assets\css\bootstrap-select.min.css" />
+    <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\cur_print.css" />
+    <Content Include="assets\css\icons.min.css" />
+    <Content Include="assets\Datatable\buttons.dataTables.min.css" />
+    <Content Include="assets\Datatable\buttons.html5.min.js" />
+    <Content Include="assets\Datatable\buttons.print.min.js" />
+    <Content Include="assets\Datatable\dataTables.bootstrap5.min.css" />
+    <Content Include="assets\Datatable\dataTables.bootstrap5.min.js" />
+    <Content Include="assets\Datatable\dataTables.buttons.min.js" />
+    <Content Include="assets\Datatable\dataTables.responsive.min.js" />
+    <Content Include="assets\Datatable\jquery.dataTables.min.js" />
+    <Content Include="assets\Datatable\jszip.min.js" />
+    <Content Include="assets\Datatable\pdfmake.min.js" />
+    <Content Include="assets\Datatable\responsive.bootstrap.min.css" />
+    <Content Include="assets\Datatable\vfs_fonts.js" />
+    <Content Include="assets\fonts\bootstrap-iconsbf04.html" />
+    <Content Include="assets\fonts\boxicons.html" />
+    <Content Include="assets\fonts\boxiconsd41d.svg" />
+    <Content Include="assets\fonts\la-brands-400.html" />
+    <Content Include="assets\fonts\la-brands-400.svg" />
+    <Content Include="assets\fonts\la-regular-400.html" />
+    <Content Include="assets\fonts\la-regular-400.svg" />
+    <Content Include="assets\fonts\la-solid-900.html" />
+    <Content Include="assets\fonts\la-solid-900.svg" />
+    <Content Include="assets\fonts\materialdesignicons-webfont1d2d.html" />
+    <Content Include="assets\fonts\remixicondf6d.html" />
+    <Content Include="assets\fonts\remixicondf6d.svg" />
+    <Content Include="assets\images\auth-one-bg.jpg" />
+    <Content Include="assets\images\bg-auth.jpg" />
+    <Content Include="assets\images\create-invoice.png" />
+    <Content Include="assets\images\diesel-stock.png" />
+    <Content Include="assets\images\diesel-usage.png" />
+    <Content Include="assets\images\dispatch.png" />
+    <Content Include="assets\images\favicon1.ico" />
+    <Content Include="assets\images\flags\ac.svg" />
+    <Content Include="assets\images\flags\ad.svg" />
+    <Content Include="assets\images\flags\ae.svg" />
+    <Content Include="assets\images\flags\af.svg" />
+    <Content Include="assets\images\flags\ag.svg" />
+    <Content Include="assets\images\flags\ai.svg" />
+    <Content Include="assets\images\flags\am.svg" />
+    <Content Include="assets\images\flags\ao.svg" />
+    <Content Include="assets\images\flags\aq.svg" />
+    <Content Include="assets\images\flags\ar.svg" />
+    <Content Include="assets\images\flags\as.svg" />
+    <Content Include="assets\images\flags\at.svg" />
+    <Content Include="assets\images\flags\au.svg" />
+    <Content Include="assets\images\flags\china.svg" />
+    <Content Include="assets\images\flags\Flag_of_India.svg" />
+    <Content Include="assets\images\flags\french.svg" />
+    <Content Include="assets\images\flags\germany.svg" />
+    <Content Include="assets\images\flags\italy.svg" />
+    <Content Include="assets\images\flags\russia.svg" />
+    <Content Include="assets\images\flags\spain.svg" />
+    <Content Include="assets\images\flags\us.svg" />
+    <Content Include="assets\images\icon.png" />
+    <Content Include="assets\images\invoice-widget.png" />
+    <Content Include="assets\images\inward.png" />
+    <Content Include="assets\images\logo-dark.png" />
+    <Content Include="assets\images\logo-dark1.png" />
+    <Content Include="assets\images\logo-dark2.png" />
+    <Content Include="assets\images\logo-light.png" />
+    <Content Include="assets\images\logo-sm.png" />
+    <Content Include="assets\images\minus.png" />
+    <Content Include="assets\images\modals\login.png" />
+    <Content Include="assets\images\modals\signup.png" />
+    <Content Include="assets\images\modals\subscribe.png" />
+    <Content Include="assets\images\modals\success-payment.png" />
+    <Content Include="assets\images\new-document.png" />
+    <Content Include="assets\images\plus.png" />
+    <Content Include="assets\images\products\img-1.png" />
+    <Content Include="assets\images\products\img-2.png" />
+    <Content Include="assets\images\products\img-3.png" />
+    <Content Include="assets\images\products\img-4.png" />
+    <Content Include="assets\images\products\img-5.png" />
+    <Content Include="assets\images\products\img-6.png" />
+    <Content Include="assets\images\products\img-7.png" />
+    <Content Include="assets\images\products\img-8.png" />
+    <Content Include="assets\images\rmcsoftware114.png" />
+    <Content Include="assets\images\rmcsoftware120.png" />
+    <Content Include="assets\images\rmcsoftware144.png" />
+    <Content Include="assets\images\rmcsoftware152.png" />
+    <Content Include="assets\images\rmcsoftware16.png" />
+    <Content Include="assets\images\rmcsoftware180.png" />
+    <Content Include="assets\images\rmcsoftware192.png" />
+    <Content Include="assets\images\rmcsoftware32.png" />
+    <Content Include="assets\images\rmcsoftware57.png" />
+    <Content Include="assets\images\rmcsoftware60.png" />
+    <Content Include="assets\images\rmcsoftware72.png" />
+    <Content Include="assets\images\rmcsoftware76.png" />
+    <Content Include="assets\images\rmcsoftware96.png" />
+    <Content Include="assets\images\RMC_Logo.ico" />
+    <Content Include="assets\images\RMC_Logo.jpg" />
+    <Content Include="assets\images\RMC_logo128.png" />
+    <Content Include="assets\images\RMC_logo144.png" />
+    <Content Include="assets\images\RMC_logo152.png" />
+    <Content Include="assets\images\RMC_logo320.png" />
+    <Content Include="assets\images\RMC_logo72.png" />
+    <Content Include="assets\images\RMC_logo96.png" />
+    <Content Include="assets\images\RMC_Mgmt-strip-Old.jpg" />
+    <Content Include="assets\images\RMC_Mgmt-strip.png" />
+    <Content Include="assets\images\sidheshwar-ready-mix-concrete-nagpur-logo.jpg" />
+    <Content Include="assets\images\sidheshwar.png" />
+    <Content Include="assets\images\small\img-1.jpg" />
+    <Content Include="assets\images\small\img-10.jpg" />
+    <Content Include="assets\images\small\img-11.jpg" />
+    <Content Include="assets\images\small\img-12.jpg" />
+    <Content Include="assets\images\small\img-2.jpg" />
+    <Content Include="assets\images\small\img-3.jpg" />
+    <Content Include="assets\images\small\img-4.jpg" />
+    <Content Include="assets\images\small\img-5.jpg" />
+    <Content Include="assets\images\small\img-6.jpg" />
+    <Content Include="assets\images\small\img-7.jpg" />
+    <Content Include="assets\images\small\img-8.jpg" />
+    <Content Include="assets\images\small\img-9.jpg" />
+    <Content Include="assets\images\Stamp.jpeg" />
+    <Content Include="assets\images\stock.png" />
+    <Content Include="assets\images\svg\crypto-icons\aave.svg" />
+    <Content Include="assets\images\svg\crypto-icons\ada.svg" />
+    <Content Include="assets\images\svg\crypto-icons\ant.svg" />
+    <Content Include="assets\images\svg\crypto-icons\btc.svg" />
+    <Content Include="assets\images\svg\crypto-icons\eth.svg" />
+    <Content Include="assets\images\svg\crypto-icons\fil.svg" />
+    <Content Include="assets\images\svg\crypto-icons\ltc.svg" />
+    <Content Include="assets\images\svg\crypto-icons\sol.svg" />
+    <Content Include="assets\images\svg\crypto-icons\xmr.svg" />
+    <Content Include="assets\images\sweetalert2\email-verify.png" />
+    <Content Include="assets\images\sweetalert2\error-message.png" />
+    <Content Include="assets\images\sweetalert2\join-community.png" />
+    <Content Include="assets\images\sweetalert2\notification-message.png" />
+    <Content Include="assets\images\sweetalert2\success-message.png" />
+    <Content Include="assets\images\sweetalert2\warning-message.png" />
+    <Content Include="assets\images\usage.png" />
+    <Content Include="assets\images\user-dummy-img.jpg" />
+    <Content Include="assets\images\user-dummy-img1.jpg" />
+    <Content Include="assets\images\user-dummy-img2.jpg" />
+    <Content Include="assets\images\user-dummy-img3.jpg" />
+    <Content Include="assets\images\user-dummy-img4.jpg" />
+    <Content Include="assets\images\users\avatar-1.jpg" />
+    <Content Include="assets\images\users\avatar-10.jpg" />
+    <Content Include="assets\images\users\avatar-2.jpg" />
+    <Content Include="assets\images\users\avatar-3.jpg" />
+    <Content Include="assets\images\users\avatar-4.jpg" />
+    <Content Include="assets\images\users\avatar-5.jpg" />
+    <Content Include="assets\images\users\avatar-6.jpg" />
+    <Content Include="assets\images\users\avatar-7.jpg" />
+    <Content Include="assets\images\users\avatar-8.jpg" />
+    <Content Include="assets\images\users\avatar-9.jpg" />
+    <Content Include="assets\images\users\user-dummy-img.jpg" />
+    <Content Include="assets\js\app.js" />
+    <Content Include="assets\js\bootstrap-select.min.js" />
+    <Content Include="assets\js\jquery-ui.min.js" />
+    <Content Include="assets\js\layout.js" />
+    <Content Include="assets\js\pages\apexcharts-area.init.js" />
+    <Content Include="assets\js\pages\apexcharts-bar.init.js" />
+    <Content Include="assets\js\pages\apexcharts-boxplot.init.js" />
+    <Content Include="assets\js\pages\apexcharts-bubble.init.js" />
+    <Content Include="assets\js\pages\apexcharts-candlestick.init.js" />
+    <Content Include="assets\js\pages\apexcharts-column.init.js" />
+    <Content Include="assets\js\pages\apexcharts-heatmap.init.js" />
+    <Content Include="assets\js\pages\apexcharts-line.init.js" />
+    <Content Include="assets\js\pages\apexcharts-mixed.init.js" />
+    <Content Include="assets\js\pages\apexcharts-pie.init.js" />
+    <Content Include="assets\js\pages\apexcharts-polararea.init.js" />
+    <Content Include="assets\js\pages\apexcharts-radar.init.js" />
+    <Content Include="assets\js\pages\apexcharts-radialbar.init.js" />
+    <Content Include="assets\js\pages\apexcharts-scatter.init.js" />
+    <Content Include="assets\js\pages\apexcharts-timeline.init.js" />
+    <Content Include="assets\js\pages\apexcharts-treemap.init.js" />
+    <Content Include="assets\js\pages\bootstrap-icons.init.js" />
+    <Content Include="assets\js\pages\card.init.html" />
+    <Content Include="assets\js\pages\dashboard.init.js" />
+    <Content Include="assets\js\pages\datatables.init.js" />
+    <Content Include="assets\js\pages\ecommerce-product-create.init.js" />
+    <Content Include="assets\js\pages\flag-input.init.js" />
+    <Content Include="assets\js\pages\form-advanced.init.js" />
+    <Content Include="assets\js\pages\form-editor.init.js" />
+    <Content Include="assets\js\pages\form-file-upload.init.js" />
+    <Content Include="assets\js\pages\form-input-spin.init.js" />
+    <Content Include="assets\js\pages\form-masks.init.js" />
+    <Content Include="assets\js\pages\form-pickers.init.js" />
+    <Content Include="assets\js\pages\form-validation.init.js" />
+    <Content Include="assets\js\pages\form-wizard.init.js" />
+    <Content Include="assets\js\pages\gmaps.init.js" />
+    <Content Include="assets\js\pages\gridjs.init.js" />
+    <Content Include="assets\js\pages\invoicecreate.init.js" />
+    <Content Include="assets\js\pages\leaflet-map.init.js" />
+    <Content Include="assets\js\pages\leaflet-us-states.js" />
+    <Content Include="assets\js\pages\listjs.init.js" />
+    <Content Include="assets\js\pages\materialdesign.list.js" />
+    <Content Include="assets\js\pages\modal.init.html" />
+    <Content Include="assets\js\pages\nestable.init.js" />
+    <Content Include="assets\js\pages\notifications.init.js" />
+    <Content Include="assets\js\pages\password-addon.init.js" />
+    <Content Include="assets\js\pages\range-sliders.init.js" />
+    <Content Include="assets\js\pages\rating.init.js" />
+    <Content Include="assets\js\pages\remix-icons-listing.js" />
+    <Content Include="assets\js\pages\sweetalerts.init.js" />
+    <Content Include="assets\js\pages\swiper.init.js" />
+    <Content Include="assets\js\pages\tom-select.init.js" />
+    <Content Include="assets\js\pages\vector-maps.init.js" />
+    <Content Include="assets\js\plugins.js" />
+    <Content Include="assets\libs\%40ckeditor\ckeditor5-build-classic\build\ckeditor.js" />
+    <Content Include="assets\libs\%40simonwep\pickr\pickr.min.js" />
+    <Content Include="assets\libs\%40simonwep\pickr\themes\classic.min.css" />
+    <Content Include="assets\libs\%40simonwep\pickr\themes\monolith.min.css" />
+    <Content Include="assets\libs\%40simonwep\pickr\themes\nano.min.css" />
+    <Content Include="assets\libs\%40tarekraafat\autocomplete.js\autoComplete.min.js" />
+    <Content Include="assets\libs\%40tarekraafat\autocomplete.js\css\autoComplete.css" />
+    <Content Include="assets\libs\%40tarekraafat\autocomplete.js\css\images\search.svg" />
+    <Content Include="assets\libs\apexcharts\apexcharts.min.js" />
+    <Content Include="assets\libs\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="assets\libs\cleave.js\cleave.min.js" />
+    <Content Include="assets\libs\dropzone\dropzone-min.js" />
+    <Content Include="assets\libs\dropzone\dropzone.css" />
+    <Content Include="assets\libs\feather-icons\feather.min.js" />
+    <Content Include="assets\libs\gmaps\gmaps.min.js" />
+    <Content Include="assets\libs\gridjs\gridjs.umd.js" />
+    <Content Include="assets\libs\gridjs\theme\mermaid.min.css" />
+    <Content Include="assets\libs\jsvectormap\css\jsvectormap.min.css" />
+    <Content Include="assets\libs\jsvectormap\js\jsvectormap.min.js" />
+    <Content Include="assets\libs\jsvectormap\maps\canada.js" />
+    <Content Include="assets\libs\jsvectormap\maps\russia.js" />
+    <Content Include="assets\libs\jsvectormap\maps\spain.js" />
+    <Content Include="assets\libs\jsvectormap\maps\us-merc-en.js" />
+    <Content Include="assets\libs\jsvectormap\maps\world-merc.js" />
+    <Content Include="assets\libs\leaflet\images\layers-2x.png" />
+    <Content Include="assets\libs\leaflet\images\layers.png" />
+    <Content Include="assets\libs\leaflet\images\marker-icon.png" />
+    <Content Include="assets\libs\leaflet\leaflet.css" />
+    <Content Include="assets\libs\leaflet\leaflet.js" />
+    <Content Include="assets\libs\list.js\list.min.js" />
+    <Content Include="assets\libs\list.pagination.js\list.pagination.min.js" />
+    <Content Include="assets\libs\masonry-layout\masonry.pkgd.min.html" />
+    <Content Include="assets\libs\moment\min\moment.min.js" />
+    <Content Include="assets\libs\moment\moment.js" />
+    <Content Include="assets\libs\multi.js\multi.min.css" />
+    <Content Include="assets\libs\multi.js\multi.min.js" />
+    <Content Include="assets\libs\node-waves\waves.min.js" />
+    <Content Include="assets\libs\nouislider\nouislider.min.css" />
+    <Content Include="assets\libs\nouislider\nouislider.min.js" />
+    <Content Include="assets\libs\prismjs\prism.js" />
+    <Content Include="assets\libs\rater-js\index.js" />
+    <Content Include="assets\libs\simplebar\simplebar.min.js" />
+    <Content Include="assets\libs\sortablejs\Sortable.min.js" />
+    <Content Include="assets\libs\sweetalert2\sweetalert2.min.css" />
+    <Content Include="assets\libs\sweetalert2\sweetalert2.min.js" />
+    <Content Include="assets\libs\swiper\swiper-bundle.min.css" />
+    <Content Include="assets\libs\swiper\swiper-bundle.min.js" />
+    <Content Include="assets\libs\tom-select\css\tom-select.bootstrap5.min.css" />
+    <Content Include="assets\libs\tom-select\js\plugins\remove_button.js" />
+    <Content Include="assets\libs\tom-select\js\tom-select.complete.min.js" />
+    <Content Include="assets\libs\wnumb\wNumb.min.js" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Htmltopdf\html2pdf.bundle.min.js" />
+    <Content Include="Htmltopdf\jquery-3.3.1.min.js" />
+    <Content Include="Htmltopdf\sendreceipt.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="assets\fonts\bootstrap-iconsbf04.woff" />
+    <Content Include="assets\fonts\boxicons.eot" />
+    <Content Include="assets\fonts\boxicons.ttf" />
+    <Content Include="assets\fonts\boxicons.woff" />
+    <Content Include="assets\fonts\la-brands-400.eot" />
+    <Content Include="assets\fonts\la-brands-400.ttf" />
+    <Content Include="assets\fonts\la-brands-400.woff" />
+    <Content Include="assets\fonts\la-brands-400d41d.eot" />
+    <Content Include="assets\fonts\la-regular-400.eot" />
+    <Content Include="assets\fonts\la-regular-400.ttf" />
+    <Content Include="assets\fonts\la-regular-400.woff" />
+    <Content Include="assets\fonts\la-regular-400d41d.eot" />
+    <Content Include="assets\fonts\la-solid-900.eot" />
+    <Content Include="assets\fonts\la-solid-900.ttf" />
+    <Content Include="assets\fonts\la-solid-900.woff" />
+    <Content Include="assets\fonts\la-solid-900d41d.eot" />
+    <Content Include="assets\fonts\materialdesignicons-webfont1d2d.eot" />
+    <Content Include="assets\fonts\materialdesignicons-webfont1d2d.ttf" />
+    <Content Include="assets\fonts\materialdesignicons-webfont1d2d.woff" />
+    <Content Include="assets\fonts\materialdesignicons-webfontd41d.eot" />
+    <Content Include="assets\fonts\remixicondf6d.eot" />
+    <Content Include="assets\fonts\remixicondf6d.ttf" />
+    <Content Include="assets\fonts\remixicondf6d.woff" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Ad_CompanyMaster\Create.cshtml" />
+    <Content Include="Views\Ad_CompanyMaster\Details.cshtml" />
+    <Content Include="Views\Ad_UserManagement\Create.cshtml" />
+    <Content Include="Views\Ad_UserManagement\Details.cshtml" />
+    <Content Include="Views\Ad_UserManagement\Edit.cshtml" />
+    <Content Include="Views\Ad_UserTracking\Index.cshtml" />
+    <Content Include="Views\CityMaster\Create.cshtml" />
+    <Content Include="Views\DeptMaster\Create.cshtml" />
+    <Content Include="Views\DeptMaster\Details.cshtml" />
+    <Content Include="Views\Email\CardPrint.cshtml" />
+    <Content Include="Views\Email\SaleInvoiceReport.cshtml" />
+    <Content Include="Views\EmployeeMaster\Create.cshtml" />
+    <Content Include="Views\EmployeeMaster\Index.cshtml" />
+    <Content Include="Views\MaterialMaster\Create.cshtml" />
+    <Content Include="Views\MaterialMaster\Details.cshtml" />
+    <Content Include="Views\PartyMaster_Customer\Create.cshtml" />
+    <Content Include="Views\PartyMaster_Customer\Details.cshtml" />
+    <Content Include="Views\PartyMaster_Customer\Index.cshtml" />
+    <Content Include="Views\PartyMaster_Supplier\Create.cshtml" />
+    <Content Include="Views\PartyMaster_Supplier\Details.cshtml" />
+    <Content Include="Views\PartyMaster_Supplier\Index.cshtml" />
+    <Content Include="Views\PartyType\Create.cshtml" />
+    <Content Include="Views\PartyType\Details.cshtml" />
+    <Content Include="Views\ProductMaster\Create.cshtml" />
+    <Content Include="Views\ReportOfflineWB_Sale\InboundWeighmentSlip.cshtml" />
+    <Content Include="Views\ReportOfflineWB_Sale\PurchaseDeliveryChallan.cshtml" />
+    <Content Include="Views\ReportOfflineWB_Sale\SaleDeliveryChallan.cshtml" />
+    <Content Include="Views\ReportOfflineWB_Sale\WeighmentSlip.cshtml" />
+    <Content Include="Views\Report_Invoice\DeliveryReport.cshtml" />
+    <Content Include="Views\Report_Invoice\SaleInvoiceReport - Copy.cshtml" />
+    <Content Include="Views\Report_Invoice\SaleInvoiceReport-old.cshtml" />
+    <Content Include="Views\Report_Invoice\SaleInvoiceReport.cshtml" />
+    <Content Include="Views\Report_PurchaseOrder\Purchase_Order.cshtml" />
+    <Content Include="Views\Report_Store\BinCard.cshtml" />
+    <Content Include="Views\Report_Store\SaleConsumption_DatewiseReport.cshtml" />
+    <Content Include="Views\Report_Store\SaleConsumption_PartywiseReport.cshtml" />
+    <Content Include="Views\Report_Store\SaleDetail_PartywiseReport.cshtml" />
+    <Content Include="Views\Report_Store\SaleSummary_DatewiseReport.cshtml" />
+    <Content Include="Views\Report_Store\SaleSummary_PartywiseReport.cshtml" />
+    <Content Include="Views\Report_Store\StockDatewiseReport.cshtml" />
+    <Content Include="Views\Report_WBSale\DMClosed_Invoice.cshtml" />
+    <Content Include="Views\Report_WBSale\DMPending_Invoice.cshtml" />
+    <Content Include="Views\Report_WBSale\TicketDailyTransaction_Sale.cshtml" />
+    <Content Include="Views\Report_WBSale\TicketDispatch.cshtml" />
+    <Content Include="Views\Report_WBSale\TicketSaleSummary_Materialwise.cshtml" />
+    <Content Include="Views\Report_WBSale\TicketSaleSummary_Partywise.cshtml" />
+    <Content Include="Views\Report_WBSale\TicketSaleSummary_Transporterwise.cshtml" />
+    <Content Include="Views\SaleInvoice\Create.cshtml" />
+    <Content Include="Views\SaleInvoice\Edit.cshtml" />
+    <Content Include="Views\SaleInvoice\Index.cshtml" />
+    <Content Include="Views\SaleOrderClose\Create.cshtml" />
+    <Content Include="Views\SaleOrder\Create.cshtml" />
+    <Content Include="Views\SaleOrder\Edit.cshtml" />
+    <Content Include="Views\SaleOrder\Index.cshtml" />
+    <Content Include="Views\SiteMaster\Create.cshtml" />
+    <Content Include="Views\SiteMaster\Details.cshtml" />
+    <Content Include="Views\UOMMaster\Create.cshtml" />
+    <Content Include="Views\UOMMaster\Details.cshtml" />
+    <Content Include="Views\Report_Invoice\SaleInvoiceReport_Consolidated.cshtml" />
+    <Content Include="Views\Report_PurchaseOrder\PO_Datewise.cshtml" />
+    <Content Include="Views\Report_ProformaInvoice\ProformaInvoice.cshtml" />
+    <Content Include="Views\Report_RejectionChallan\RejectionChallan.cshtml" />
+    <Content Include="Views\Report_SaleQuotation\SaleQuotationEmailReport.cshtml" />
+    <Content Include="Views\Report_SaleQuotation\Sale_Quotation.cshtml" />
+    <Content Include="Views\SaleOrder\SaleOrderReport.cshtml" />
+    <Content Include="Views\StockPosting\BulkEdit.cshtml" />
+    <Content Include="Views\StockPosting\Create.cshtml" />
+    <Content Include="Views\StockPosting\Edit.cshtml" />
+    <Content Include="Views\StockPosting\Index.cshtml" />
+    <Content Include="Views\StockPosting_ItemSearch\Index.cshtml" />
+    <Content Include="Views\StockPosting_StockLevel\Index.cshtml" />
+    <Content Include="Views\StoreMaster\Create.cshtml" />
+    <Content Include="Views\StoreMaster\Details.cshtml" />
+    <Content Include="Views\StoreMaster\Index.cshtml" />
+    <Content Include="Views\SubGroupMaster\Create.cshtml" />
+    <Content Include="Views\SubGroupMaster\Details.cshtml" />
+    <Content Include="Views\SubSubGroupMaster\Create.cshtml" />
+    <Content Include="Views\SubSubGroupMaster\Details.cshtml" />
+    <Content Include="Views\Grin\Edit.cshtml" />
+    <Content Include="Views\Grin\GRN_Ticket.cshtml" />
+    <Content Include="Views\Grin\GRN_WithOutPo.cshtml" />
+    <Content Include="Views\Grin\GRN_WithPo.cshtml" />
+    <Content Include="Views\Grin\Index.cshtml" />
+    <Content Include="Views\GroupMaster\Create.cshtml" />
+    <Content Include="Views\GroupMaster\Details.cshtml" />
+    <Content Include="Views\Report_Grin\GRN.cshtml" />
+    <Content Include="Views\Report_Grin\GRN_Datewise.cshtml" />
+    <Content Include="Views\Report_PurchaseOrder\PoClosePendingReport.cshtml" />
+    <Content Include="Views\PurchaseOrder\AddPO.cshtml" />
+    <Content Include="Views\PurchaseOrder\Clone.cshtml" />
+    <Content Include="Views\PurchaseOrder\Edit.cshtml" />
+    <Content Include="Views\PurchaseOrder\IndentPO.cshtml" />
+    <Content Include="Views\PurchaseOrder\Index.cshtml" />
+    <Content Include="Views\PartyMstCustLocation\Create.cshtml" />
+    <Content Include="Views\PurchaseOrderApproval\Create.cshtml" />
+    <Content Include="Views\PurchaseOrderClose\Create.cshtml" />
+    <Content Include="Views\RackMaster\Create.cshtml" />
+    <Content Include="Views\RackMaster\Details.cshtml" />
+    <Content Include="Views\RecipeMaster\Create.cshtml" />
+    <Content Include="Views\RecipeMaster\Edit.cshtml" />
+    <Content Include="Views\RecipeMaster\Index.cshtml" />
+    <Content Include="Views\Payterm\Create.cshtml" />
+    <Content Include="Views\Payterm\Details.cshtml" />
+    <Content Include="Views\Payterm\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="assets\fullcalendar\core\" />
+    <Folder Include="assets\fullcalendar\daygrid\" />
+    <Folder Include="assets\fullcalendar\list\" />
+    <Folder Include="assets\fullcalendar\timegrid\" />
+    <Folder Include="assets\images\error\" />
+    <Folder Include="assets\images\login\" />
+    <Folder Include="assets\images\page-img\" />
+    <Folder Include="assets\images\user\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3467</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44332/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

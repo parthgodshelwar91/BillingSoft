@@ -1,0 +1,216 @@
+﻿@model RMCWeb.Models.Ac_AccountMasterModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Acccount Group Master - @ViewBag.Titlename</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div>
+                                @Html.HiddenFor(model => model.group_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.acct_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.group_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.acct_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.parent_code, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.account_type, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.last_edited_by, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.HiddenFor(model => model.last_edited_date, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.Label("Group Name", htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.account_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter account name" } })
+                                    @Html.ValidationMessageFor(model => model.account_name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.LabelFor(model => model.account_header, htmlAttributes: new { @class = "col-form-label" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.account_header, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter account header" } })
+                                    @Html.ValidationMessageFor(model => model.account_header, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    @Html.Label("Under Group", htmlAttributes: new { @class = "col-form-label" })
+                                    @Html.Label("*", htmlAttributes: new { style = "color: red;" })
+                                </div>
+                                <div class="col-md-9">
+                                    @Html.DropDownListFor(model => model.parent_id, (SelectList)ViewBag.UnderAccount, "-- Select--", new { @class = "form-select", @style = "width: 40%;" })
+                                    @Html.ValidationMessageFor(model => model.state_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <div class="col-md-3">
+                                    @Html.Label("Appears In", htmlAttributes: new { @class = "col-form-label", @style = "padding-bottom: 0px;" })
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                        @Html.EditorFor(model => model.balance_sheet)
+                                        @Html.ValidationMessageFor(model => model.balance_sheet, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.Label("Balance Sheet", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: red; width: 30%;" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-9">
+                                    <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                        @Html.EditorFor(model => model.trading)
+                                        @Html.ValidationMessageFor(model => model.trading, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.Label("Trading", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: red; width: 30%;" })
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-9">
+                                    <div class="checkbox" style="float: left; padding: 7px 10px 0px 0px;">
+                                        @Html.EditorFor(model => model.profit_loss)
+                                        @Html.ValidationMessageFor(model => model.profit_loss, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.Label("Prfit & Loss", htmlAttributes: new { @style = "float: left; padding: 5px 10px 0px 0px; margin-bottom: 0px; color: red; width: 30%;" })
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" class="btn btn-secondary"><i class="ri-save-2-line label-icon align-middle fs-16 me-2"></i>Save</button>
+                                    <button type="button" id="btnSave" onclick="Refresh();" class="btn btn-danger"><i class="ri-close-circle-line align-middle" style="padding-right: 10px;"></i>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">Account Group Master</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="AccountMaster" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.sr_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.UnderGr)</th>
+                                            <th>@Html.DisplayNameFor(model => model.account_name)</th>
+                                            <th>@Html.DisplayNameFor(model => model.defunct)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.AccountMasterList)
+                                    {
+                                        <tr>
+                                            <td style="color: darkgray;">@Html.DisplayFor(modelItem => item.sr_no)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.UnderGr)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.account_name)</td>
+                                            @if (item.defunct == false)
+                                            {
+                                                <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #008000 !important; border-color: #008000;">Active</span></td>
+                                            }
+                                            @if (item.defunct == true)
+                                            {
+                                                <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #FF5733 !important; border-color: #FF5733;">InActive</span></td>
+                                            }
+
+                                            <td style="text-align: center;">
+                                                <div class="dropdown d-inline-block">
+                                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="ri-more-fill align-middle"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end mybtn-form">
+                                                        <li><a href="@Url.Action("Details","Ac_AccountGroup",new { id = item.acct_id })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom me-1"></i> View</a></li>
+                                                        <li><a href="@Url.Action("Edit","Ac_AccountGroup",new { id = item.acct_id })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom me-1"></i> Edit</a></li>
+                                                        <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill me-2"></i> Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#AccountMaster", { scrollX: !0, sort: false }) })
+    </script>
+
+    <script>
+            function Refresh() {
+              window.location.href = "@Url.Action("Create", "Ac_AccountGroup")";
+            }
+    </script>
+       
+    <script>
+        $(document).ready(function () {
+            $("#account_name").change(function () {
+                var textvalue = $(this).val();
+                var SGM = {
+                    tablename: 'account_mst',
+                    colname: 'account_name',
+                    checkvalue: textvalue
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Utils/CheckExists",
+                    data: JSON.stringify(SGM),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        results = data.CheckExistsData;
+                        if (results !== null) {
+                            Swal.fire('! Record Already Exists For <b style=color:red>' + textvalue + '</b>');
+                            document.getElementById('account_name').value = '';
+                        }
+                    },
+                    error: function () {
+                        swal.fire("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+}

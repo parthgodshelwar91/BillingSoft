@@ -1,0 +1,225 @@
+﻿@using ProBillInvoice;
+@model PurchaseOrderModel
+
+@{
+    ViewBag.Title = "Create";
+    int SrNo = 0;
+    int count = 0;
+    decimal TotalAmount = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4 class="card-title mb-0 page-heading-color">Purchase Order Approval </h4>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="add-create-btn">
+                                <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;" title="Click here to open search box"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div id="PurchaseOrderSection" style="display:none;">
+                        <div class="search-panel-custom1 mb-0 pt-0 searh-p-c-laptop">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    @Html.LabelFor(Model => Model.PurchaseHeaderSearch.SiteId, new { @class = "form-label", @style = "" })
+                                    @Html.DropDownListFor(Model => Model.PurchaseHeaderSearch.SiteId, (SelectList)ViewBag.StoreList, new { @class = "form-select", @style = "", @title = "Select Site Name" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.LabelFor(Model => Model.PurchaseHeaderSearch.PartyId, new { @class = "form-label", @style = "" })
+                                    @Html.DropDownListFor(Model => Model.PurchaseHeaderSearch.PartyId, (SelectList)ViewBag.PartyList, "-- Select--", new { @class = "form-select", @style = "", @title = "Select Supplier Name" })
+                                    @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.PartyId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.LabelFor(Model => Model.PurchaseHeaderSearch.company_id, new { @class = "form-label", @style = "" })
+                                    @Html.DropDownListFor(Model => Model.PurchaseHeaderSearch.company_id, (SelectList)ViewBag.CompanyMst, "-- Select--", new { @class = "form-select", @style = "", @title = "Select Company Name" })
+                                    @Html.ValidationMessageFor(model => model.PurchaseHeaderSearch.company_id, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => Model.PurchaseHeaderSearch.FromDate, new { @class = "form-label", @style = "" })
+                                    @Html.EditorFor(model => Model.PurchaseHeaderSearch.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set From Date" } })
+                                    @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.FromDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => Model.PurchaseHeaderSearch.ToDate, new { @class = "form-label", @style = "" })
+                                    @Html.EditorFor(model => Model.PurchaseHeaderSearch.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set To Date" } })
+                                    @Html.ValidationMessageFor(model => Model.PurchaseHeaderSearch.ToDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-2" style="padding: 25px 0px 0 30px;">
+                                    <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="Search" title="Click here to search"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-12 table-responsive" style="height: 250px;">
+                            <table id="POHeader" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Sr No</th>
+                                        <th>Po No</th>
+                                        <th>Po Date</th>
+                                        <th>Party Name</th>
+                                        <th>Site Name</th>
+                                        <th>Company</th>
+                                        <th style="text-align:right;"><i class="bx bx-rupee"></i>Amount</th>
+                                        <th style="text-align:center">Action</th>
+                                    </tr>
+                                </thead>
+
+                                @if (Model.PurchaseHeader != null)
+                                {
+                                    foreach (var item in Model.PurchaseHeader)
+                                    {
+                                        SrNo = SrNo + 1;
+                                        <tr>
+                                            <td style="text-align: center;">@SrNo</td>
+                                            <td><a href="#!">@Html.DisplayFor(modelItem => item.po_no)</a></td>
+                                            <td>@string.Format("{0:dd/MM/yyyy}", item.po_date)</td>
+                                            <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => item.party_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.site_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.company_name)</td>
+                                            <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.total_amount)</td>
+                                            <td style="text-align: center;">
+                                                <button id="PurchaseHeaderId" name="PurchaseHeaderId" type="submit" class="po-view-btn" style="padding: 2px 10px 2px 10px;" formmethod="post" formaction="View" value=@item.po_id title="Click To View All The Record"><i class="ri-eye-fill align-bottom me-1"></i>View</button>
+                                                <button id="poId" name="poId" type="submit" class="indent-approve-btn" style="padding: 2px 10px 2px 10px;" formmethod="post" formaction="AllApproved" value=@item.po_id title="Click To Approve All The Record"><i class="ri-check-double-fill"></i>AllApprove</button>
+                                            </td>
+                                        </tr>
+                                        count = count + 1;
+                                        TotalAmount = TotalAmount + item.total_amount;
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </div>
+
+                    <fieldset class="total-value-strip mt-2">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <span style="padding: 0px 10px 0px 0px;">Count:</span><strong style="color: #fff; background-color: #1a5b71; padding: 0px 7px;border-radius: 2px;">@count</strong>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <span style="padding: 0px 10px 0px 10px;">Total Amount:</span><strong style="color: green;font-size: 18px;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", TotalAmount)</strong>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="row">
+                        <div class="col-sm-12 table-responsive" style="height: 250px;">
+                            <table id="PODetail" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        @*<th style="background-color:azure">Sr No</th>*@
+                                        <th>Item Name</th>
+                                        <th>Unit</th>
+                                        <th style="text-align:right">Quantity</th>
+                                        <th style="text-align:right">Rate</th>
+                                        <th style="text-align:right;"><i class="bx bx-rupee"></i>Amount</th>
+                                        <th style="text-align:center">Action</th>
+                                    </tr>
+                                </thead>
+
+                                @if (Model.PurchaseDetail != null)
+                                {
+                                    foreach (var item in Model.PurchaseDetail)
+                                    {
+                                        <tr>
+                                            @*<td style="color: brown;">@Html.DisplayFor(modelItem => item.sr_no)</td>*@
+                                            <td><a href="#!">@Html.DisplayFor(modelItem => item.material_name)</a></td>
+                                            <td>@Html.DisplayFor(modelItem => item.short_desc)</td>
+                                            <td style="text-align: right; color: maroon;">@Html.DisplayFor(modelItem => item.item_qty)</td>
+                                            <td style="text-align: right; color:#619b1c;">@Html.DisplayFor(modelItem => item.item_rate)</td>
+                                            <td style="text-align: right; color: green;">@Html.DisplayFor(modelItem => item.item_value)</td>
+                                            <td style="text-align: center;">
+                                                <button id="PurchaseDetailId" name="PurchaseDetailId" type="submit" class="indent-approve-btn" style="padding: 2px 10px 2px 10px;" formmethod="post" formaction="Approved" value=@item.purchase_detail_id title="Click To Approve The Record"><i class="ri-check-fill"></i>Approve</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row bottom-save-cancel-btn">
+                        <div class="col-sm-12">
+                            <a href="@Url.Action("Create", "PurchaseOrderApproval" )" class="refresh-btn" title="Click here to refresh"><i class="bx bx-rotate-right"></i>Refresh</a>
+                            <a href="@Url.Action("Create", "PurchaseOrderApproval")" class="back-btn" title="Click here to back"><i class="las la-arrow-circle-left"></i>Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        window.onload = function () {
+            Swal.fire({
+                title: "<span style='color: #008CBA;'>@Html.Raw(ViewBag.Message)</span>",
+                icon: "success",
+                iconColor:"#04AA6D",
+                confirmButtonClass: "w-xs me-2 mt-2",
+                confirmButtonColor: "#008CBA",
+
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "@Url.Action("Create", "PurchaseOrderApproval")";
+                }
+            });
+        } ;
+    </script>
+}
+
+@if (ViewBag.Messag != null)
+{
+    <script>
+        window.onload = function () {
+            Swal.fire({
+                title: "<span style='color: #008CBA;'>@Html.Raw(ViewBag.Messag)</span>",
+                icon: "success",
+                iconColor:"#04AA6D",
+                confirmButtonClass: "w-xs me-2 mt-2",
+                confirmButtonColor: "#008CBA",
+            })
+        };
+    </script>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#POHeader", { scrollX: !0, pageLength: 15, sort: !0, order: [[0, 'desc']], searching: false, paging: false, info: false }) })
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#PODetail", { scrollX: !0, pageLength: 15, sort: !0, order: [[5, 'desc']], searching: false, paging: false, info: false }) })
+    </script>
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (PurchaseOrderSection.style.display === "none") {
+                PurchaseOrderSection.style.display = "block";
+            } else {
+                PurchaseOrderSection.style.display = "none";
+            }
+        });
+    </script>
+}

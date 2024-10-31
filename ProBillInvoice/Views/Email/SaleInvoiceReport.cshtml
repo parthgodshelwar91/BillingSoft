@@ -1,0 +1,347 @@
+﻿@model ProBillInvoice.Models.SaleInvoiceModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SaleInvoiceReport</title>
+</head>
+<body>
+    <div>
+        <p>nspire technology</p>
+    </div>
+    <div class="main-card">
+        @{
+
+            int SrNo = 0;
+            decimal cgstamt = 0;
+            decimal sgstamt = 0;
+            decimal igstamt = 0;
+
+        }
+        <div class="card-layout">
+            <div class="card-body p-4" style="margin:5px;font-size:12px;">
+                <div class="col-12">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12" style=" border-top:1px solid black; border-left:1px solid black; border-right:1px solid black ">
+                                <div>
+                                    @Html.HiddenFor(model => model.InvoiceHeaderSearch.PartyId)
+                                </div>
+                                <div class="row">
+                                    <div class="col-2" style="padding:10px">
+                                        <img src="~/assets/images/rmcsoftware72.png" alt="RMC Software (Ready Mix Concrete)" title="Stamp" height="100">
+                                    </div>
+                                    <div class="col-6 text-center"">
+                                        <span style="font-size:22px; padding-top: 12px; text-align:left;">@Html.DisplayFor(model => model.Company.company_name)</span><br />
+                                        <span>@Html.DisplayFor(model => model.Company.work_Address)</span><br />
+                                        <span>@Html.DisplayFor(model => model.Company.work_Address2)</span><br />
+                                        <div style="text-align: left;">
+                                            @Html.Label("AT.POST :- ", new { @class = "col-form-label", @style = "padding: 0px;" })
+                                            @Html.DisplayFor(model => Model.Company.city_name) @Html.DisplayFor(model => Model.Company.state_Name) @Html.DisplayFor(model => Model.Company.zip_code)  @Html.DisplayFor(model => Model.Company.country_name)
+                                            <br />
+                                            @Html.Label("GSTIN :-", htmlAttributes: new { @class = "col-form-label", @style = "padding: 0px;" })
+                                            @Html.DisplayFor(model => Model.Company.gst_no, new { @class = "col-form-label", @style = "padding: 0px;" })
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="card-title mb-0" style="font-size:28px; padding-top: 12px; margin-top:70px; text-align:right;">Sale Invoice</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="border-top:1px solid black ;">
+                                    <div class="col-6" style="padding-top:5px; padding-bottom:5px; border-right:1px solid black;">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                Invoice No :
+                                            </div>
+                                            <div class="col-8">
+                                                <span style="font-weight:bold;">@Html.DisplayFor(model => model.InvoiceHeaderSearch.invoice_no)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4">
+                                                Invoice Date :
+                                            </div>
+                                            <div class="col-8">
+                                                @if (Model.InvoiceHeaderSearch != null)
+                                                {
+                                                    <span style="font-weight:bold;">
+                                                        @String.Format("{0:dd/MM/yyyy}", Model.InvoiceHeaderSearch.invoice_date)
+                                                    </span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6" style="padding-top:5px;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                @*Place of Supply :  <span style="font-weight:bold;">@Html.DisplayFor(model => model.StateMst.state_name)</span>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6" style="border-right:1px solid black; padding-bottom: 10px;">
+                                        <div class="row">
+                                            <div class="col-12 bgrpt" style="border-top:1px solid black; border-bottom:1px solid black; font-weight: bold;">
+                                                Bill To
+                                            </div>
+                                            <div class="col-12" style="padding-top:5px;">
+                                                <span style="font-weight:bold;"> <a href="@Url.Action("Customer_History","PartyMaster_History",new {PartyId = Model.partymaster.party_id })" title="Click here to view customer history">@Html.DisplayFor(model => model.partymaster.party_name)</a></span>
+                                                @*<span style="font-weight:bold;"> @Html.DisplayFor(model => model.partymaster.party_name)</span>*@
+                                            </div>
+                                            <div class="col-12">
+                                                <span>@Html.DisplayFor(model => model.partymaster.billing_address)</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <span>@Html.DisplayFor(model => model.partymaster.city_name) @Html.DisplayFor(model => model.partymaster.pin_no) @Html.DisplayFor(model => model.partymaster.state_name)</span><br />
+                                                <span>
+                                                    India @*Html.DisplayFor(model => model.PartyMasterSearch.country_id) *@
+                                                </span><br />
+                                            </div>
+                                            <div class="col-12">
+                                                GSTIN  <span>@Html.DisplayFor(model => model.partymaster.gst_no)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6" style="padding-bottom: 10px;">
+                                        <div class="row">
+                                            <div class="col-12" style="border-top:1px solid black; border-bottom:1px solid black; font-weight: bold;">
+                                                Ship To
+                                            </div>
+                                            <div class="col-12" style="padding-top:5px;">
+                                                <span style="font-weight:bold;">@Html.DisplayFor(model => model.partymaster.party_name)</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <span>@Html.DisplayFor(model => model.partymaster.delivery_address)</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <span>@Html.DisplayFor(model => model.partymaster.city_name) @Html.DisplayFor(model => model.partymaster.pin_no) @Html.DisplayFor(model => model.partymaster.state_name)</span><br />
+                                                <span>India @*Html.DisplayFor(model => model.PartyMasterSearch.country_id)*@</span><br />
+                                            </div>
+                                            <div class="col-12">
+                                                GSTIN  <span>@Html.DisplayFor(model => model.partymaster.gst_no)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12" style="min-height:0px; padding: 0px; font-size: 10px;">
+                                <style>
+                                    .table_css th {
+                                        padding: 5px 5px;
+                                    }
+
+                                    .table_css td {
+                                        padding: 5px 5px;
+                                    }
+                                </style>
+
+                                <table id="Invoice" class="table table-bordered table-hover table_css" style="border: 1px; margin-bottom: 0px;">
+                                    <thead style="border: 1px;">
+                                        <tr style="text-align: center;font-weight: bold;">
+                                            <th rowspan="2">SN</th>
+                                            <th rowspan="2">Item Name</th>
+                                            <th rowspan="2">HSN Code</th>
+                                            <th rowspan="2">Qty</th>
+                                            <th rowspan="2">Rate</th>
+                                            <th rowspan="2">GST Inc Rate</th>
+                                            <th colspan="2">CGST</th>
+                                            <th colspan="2">SGST</th>
+                                            <th colspan="2">IGST</th>
+                                            <th rowspan="2">Amount (₹)</th>
+                                        </tr>
+                                        <tr style="text-align: center; font-weight: bold;">
+                                            <th id="cgst">%</th>
+                                            <th id="cgstamt">Amt</th>
+                                            <th id="sgst">%</th>
+                                            <th id="sgstamt">Amt</th>
+                                            <th id="igst">%</th>
+                                            <th id="igstamt">Amt</th>
+                                        </tr>
+                                    </thead>
+
+                                    @if (Model.InvoiceDetails != null)
+                                    {
+                                        foreach (var item in Model.InvoiceDetails)
+                                        {
+                                            SrNo = SrNo + 1;
+                                            <tr style="font-size: 12px;">
+                                                <td style="text-align:center; width: 3%;">@SrNo</td>
+                                                <td style="width: 30%;">@Html.DisplayFor(x => item.material_name) <br /> @Html.DisplayFor(x => item.material_desc)</td>
+                                                <td style="text-align:center; width: 5%;">@Html.DisplayFor(x => item.hsn_code)</td>
+                                                <td style="text-align:right; width: 6%;">@Html.DisplayFor(x => item.item_qty) <br /> @Html.DisplayFor(x => item.short_desc)</td>
+                                                <td style="text-align:right; width: 6%;">@Html.DisplayFor(x => item.item_rate)</td>
+                                                <td style="text-align:right; width: 11%;">@string.Format("{0:N2}", item.item_value / item.item_qty)</td>
+                                                <td style="text-align:right; width: 6%;">@Html.DisplayFor(x => item.cgst)</td>
+                                                <td style="text-align:right; width: 6%; word-break:break-word;">@string.Format("{0:f2}", item.cgst_amt)</td>
+                                                <td style="text-align:right; width: 6%;">@Html.DisplayFor(x => item.sgst)</td>
+                                                <td style="text-align:right; width: 6%; word-break:break-word;">@string.Format("{0:f2}", item.sgst_amt)</td>
+                                                <td style="text-align:right; width: 5%;">@Html.DisplayFor(x => item.igst)</td>
+                                                <td style="text-align:right; width: 6%; word-break:break-word;">@string.Format("{0:f2}", item.igst_amt)</td>
+                                                <td style="text-align:right; width: 10%;">@string.Format("{0:N2}", item.item_value)</td>
+                                            </tr>
+
+                                            cgstamt = cgstamt + item.cgst_amt;
+                                            sgstamt = sgstamt + item.sgst_amt;
+                                            igstamt = igstamt + item.igst_amt;
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12" style=" border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black ">
+
+                                <div class="row mb-1">
+                                    <div class="col-7" style="padding-top:10px;">
+                                        <div class="row">
+                                            <div class="col-12" style="padding-bottom: 10px;">
+                                                Total In Words <br />
+                                                <span style="font-weight: bold;">@Html.DisplayFor(model => model.InvoiceHeaderSearch.AmtInWord)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12" style="margin-top:0px; font-size: 12px;">
+                                                <span style="font-weight: bold;">Notes :-</span><br />
+                                                <span># Time of delivery: 7 week(Time Line starts from the receiving 100% advance Payment)</span><br />
+                                                <span># Frieght: To Pay, #Dispatch, By Road, #Packing: included.</span><br />
+                                                <span># Destination : Ex- Factory, # Mode/Terms Of Payment-Advance: 100% against PO, #Traveling/FOOD/Expense: at you side</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12" style="margin-top:10px; font-size: 12px;">
+                                                Bank Name : <span>@Html.DisplayFor(model => Model.Company.bank_ac_name)</span><br />
+                                                Branch : <span>@Html.DisplayFor(model => Model.Company.branch_name)</span><br />
+                                                IFSC Code : <span>@Html.DisplayFor(model => Model.Company.IFSC)</span><br />
+                                                AC No : <span>@Html.DisplayFor(model => Model.Company.bank_ac_no)</span><br />
+                                                Swift Code : <span>@Html.DisplayFor(model => Model.Company.MICR)</span><br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="row">
+                                            <div class="col-12" style="border-left:1px solid black">
+                                                @if (cgstamt != 0)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                            Cgst(%)
+                                                        </div>
+
+                                                        <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                            @String.Format("{0:N2}", cgstamt)
+                                                        </div>
+                                                    </div>
+                                                }
+                                                @if (sgstamt != 0)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-6" style="text-align: right;">
+                                                            Sgst(%)
+                                                        </div>
+
+                                                        <div class="col-6" style="text-align: right;">
+                                                            @String.Format("{0:N2}", sgstamt)
+                                                        </div>
+                                                    </div>
+                                                }
+                                                @if (igstamt != 0)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                            Igst(%)
+                                                        </div>
+
+                                                        <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                            @String.Format("{0:N2}", igstamt)
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                                <div class="row">
+                                                    <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                        Sub Total
+                                                    </div>
+                                                    <div class="col-6" style="text-align: right; padding-top: 10px;">
+                                                        @if (Model.InvoiceHeaderSearch != null)
+                                                        {
+                                                            @String.Format("{0:N2}", Model.InvoiceHeaderSearch.basic_amount)
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @if (Model.InvoiceTax != null)
+                                                    {
+                                                        foreach (var item in Model.InvoiceTax)
+                                                        {
+                                                            <div class="col-6" style="text-align:right;">
+                                                                @Html.DisplayFor(x => item.account_name)
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div style="text-align:right;">@String.Format("{0:N2}", item.amount)</div>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+
+                                                <div class="row" style="border-top:1px solid black;">
+                                                    <div class="col-6" style="text-align: right; font-weight: bold;">
+                                                        Total
+                                                    </div>
+
+                                                    <div class="col-6" style="text-align: right; font-weight: bold;">
+                                                        @if (Model.InvoiceHeaderSearch != null)
+                                                        {
+                                                            <span style="font-size: 14px;">₹</span> @String.Format("{0:N2}", Model.InvoiceHeaderSearch.total_amount)
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="border-top:1px solid black; border-bottom:1px solid black;">
+                                                    <div class="col-12" style="margin-top:20px; text-align: center;">
+                                                        <span style="font-weight: bold;">For :- @Html.DisplayFor(model => Model.Company.company_name)</span>
+                                                        <br />
+                                                        <img src="~/assets/images/Stamp.png" alt="Stamp" title="Stamp" height="90">
+                                                        <br /><br />
+                                                        Authorised Signature
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12" style="margin-top:10px;">
+                                        <span style="font-size: 12px; font-weight: bold;">Terms and Conditions :-</span><br />
+                                        @if (Model.TermsCondition != null)
+                                        {
+                                            <span style="font-size: 12px;">Declaration:<br />@Html.Raw(@Model.TermsCondition.terms_conditions)</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

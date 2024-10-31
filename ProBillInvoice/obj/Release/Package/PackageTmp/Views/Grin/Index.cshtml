@@ -1,0 +1,211 @@
+﻿@using ProBillInvoice;
+@model GrinModel
+
+@{
+    ViewBag.Title = "Index";
+    //int SrNo = 0;
+    int count = 0;
+    decimal TotalAmount = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mt-0 mb-0 page-heading-color">Good Receipt Note</h4>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <div class="add-create-btn">
+                                    @*<a href="@Url.Action("GRN_Ticket", "Grin")" class="btn btn-info btn-label"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><strong>GRN Ticket</strong></a>*@
+                                    <a href="@Url.Action("GRN_WithPo", "Grin")" class="btn btn-info btn-label" title="Click here to add With PO"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><strong>GRN With PO</strong></a>
+                                    <a href="@Url.Action("GRN_WithOutPo", "Grin")" class="btn btn-info btn-label" title="Click here to add Without PO"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><strong>GRN Without PO</strong></a>
+                                    <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;" title="Click here to open search box"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="PurchaseOrderSection" style="display:none;">
+                            <div class="search-panel-custom1 mb-0 pt-0 searh-p-c-laptop">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.GrinHeaderSearch.SiteId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.GrinHeaderSearch.SiteId, (SelectList)ViewBag.StoreList, new { @class = "form-select", @style = "", @title = "Select Site Name" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.GrinHeaderSearch.PartyId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.GrinHeaderSearch.PartyId, (SelectList)ViewBag.PartyList, "--Supplier Name--", new { @class = "form-select", @style = "", @title = "Select Supplier Name" })
+                                        @Html.ValidationMessageFor(model => model.GrinHeaderSearch.PartyId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.Label("GRN Type", new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(model => model.GrinHeaderSearch.grin_type, new[] {
+                                             new SelectListItem() {Text = "WITH PO", Value = "WITH PO"},
+                                             new SelectListItem() {Text = "WITHOUT PO", Value = "WITHOUT PO"} }, "--GRN Type--", new { @class = "form-select", @style = "", @title = "Select GRN Type" } )
+                                        @Html.ValidationMessageFor(model => model.GrinHeaderSearch.grin_type, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                @*@Html.LabelFor(model => Model.GrinHeaderSearch.FromDate, new { @class = "form-label", @style = "" })*@
+                                                @Html.EditorFor(model => Model.GrinHeaderSearch.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set From Date" } })
+                                                @Html.ValidationMessageFor(model => Model.GrinHeaderSearch.FromDate, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-3">
+                                                @*@Html.LabelFor(model => Model.GrinHeaderSearch.ToDate, new { @class = "form-label", @style = "" })*@
+                                                @Html.EditorFor(model => Model.GrinHeaderSearch.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "", @title = "Set To Date" } })
+                                                @Html.ValidationMessageFor(model => Model.GrinHeaderSearch.ToDate, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="Search" style="margin: 0px 0 0 0;" title="Click here to search"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="GrinHeader" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.grin_no)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.grin_date)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.grin_type)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.po_no)</th>
+                                            <th>Supplier Name</th>@*@Html.DisplayNameFor(model => model.GrinHeaderSearch.party_name)*@
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.remarks)</th>
+                                            <th>@Html.DisplayNameFor(model => model.GrinHeaderSearch.site_name)</th>
+                                            <th>Bill Status</th>
+                                            <th style="text-align:right;"><i class="bx bx-rupee"></i>@Html.DisplayNameFor(model => model.GrinHeaderSearch.total_amount)</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.GrinHeader)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src='@Url.Content("~/assets/images/Plus.png")' style="width:30px;" />
+                                                <div style="display:none">
+                                                    <div class="row">
+                                                        <table id="GrinDetail" class="table table-bordered table-responsive nowrap table-striped align-middle app-tbl-one" style="width:50%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Material Name</th>
+                                                                    <th>Unit</th>
+                                                                    <th style="text-align:right;">Qty</th>
+                                                                    <th style="text-align:right;">Rate</th>
+                                                                    <th style="text-align:right;">Amount</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            @if (Model.GrinDetail != null)
+                                                            {
+                                                                foreach (var row in Model.GrinDetail.Where(o => o.grin_header_id == item.grin_header_id))
+                                                                {
+                                                                    <tr>
+                                                                        <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => row.material_name)</td>
+                                                                        <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => row.short_desc)</td>
+                                                                        <td style="text-align:right; color: #653eaa;">@Html.DisplayFor(modelItem => row.acce_qty)</td>
+                                                                        <td style="text-align:right; color: #653eaa;">@Html.DisplayFor(modelItem => row.item_rate)</td>
+                                                                        <td style="text-align:right; color: #653eaa;">@Html.DisplayFor(modelItem => row.item_value)</td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td title="Click Here To Report View"><a href="@Url.Action("Grin_View", "Report_Grin" , new { GrinId=item.grin_header_id, PartyId=item.party_id })">@Html.DisplayFor(modelItem => item.grin_no)</a></td>
+                                            <td>@string.Format("{0:dd/MM/yyyy}", item.grin_date)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.grin_type)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.po_no)</td>
+                                            <td style="color: #2c62b9;">@Html.DisplayFor(modelItem => item.party_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.remarks)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.site_name)</td>
+                                            @if (item.grin_flag == false)
+                                            {
+                                                <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #b50a0a !important; border-color: #b50a0a;">No</span></td>
+                                            }
+                                            @if (item.grin_flag == true)
+                                            {
+                                                <td style="text-align: center;"><span class="badge bg-danger active" style="background-color: #008000 !important; border-color: #008000;">Yes</span></td>
+                                            }
+                                            <td style="text-align: right; color: green;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", item.total_amount)</td>
+                                        </tr>
+
+                                        count = count + 1;
+                                        TotalAmount = TotalAmount + item.total_amount;
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                        <fieldset class="total-value-strip mt-2">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <span style="padding: 0px 10px 0px 0px;">No of Counts:</span><strong style="color: #fff; background-color: #1a5b71; padding: 0px 7px;border-radius: 2px;">@count</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <div style="float:right">
+                                        <span style="padding: 0px 10px 0px 10px;">Total Amount:</span><strong style="color: green;font-size: 18px;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", TotalAmount)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("Index", "Grin" )" class="refresh-btn" title="Click here to refresh"><i class="bx bx-rotate-right"></i>Refresh</a>
+                                <a href="@Url.Action("Index", "Grin")" class="back-btn" title="Click here to back"><i class="las la-arrow-circle-left"></i>Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#GrinHeader", { scrollX: !0, pageLength: 15, sort: !0, order: [[7, 'desc']] }) })
+    </script>
+
+    <script type="text/javascript">
+        //Assign Click event to Plus Image.  src='Url.Content("~/images/search_small.gif")
+        $("body").on("click", "img[src*='Plus.png']", function () {
+            $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+            $(this).attr("src", "/assets/images/minus.png");
+        });
+        //Assign Click event to Minus Image.
+        $("body").on("click", "img[src*='minus.png']", function () {
+            $(this).attr("src", "/assets/images/Plus.png");
+            $(this).closest("tr").next().remove();
+        });
+    </script>
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (PurchaseOrderSection.style.display === "none") {
+                PurchaseOrderSection.style.display = "block";
+            } else {
+                PurchaseOrderSection.style.display = "none";
+            }
+        });
+    </script>
+}

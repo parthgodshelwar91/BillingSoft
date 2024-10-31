@@ -1,0 +1,203 @@
+﻿@using ProBillInvoice;
+@model StStockHeader_StockPostingModel
+
+@{
+    ViewBag.Title = "Index";
+    int SrNo = 0;
+    int count = 0;
+    decimal TotalAmount = 0;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0 page-heading-color">Stock Opening</h5>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <div class="add-create-btn">
+                                    <a href="@Url.Action("BulkEdit", "StockPosting")" class="btn btn-info btn-label" title="Click here to Edit Stock opnening"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><span><strong>BulkEdit</strong></span></a>
+                                    <a href="@Url.Action("Create", "StockPosting")" class="btn btn-info btn-label" title="Click here to Add Stock opnening"><i class="ri-add-line label-icon align-middle fs-16 me-2"></i><span><strong>Add Stock Opnening</strong></span></a>
+                                    <button id="toggleButton" type="button" class="btn btn-Name addMembers-modal" style="float:right;" title="Click here to open search box"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div id="PurchaseOrderSection" style="display:none;">
+                            <div class="search-panel-custom1 mb-0 searh-p-c-laptop">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.StStockHeaderSearch.SiteId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.StStockHeaderSearch.SiteId, (SelectList)ViewBag.SiteList, new { @class = "form-select", @style = "", @title = "Select Site Name" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.StStockHeaderSearch.MaterialId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.StStockHeaderSearch.MaterialId, (SelectList)ViewBag.MaterialList, "--Material Name--", new { @class = "form-select", @style = "", @title = "Select Material Name" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.StStockHeaderSearch.StoreId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.StStockHeaderSearch.StoreId, (SelectList)ViewBag.StoreList, "--Store Name--", new { @class = "form-select", @style = "", @title = "Select Store Name" })
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*@Html.LabelFor(Model => Model.StStockHeaderSearch.RackId, new { @class = "form-label", @style = "" })*@
+                                        @Html.DropDownListFor(Model => Model.StStockHeaderSearch.RackId, (SelectList)ViewBag.RackList, "--Rack Name--", new { @class = "form-select", @style = "", @title = "Select Rack Name" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="add-create-btn" style="position: initial;">
+                                            <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="@Url.Action("Search")" title="Click here to search"><div style="float: left;"><i class="ri-search-2-line fs-16 me-2"></i></div>Search</button>
+                                            <button type="submit" class="btn btn-primary addMembers-modal" formmethod="post" formaction="@Url.Action("ExportToExcel")" title="Click here to Export To Excel"><div style="float: left;"><i class="ri-file-excel-2-fill fs-16 me-2"></i></div>Export To Excel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="StStockHeader" class="table table-bordered dt-responsive nowrap table-striped align-middle app-tbl-one" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align:center">Sr No</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.material_name)</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.short_desc)</th>
+                                            @*<th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.brand_name)</th>*@
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.site_name)</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.store_name)</th>
+                                            <th>@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.rack_name)</th>
+                                            <th style="text-align:right">@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.opening_qty)</th>
+                                            <th style="text-align:right;">@Html.DisplayNameFor(modelItem => Model.StStockHeaderSearch.item_avg_rate)</th>
+                                            <th style="text-align:right;">Amount</th>
+                                            @*<th style="text-align:center;">Action</th>*@
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.StStockHeader)
+                                    {
+                                        SrNo = SrNo + 1;
+                                        <tr>
+                                            <td style="text-align:center">@SrNo</td>
+                                            <td><a href="#!">@Html.DisplayFor(modelItem => item.material_name)</a></td>
+                                            <td>@Html.DisplayFor(modelItem => item.short_desc)</td>
+                                            @*<td>@Html.DisplayFor(modelItem => item.brand_name)</td>*@
+                                            <td>@Html.DisplayFor(modelItem => item.site_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.store_name)
+                                            <td>@Html.DisplayFor(modelItem => item.rack_name)</td>
+                                            <td style="text-align: right; color: maroon;">@String.Format("{0:N2}", item.opening_qty)</td>
+                                            <td style="text-align: right; color: green;">@String.Format("{0:N2}", item.item_avg_rate)</td>
+                                            <td style="text-align: right; color: green;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", item.opening_qty * item.item_avg_rate)</td>
+                                            @*<td style="text-align: center;">
+                                                    <div class="dropdown d-inline-block">
+                                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ri-more-fill align-middle"></i></button>
+                                                        <ul class="dropdown-menu dropdown-menu-end mybtn2-form">
+                                                            <li><a href="@Url.Action("Details","StockPosting",new { id = item.st_stock_header_id })" class="btn btn-info custom-toggle active"><i class="ri-eye-fill align-bottom"></i> View</a></li>
+                                                            <li><a href="@Url.Action("Edit","StockPosting",new { id = item.st_stock_header_id })" class="btn btn-secondary custom-toggle"><i class="ri-pencil-fill align-bottom"></i> Edit</a></li>
+                                                            <li><a class="btn btn-danger custom-toggle" onclick="ConfirmDelete();"><i class="ri-delete-bin-fill"></i> Delete</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>*@
+                                        </tr>
+
+                                        count = count + 1;
+                                        TotalAmount = TotalAmount + (item.opening_qty * item.item_avg_rate);
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                        <fieldset class="total-value-strip mt-2">
+                            <div class="row mb-0">
+                                <div class="col-sm-6">
+                                    <span style="padding: 0px 10px 0px 0px;">No of Counts:</span><strong style="color: #fff; background-color: #1a5b71; padding: 0px 7px;border-radius: 2px;">@count</strong>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <span style="padding: 0px 10px 0px 10px;">Total Amount:</span><strong style="color: green;font-size: 18px;"><i class="bx bx-rupee"></i>@String.Format("{0:N2}", TotalAmount)</strong>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a href="@Url.Action("Index", "StockPosting" )" class="refresh-btn"><i class="bx bx-rotate-right"></i>Refresh</a>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <a href="@Url.Action("Index", "StockPosting")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#StStockHeader", { scrollX: !0, pageLength: 15, sort: !0, order: [[0, 'asc']] }) })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#StStockHeaderSearch_site_id").change(function () {
+                var selectedText = $(this).find("option:selected").text();
+                var selectedValue = $(this).val();
+
+                if (selectedValue == "") {
+                    alert("Select value condition test   Error occured!!");
+                    var items = '';
+                    items = "<option>---Select---</option>";
+                    $('#StStockHeaderSearch_rack_id').html(items);
+                    return;
+                }
+
+                var lsParameter = {
+                    SiteId: selectedValue,
+                    SiteName: selectedText
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/StockPosting/FillBySiteId",
+                    data: JSON.stringify(lsParameter),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        data.List;
+                        var items = '';
+                        items = "<option value = 0>---Select---</option>";
+                        $.each(data.List, function (i, item) {
+                            items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                        });
+                        $('#StStockHeaderSearch_rack_id').html(items);
+                    },
+                    error: function () {
+                        alert("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+
+    <script>
+        toggleButton.addEventListener("click", function () {
+            if (PurchaseOrderSection.style.display === "none") {
+                PurchaseOrderSection.style.display = "block";
+            } else {
+                PurchaseOrderSection.style.display = "none";
+            }
+        });
+    </script>
+}
+
+
+
+

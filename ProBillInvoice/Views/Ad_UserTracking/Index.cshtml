@@ -1,0 +1,143 @@
+﻿@model ProBillInvoice.Models.Ad_UserLoginTrackingModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4 class="card-title mb-0">User Tracking - Search Criteria </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div style="float: left; width: 50%;">
+                                                @Html.LabelFor(model => Model.FromDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                                                @Html.EditorFor(model => Model.FromDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 65%;" } })
+                                                @Html.ValidationMessageFor(model => Model.FromDate, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div style="float: left; width: 50%;">
+                                                @Html.LabelFor(model => Model.ToDate, new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 10px;" })
+                                                @Html.EditorFor(model => Model.ToDate, new { htmlAttributes = new { @type = "Date", @class = "form-control form-control-sm", @style = "width: 65%;" } })
+                                                @Html.ValidationMessageFor(model => Model.ToDate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-6" style="padding-top: 5px; text-align : left;">
+                                            <button type="submit" class="btn btn-primary addMembers-modal" style="padding: 2px 10px 2px 10px;" formmethod="post" formaction="Search"><div style="float: left; padding: 0 5px 0 0;"><i class="ri-search-2-line"></i></div>Search</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            @*<div class="checkbox" style="float: left; padding: 5px 10px 0px 0px;">
+                @Html.EditorFor(model => model.SaleOrderHeaderSearch.order_close, new { @onclick = "myFunction(this.value);" })
+                @Html.ValidationMessageFor(model => model.SaleOrderHeaderSearch.order_close, "", new { @class = "text-danger" })
+            </div>
+            @Html.Label("Close SO", htmlAttributes: new { @style = "float: left; padding: 3px 10px 0px 0px; margin-bottom: 0px; color: red; width: 80%;" })*@
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    @*<div class="row">
+                <div class="col-md-3">
+                    @Html.Label("Party Name", new { @class = "form-label", @style = "float: left; padding: 4px 10px 0px 0px;" })
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(Model => Model.SaleOrderHeaderSearch.PartyId, (SelectList)ViewBag.PartyList, "-- Select--", new { @class = "form-select form-select-sm", @style = "width: 85%;" })
+                </div>
+            </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="card-title mb-0" style="font-size: 24px; padding-top: 10px;">User Tracking  View</h5>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right;">
+                                <a href="@Url.Action("Create", "Ad_UserTracking")" class="btn btn-info"><i class="las la-plus-square"></i><span><strong>Create</strong></span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="UserTracking" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No</th>
+                                            <th>User Name</th>
+                                            <th>Ip Address</th>
+                                            <th>Log In Datetime</th>
+                                            <th>Log Out Datetime</th>
+                                        </tr>
+                                    </thead>
+
+                                    @if (Model.UserLoginTrackingList != null)
+                                    {                                        
+                                        foreach (var item in Model.UserLoginTrackingList)
+                                        {
+                                    <tr>
+                                        <td><a href="#!">@Html.DisplayFor(modelItem => item.sr_no)</a></td>
+                                        <td>@Html.DisplayFor(modelItem => item.user_email)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ip_address)</td>
+                                        <td>@string.Format("{0:dd/MM/yyyy hh:mm:ss}", item.log_in_time)</td>
+                                        <td>@string.Format("{0:dd/MM/yyyy hh:mm:ss}", item.log_out_time)</td>
+                                    </tr>                                           
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                                             
+                        <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 5px 10px 5px 10px;">
+                            <div class="row mb-0">
+                                <div class="col-sm-6">
+                                    <a href="@Url.Action("Index", "Ad_UserTracking")" class="btn btn-primary"><i class="bx bx-rotate-right" style="margin: 0px 5px 0 0;"></i><span>Refresh</span></a>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <a href="@Url.Action("Index", "Ad_UserTracking")" class="btn btn-primary"><i class="las la-arrow-circle-left"></i><span>Back</span></a>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function () { new DataTable("#UserTracking", { scrollX: !0, sort: false }) })
+    </script>
+}

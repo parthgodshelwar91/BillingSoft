@@ -1,0 +1,540 @@
+﻿@model ProBillInvoice.GrinModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title mb-0 page-heading-color">Good Receipt Note - Edit @ViewBag.Titlename</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 10px 10px 5px 10px; margin: 0px 0px 10px 0px;">
+                                    <div>
+                                        @Html.HiddenFor(model => model.GrinHeaderSearch.grin_header_id)
+                                        @Html.HiddenFor(model => model.GrinHeaderSearch.site_id)
+                                        @Html.HiddenFor(model => model.GrinHeaderSearch.grin_type)
+                                        @Html.HiddenFor(model => model.GrinHeaderSearch.financial_year)
+                                        @Html.HiddenFor(model => model.GrinHeaderSearch.company_id)
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    @*@Html.LabelFor(model => model.GrinHeaderSearch.party_id, htmlAttributes: new { @class = "form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })*@
+                                                    @Html.Label("Supplier", htmlAttributes: new { @class = "form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })
+                                                </div>
+                                                <div class="col-md-9">
+                                                    @Html.DropDownListFor(model => model.GrinHeaderSearch.party_id, (SelectList)ViewBag.PartyList, "---Select---", new { @class = "form-select" })
+                                                    @Html.ValidationMessageFor(model => model.GrinHeaderSearch.party_id, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @Html.LabelFor(model => model.GrinHeaderSearch.grin_no, new { @class = "form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" }) @*8px 10px 0px 0px;*@
+                                            @Html.EditorFor(model => model.GrinHeaderSearch.grin_no, new { htmlAttributes = new { @class = "form-control", @style = "float: right; font-weight: bold; color: navy; border:none; width: 60%;", @readonly = true, placeholder = "Enter Invoice No" } })
+                                            @Html.ValidationMessageFor(model => model.GrinHeaderSearch.grin_no, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @Html.LabelFor(model => model.GrinHeaderSearch.grin_date, new { @class = "form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })
+                                            @Html.EditorFor(model => model.GrinHeaderSearch.grin_date, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "float: right; width: 70%;" } })
+                                            @Html.ValidationMessageFor(model => model.GrinHeaderSearch.grin_date, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col-md-4">
+                                            @if (ViewBag.Titlename == "WITH PO")
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        @Html.LabelFor(model => model.GrinHeaderSearch.po_id, new { @class = "form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" }) @*4px 10px 0px 0px;*@
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        @Html.DropDownListFor(model => model.GrinHeaderSearch.po_id, (SelectList)ViewBag.PurchaseHeader, "--Select--", new { @class = "form-select", @style = "float: right; width: 100%;", onchange = "this.form.submit();" })
+                                                        @Html.ValidationMessageFor(model => model.GrinHeaderSearch.po_id, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.Label("Address", htmlAttributes: new { @style = "color: #12566c; width: 25%;" })
+                                                 @Html.Label("*", htmlAttributes: new { id = "lblPartyAddress", @style = "width: 70%; padding: 10px 0px 0px 10px;" })                                               
+
+                                            }
+                                        </div>
+                                        <div class="col-md-4">
+                                            @Html.Label("*", htmlAttributes: new { id = "lblPartyCode", @style = "margin: 0px; color: navy;" })
+                                            <br />
+                                            @Html.Label("*", htmlAttributes: new { id = "lblGSTStatus", @style = "margin: 0px; color: navy;" })
+                                        </div>
+                                        <div class="col-md-4" style="text-align: right;">
+                                            @if (ViewBag.Titlename == "WITH PO")
+                                            {
+                                                @Html.LabelFor(model => model.GrinHeaderSearch.po_date, new { @class = "form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })
+                                                @Html.EditorFor(model => model.GrinHeaderSearch.po_date, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "float: right; width: 70%;" } })
+                                                @Html.ValidationMessageFor(model => model.GrinHeaderSearch.po_date, "", new { @class = "text-danger" })
+                                            }
+                                            @if (ViewBag.Titlename == "WITHOUT PO")
+                                            {
+                                                @Html.LabelFor(model => model.GrinHeaderSearch.company_id, new { @class = "col-form-label", @style = "padding: 10px 10px 0px 0px; color: #12566c;" })
+                                                @Html.Label("*", htmlAttributes: new { style = "color: red; padding: 10px 2px 0px 0px;" })
+                                                @Html.DropDownListFor(model => model.GrinHeaderSearch.company_id, (SelectList)ViewBag.CompanyMst, "-- Select--", new { @class = "form-select", @style = "float: right; width: 70%;" })
+                                                @Html.ValidationMessageFor(model => Model.GrinHeaderSearch.company_id, "", new { @class = "text-danger" })
+                                            }
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 10px 10px 5px 10px; margin: 0px 0px 10px 0px;">
+                                    <div class="row mb-1">
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.GrinHeaderSearch.inv_no, new { @class = "form-label", @style = "float:left; padding: 10px 10px 0px 0px;" })
+                                            @Html.EditorFor(model => model.GrinHeaderSearch.inv_no, new { htmlAttributes = new { @class = "form-control", @style = "width: 50%;" } })
+                                            @Html.ValidationMessageFor(model => model.GrinHeaderSearch.inv_no, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            @Html.LabelFor(model => model.GrinHeaderSearch.inv_date, new { @class = "form-label", @style = "float:left; padding: 10px 10px 0px 0px;" })
+                                            @Html.EditorFor(model => model.GrinHeaderSearch.inv_date, new { htmlAttributes = new { @class = "form-control", @style = "width: 50%;" } })
+                                            @Html.ValidationMessageFor(model => model.GrinHeaderSearch.inv_date, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-md-3" style="text-align: right;">
+                                            @Html.LabelFor(model => model.GrinHeaderSearch.gate_no, new { @class = "form-label", @style = "padding: 10px 10px 0px 0px;" })
+                                            @Html.EditorFor(model => model.GrinHeaderSearch.gate_no, new { htmlAttributes = new { @class = "form-control", @style = "float: right; width: 50%;" } })
+                                            @Html.ValidationMessageFor(model => model.GrinHeaderSearch.gate_no, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="col-md-3" style="text-align: right;">
+                                            @Html.LabelFor(model => model.GrinHeaderSearch.gate_date, new { @class = "form-label", @style = "padding: 10px 10px 0px 0px;" })
+                                            @Html.EditorFor(model => model.GrinHeaderSearch.gate_date, new { htmlAttributes = new { @type = "Date", @class = "form-control", @style = "float: right; width: 50%;" } })
+                                            @Html.ValidationMessageFor(model => model.GrinHeaderSearch.gate_date, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <div class="row mb-2">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive" style="height:250px;">
+                                            <table id="GrinDetail" class="table table-bordered table-hover table-responsive table-striped align-middle table-rmc table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Item Name</th>
+                                                        <th>Unit</th>
+                                                        <th>Remark</th>
+                                                        <th style="text-align:right">Rec Qty</th>
+                                                        <th style="text-align:right">Acce Qty</th>
+                                                        <th style="text-align:right">Rej Qty</th>
+                                                        <th style="text-align:right">Rate</th>
+                                                        <th style="text-align:right">Sub Total</th>
+                                                        <th style="text-align:right">Cgst(%)</th>
+                                                        <th style="text-align:right">Sgst(%)</th>
+                                                        <th style="text-align:right">Igst(%)</th>
+                                                        <th style="text-align:right;"><i class="bx bx-rupee"></i> Amount</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @if (Model.GrinDetail != null)
+                                                    {
+                                                        for (var i = 0; i < Model.GrinDetail.Count(); i++)
+                                                        {
+                                                            <tr>
+                                                                <td style="width: 120px;">@Html.DisplayFor(x => Model.GrinDetail[i].material_name)</td>
+                                                                <td style="width: 100px;">@Html.DisplayFor(x => Model.GrinDetail[i].short_desc)</td>
+                                                                <td>@Html.TextBoxFor(x => Model.GrinDetail[i].remarks, new { @class = "form-control form-control-sm", @style = "width: 100%;" })</td>
+                                                                <td>@Html.TextBoxFor(x => Model.GrinDetail[i].rece_qty, new { @class = "form-control form-control-sm", @style = "text-align: right; color: maroon; width: 100%;", @onchange = "ItemCalculation();" })</td>
+                                                                <td>@Html.TextBoxFor(x => Model.GrinDetail[i].acce_qty, new { @class = "form-control form-control-sm", @style = "text-align: right; color: maroon; width: 100%;", @onchange = "ItemCalculation();" })</td>
+                                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.GrinDetail[i].rej_qty, new { @class = "form-control form-control-sm", @style = "text-align: right; color: maroon; font-weight: bold; width: 100%;", @readonly = "readonly" })</td>
+                                                                <td>@Html.TextBoxFor(x => Model.GrinDetail[i].item_rate, new { @class = "form-control form-control-sm", @style = "text-align: right; color: green; width: 100%;", @onchange = "ItemCalculation();" })</td>
+                                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.GrinDetail[i].sub_total, new { @style = "text-align: right; width: 100%; color: green; font-weight: bold; border: none; background-color: transparent;", @readonly = "readonly" })</td>
+                                                                <td style="width: 80px;">@Html.TextBoxFor(x => Model.GrinDetail[i].cgst, new { @class = "form-control form-control-sm", @style = "text-align: right;  width: 100%;", @onchange = "ItemCalculation();" })</td>
+                                                                <td style="width: 80px;">@Html.TextBoxFor(x => Model.GrinDetail[i].sgst, new { @class = "form-control form-control-sm", @style = "text-align: right;  width: 100%;", @onchange = "ItemCalculation();" })</td>
+                                                                <td style="width: 80px;">@Html.TextBoxFor(x => Model.GrinDetail[i].igst, new { @class = "form-control form-control-sm", @style = "text-align: right;  width: 100%;", @onchange = "ItemCalculation();" })</td>
+                                                                <td style="width: 100px;">@Html.TextBoxFor(x => Model.GrinDetail[i].item_value, new { @style = "text-align: right; color: green; border: none; background-color: transparent; width: 100%;", @readonly = "readonly" })</td>
+
+                                                                @Html.HiddenFor(x => Model.GrinDetail[i].grin_detail_id)
+                                                                @Html.HiddenFor(x => Model.GrinDetail[i].grin_header_id)
+                                                                @Html.HiddenFor(x => Model.GrinDetail[i].material_id)
+                                                                @Html.HiddenFor(x => Model.GrinDetail[i].unit_code)
+                                                                @Html.HiddenFor(x => Model.GrinDetail[i].ticket_number)
+                                                                @Html.HiddenFor(x => Model.GrinDetail[i].material_name)
+                                                                @Html.HiddenFor(x => Model.GrinDetail[i].short_desc)
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <fieldset class="total-value-strip mt-2" style="border: 1px solid #e7dddd; border-radius: 10px; padding: 0px 10px 0px 10px; margin: 0px 0px 10px 0px; ">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @*@Html.Label("No Of Vehicle :", new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 10px 10px;" })
+                                                @Html.Label(" ", new { @class = "col-form-label", @id = "lblVehicleNo" })*@
+                                        </div>
+
+                                        <div class="col-md-6" style="text-align: right;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    @*@Html.Label("Total Qty :", new { @class = "col-form-label", @style = "padding: 10px 10px 10px 10px;" })
+                                                        @Html.Label(" ", new { @class = "col-form-label", @id = "lblQty" })*@
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @Html.Label("Sub Total :", new { @class = "col-form-label", @style = "padding: 10px 10px 10px 10px;", })
+                                                    <span class="input-group-addon" style="color:green">₹</span>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @*@Html.EditorFor(model => model.GrinHeaderSearch.basic_amount, "", new { htmlAttributes = new { @class = "form-control", @style = "text-align: right; border: none; background-color: transparent; font-weight: bold;", @readonly = "readonly" } })*@
+                                                    @Html.EditorFor(model => model.GrinHeaderSearch.basic_amount, "", new { htmlAttributes = new { @class = "form-control", @style = "text-align: right; border: none; color: green; background-color: transparent; padding: 12px; font-weight: bold;", @readonly = "readonly" } })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="border: 1px solid #e7dddd; border-radius: 10px; padding: 0px 10px 0px 10px;">
+                                    <div class="row mb-2" style="padding: 10px 0px 0px 0px;">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="row mb-2">
+                                                    <div class="col-md-12">
+                                                        @Html.LabelFor(model => model.GrinHeaderSearch.transporter, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                        @Html.TextBoxFor(model => model.GrinHeaderSearch.transporter, new { @class = "form-control", @style = "float: left; width: 60%;", placeholder = "Enter Transporter" })
+                                                        @Html.ValidationMessageFor(model => model.GrinHeaderSearch.transporter, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-2">
+                                                    <div class="col-md-12">
+                                                        @Html.LabelFor(model => model.GrinHeaderSearch.vehicle_no, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                        @Html.TextBoxFor(model => model.GrinHeaderSearch.vehicle_no, new { @class = "form-control", @style = "float: left; width: 60%;", placeholder = "Enter Vehicle No" })
+                                                        @Html.ValidationMessageFor(model => model.GrinHeaderSearch.vehicle_no, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-2">
+                                                    <div class="col-md-12">
+                                                        @Html.LabelFor(model => model.GrinHeaderSearch.payterm_code, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                        @Html.DropDownListFor(model => model.GrinHeaderSearch.payterm_code, (SelectList)ViewBag.Payterm, "--Select--", new { @class = "form-select", @style = "float: left; margin-right: 10px; width: 50%;" })
+                                                        @Html.TextBoxFor(model => model.GrinHeaderSearch.payterm_days, new { @class = "form-control", @style = "width: 9%;", @Value = "0" })
+                                                        @Html.ValidationMessageFor(model => model.GrinHeaderSearch.payterm_code, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        @Html.LabelFor(model => model.GrinHeaderSearch.remarks, htmlAttributes: new { @class = "col-form-label", @style = "float: left; padding: 10px 10px 0px 0px; width: 20%;" })
+                                                        @Html.TextAreaFor(model => model.GrinHeaderSearch.remarks, 2, 20, new { @class = "form-control", @style = "float: left; width: 60%;", placeholder = "Enter Remark" })
+                                                        @Html.ValidationMessageFor(model => model.GrinHeaderSearch.remarks, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-sm-12" style="margin-top: 10px;">
+                                                    <fieldset>
+                                                        <div class="table-responsive">
+                                                            <table id="GRNTax" class="table table-bordered table-hover table-responsive table-striped align-middle table-rmc table-sm">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Taxation</th>
+                                                                        <th style="text-align:right;"><i class="bx bx-rupee"></i> Amount</th>
+                                                                        <th style="text-align:right">Cgst(%)</th>
+                                                                        <th style="text-align:right">Sgst(%)</th>
+                                                                        <th style="text-align:right">Igst(%)</th>
+                                                                        <th style="text-align:right;"><i class="bx bx-rupee"></i> Tax Amt</th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody>
+                                                                    @if (Model.GrinTax != null)
+                                                                    {
+                                                                        for (var i = 0; i < Model.GrinTax.Count(); i++)
+                                                                        {
+                                                                            <tr>
+                                                                                <td>@Html.DropDownListFor(x => Model.GrinTax[i].acct_id, new SelectList(ViewBag.AccountList, "Value", "Text", Model.GrinTax[i].acct_id), "--Select--", new { @class = "form-select" })</td>
+                                                                                <td>@Html.TextBoxFor(x => Model.GrinTax[i].basic_amount, new { @class = "form-control form-control-sm", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation(" + i.ToString() + ");" })</td>
+                                                                                <td style="width: 80px;">@Html.TextBoxFor(x => Model.GrinTax[i].cgst, new { @class = "form-control form-control-sm", @style = "text-align: right; width: 100%;", @onchange = "TaxCalculation(" + i.ToString() + ");" })</td>
+                                                                                <td style="width: 80px;">@Html.TextBoxFor(x => Model.GrinTax[i].sgst, new { @class = "form-control form-control-sm", @style = "text-align: right;  width: 100%;", @onchange = "TaxCalculation(" + i.ToString() + ");" })</td>
+                                                                                <td style="width: 80px;">@Html.TextBoxFor(x => Model.GrinTax[i].igst, new { @style = "text-align: right; color: darkgray;border: none; background-color: transparent; width: 100%;" })</td>
+                                                                                <td>@Html.TextBoxFor(x => Model.GrinTax[i].tax_amount, new { @style = "text-align: right; border: none; background-color: transparent;  color: green; width: 100%;", @readonly = "readonly" })</td>
+                                                                                @Html.HiddenFor(x => Model.GrinTax[i].tax_id)
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <button type="submit" id="btnAdd" class="btn btn-primary addMembers-modal" style="padding: 2px 10px 2px 10px; margin-top: 30px;" name="btnAdd" value="Add"><div style="float: left; padding: 0 5px 0 0;"><i class="bx bx-plus"></i></div>Add</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset class="total-value-strip mt-2">
+                                    <div class="row">
+                                        <div class="col-md-10" style=" text-align: right;">
+                                            @Html.Label("Total Amount :", new { @class = "col-form-label", @style = "padding: 0px;" })
+                                            @Html.Label("₹", htmlAttributes: new { @style = "color: green; font-size: 18px;margin-bottom: 0px;" })
+                                        </div>
+                                        <div class="col-md-2 text-end">
+                                            @Html.EditorFor(model => model.GrinHeaderSearch.total_amount, new { htmlAttributes = new { @class = "form-control", @readonly = true, @style = "text-align: right; color: green; padding: 0px; border: none; background-color: transparent; font-weight: bold; font-size:18px;" } })
+                                            @*@Html.TextBoxFor(model => model.GrinHeaderSearch.total_amount, "{0:N2}", new { @class = "form-control", @readonly = true, @style = "text-align: right; color: green; padding: 0px; border: none; background-color: transparent; font-weight: bold; font-size:18px;" })*@
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <div class="row">
+                                    <div class="col-md-12 text-end">
+                                        @*<a href="@Url.Action("Index", "Grin")" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>*@
+                                        <a href="@Url.Action("Grin_View", "Report_Grin",new { GrinId = Model.GrinHeaderSearch.grin_header_id, PartyId = Model.GrinHeaderSearch.party_id})" class="back-btn"><i class="las la-arrow-circle-left"></i>Back</a>
+                                        <button type="submit" id="btnAdd" class="save-data-btn" name="btnAdd" value="Save"><i class="ri-save-2-line"></i>Save</button>                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        window.onload = function () {
+
+            Swal.fire({
+                title: "<span style='color: #3085d6;'>@Html.Raw(ViewBag.Message)</span>",
+                icon: "success",
+                iconColor:"#04AA6D",
+                confirmButtonClass: "w-xs me-2 mt-2",
+                confirmButtonColor: "#3085d6",
+
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = "@Url.Action("Index", "Grin")";
+                }
+            });
+        } ;
+    </script>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function ItemCalculation() {
+            var i = 0;
+            var Amount = 0.00;
+            var TotalQty = 0.00;
+            $("#GrinDetail tr").each(function () {
+                var PendQty = $("#GrinDetail_" + i.toString() + "__pend_qty").val();
+                var ReceQty = $("#GrinDetail_" + i.toString() + "__rece_qty").val();
+                var AcceQty = $("#GrinDetail_" + i.toString() + "__acce_qty").val();
+
+                if (parseFloat(AcceQty) > parseFloat(ReceQty)) {
+                    alert("Accepted Qty should not greater than Received Qty!");
+                    $("#GrinDetail_" + i.toString() + "__acce_qty").val('0.00');
+                    $("#GrinDetail_" + i.toString() + "__rej_qty").val('0.00');
+                    ReceQty = $("#GrinDetail_" + i.toString() + "__rece_qty").val();
+                    AcceQty = $("#GrinDetail_" + i.toString() + "__acce_qty").val();
+                }
+
+                var RejQty = parseFloat(ReceQty) - parseFloat(AcceQty);
+                $("#GrinDetail_" + i.toString() + "__rej_qty").val(RejQty.toFixed(2));
+
+                var CgstTotal = 0.00;
+                var SgstTotal = 0.00;
+                var IgstTotal = 0.00;
+                var Rate = $("#GrinDetail_" + i.toString() + "__item_rate").val();
+                var Cgst = $("#GrinDetail_" + i.toString() + "__cgst").val();
+                var Sgst = $("#GrinDetail_" + i.toString() + "__sgst ").val();
+                var Igst = $("#GrinDetail_" + i.toString() + "__igst ").val();
+                var SubTotal = AcceQty * Rate;
+                if (Cgst != 0) {
+                    CgstTotal = SubTotal * (Cgst / 100);
+                }
+                if (Sgst != 0) {
+                    SgstTotal = SubTotal * (Sgst / 100);
+                }
+                if (Igst != 0) {
+                    IgstTotal = SubTotal * (Igst / 100);
+                }
+                var Total = SubTotal + CgstTotal + SgstTotal + IgstTotal;
+                if (!isNaN(Total)) {
+                    Amount += Total;
+                }
+                if (!isNaN(AcceQty)) {
+                    TotalQty += parseFloat(AcceQty);
+                }
+                $("#GrinDetail_" + i.toString() + "__sub_total").val(SubTotal.toFixed(2));
+                $("#GrinDetail_" + i.toString() + "__item_value").val(Total.toFixed(2));
+                i++;
+            });
+            var j = 0;
+            var TotalTaxAmt = 0.00;
+            $("#GRNTax tr").each(function () {
+                var Totaltxt = $("#GrinTax_" + j.toString() + "__tax_amount").val();
+                if (!isNaN(Totaltxt)) {
+                    TotalTaxAmt += parseFloat(Totaltxt);
+                }
+                j++;
+            });
+            $("#GrinHeaderSearch_basic_amount").val(Amount.toFixed(2));
+            var TotalAmount = parseFloat(TotalTaxAmt) + parseFloat(Amount);
+            $("#GrinHeaderSearch_total_amount").val(Math.round(TotalAmount).toFixed(2));           
+        }
+    </script>
+
+    <script>
+        function TaxCalculation() {
+            var i = 0;
+            var TotalTaxAmt = 0.00;
+            $("#GRNTax tr").each(function () {
+                var cgstTotal = 0.00;
+                var sgstTotal = 0.00;
+                var IgstTotal = 0.00;
+                var TaxAmt = 0.00;
+                var BasicTaxAmt = $("#GrinTax_" + i.toString() + "__basic_amount").val();
+                var cgst = $("#GrinTax_" + i.toString() + "__cgst").val();
+                var sgst = $("#GrinTax_" + i.toString() + "__sgst").val();
+                var Igst = $("#GrinTax_" + i.toString() + "__igst ").val();
+                if (cgst != 0) {
+                    cgstTotal = BasicTaxAmt * (cgst / 100);
+                }
+                if (sgst != 0) {
+                    sgstTotal = BasicTaxAmt * (sgst / 100);
+                }
+                if (Igst != 0) {
+                    IgstTotal = BasicTaxAmt * (Igst / 100);
+                }
+                TaxAmt = parseFloat(BasicTaxAmt) + parseFloat(cgstTotal) + parseFloat(sgstTotal) + parseFloat(IgstTotal);
+                if (!isNaN(TaxAmt)) {
+                    TotalTaxAmt += parseFloat(TaxAmt);
+                }
+                $("#GrinTax_" + i.toString() + "__tax_amount").val(TaxAmt.toFixed(2));
+                i++;
+            });
+            var BasicAmount = $("#GrinHeaderSearch_basic_amount").val();
+            var TotalAmount = parseFloat(TotalTaxAmt) + parseFloat(BasicAmount);
+            $("#GrinHeaderSearch_total_amount").val(Math.round(TotalAmount).toFixed(2));
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#GrinHeaderSearch_party_id").change(function () {
+                var selectedText = $(this).find("option:selected").text();
+                var selectedValue = $(this).val();
+                var lsParameter = {
+                    PartyId: selectedValue,
+                    PartyName: selectedText
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/Grin/PartyDetail",
+                    data: JSON.stringify(lsParameter),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        PartyCode = data.msg.split("|")[0];
+                        PartyAddress = data.msg.split("|")[1];
+                        GSTStatus = data.msg.split("|")[2];
+                        $('#lblPartyCode').text(PartyCode);
+                        $('#lblPartyAddress').text(PartyAddress);
+                        $('#lblGSTStatus').text(GSTStatus);
+                        AjFunction(GSTStatus); // Call the AjFunction with GSTStatus
+                    },
+                    error: function () {
+                        alert("Error occured!!")
+                    }
+                });
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var selectedText = $("#GrinHeaderSearch_party_id").find("option:selected").text();
+            var selectedValue = $("#GrinHeaderSearch_party_id").val();
+            var lsParameter = {
+                PartyId: selectedValue,
+                PartyName: selectedText
+            };
+            $.ajax({
+                type: "POST",
+                url: "/Grin/PartyDetail",
+                data: JSON.stringify(lsParameter),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    PartyCode = data.msg.split("|")[0];
+                    PartyAddress = data.msg.split("|")[1];
+                    GSTStatus = data.msg.split("|")[2];
+                    $('#lblPartyCode').text(PartyCode);
+                    $('#lblPartyAddress').text(PartyAddress);
+                    $('#lblGSTStatus').text(GSTStatus);
+                    AjFunction(GSTStatus); // Call the AjFunction with GSTStatus
+                }
+            })
+        })
+        function AjFunction(GSTStatus) {
+            if (GSTStatus === "Within State Supplier") {
+                $('#GrinDetail th:nth-child(9)').show();
+                $('#GrinDetail td:nth-child(9)').show();
+                $('#GrinDetail th:nth-child(10)').show();
+                $('#GrinDetail td:nth-child(10)').show();
+                $('#GrinDetail th:nth-child(11)').hide();
+                $('#GrinDetail td:nth-child(11)').hide();
+            } else {
+                $('#GrinDetail th:nth-child(9)').hide();
+                $('#GrinDetail td:nth-child(9)').hide();
+                $('#GrinDetail th:nth-child(10)').hide();
+                $('#GrinDetail td:nth-child(10)').hide();
+                $('#GrinDetail th:nth-child(11)').show();
+                $('#GrinDetail td:nth-child(11)').show();
+            }
+
+            if (GSTStatus === "Within State Supplier") {
+                $('#GRNTax th:nth-child(3)').show();
+                $('#GRNTax td:nth-child(3)').show();
+                $('#GRNTax th:nth-child(4)').show();
+                $('#GRNTax td:nth-child(4)').show();
+                $('#GRNTax th:nth-child(5)').hide();
+                $('#GRNTax td:nth-child(5)').hide();
+            } else {
+                $('#GRNTax th:nth-child(3)').hide();
+                $('#GRNTax td:nth-child(3)').hide();
+                $('#GRNTax th:nth-child(4)').hide();
+                $('#GRNTax td:nth-child(4)').hide();
+                $('#GRNTax th:nth-child(5)').show();
+                $('#GRNTax td:nth-child(5)').show();
+            }
+        }
+    </script>
+}
